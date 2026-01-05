@@ -23,6 +23,7 @@ export function ChatWidget() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showEscalation, setShowEscalation] = useState(false);
+  const [conversationId, setConversationId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -41,8 +42,18 @@ export function ChatWidget() {
         "Content-Type": "application/json",
         Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
       },
-      body: JSON.stringify({ messages: userMessages }),
+      body: JSON.stringify({ 
+        messages: userMessages,
+        conversationId,
+        customerName: "Website Visitor",
+      }),
     });
+
+    // Capture conversation ID from response headers
+    const newConversationId = resp.headers.get("X-Conversation-Id");
+    if (newConversationId && !conversationId) {
+      setConversationId(newConversationId);
+    }
 
     if (!resp.ok) {
       const errorData = await resp.json().catch(() => ({}));
@@ -71,6 +82,9 @@ export function ChatWidget() {
     if (contentType?.includes("application/json")) {
       const data = await resp.json();
       if (data.type === "escalation") {
+        if (data.conversationId) {
+          setConversationId(data.conversationId);
+        }
         setShowEscalation(true);
         return data.message;
       }
@@ -126,7 +140,7 @@ export function ChatWidget() {
     }
 
     return assistantContent;
-  }, [toast]);
+  }, [toast, conversationId]);
 
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
