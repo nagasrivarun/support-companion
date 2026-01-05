@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.89.0";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -58,30 +59,100 @@ serve(async (req) => {
   }
 
   try {
-    const { messages } = await req.json();
+    const { messages, conversationId, customerName, customerEmail } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
+    const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
     
     if (!LOVABLE_API_KEY) {
       throw new Error("LOVABLE_API_KEY is not configured");
     }
 
-    // Check for escalation triggers in the latest user message
+    // Create Supabase client with service role for database operations
+    const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
+
+    // Get or create conversation
+    let activeConversationId = conversationId;
+    
+    if (!activeConversationId) {
+      // Create new conversation
+      const { data: newConversation, error: createError } = await supabase
+        .from("conversations")
+        .insert({
+          customer_name: customerName || "Anonymous Customer",
+          customer_email: customerEmail || null,
+          status: "bot",
+          last_message: messages[messages.length - 1]?.content || "",
+        })
+        .select("id")
+        .single();
+
+      if (createError) {
+        console.error("Error creating conversation:", createError);
+        throw new Error("Failed to create conversation");
+      }
+      
+      activeConversationId = newConversation.id;
+    }
+
+    // Save the user message
     const lastUserMessage = messages.filter((m: any) => m.role === "user").pop();
+    if (lastUserMessage) {
+      const { error: msgError } = await supabase.from("messages").insert({
+        conversation_id: activeConversationId,
+        content: lastUserMessage.content,
+        sender_type: "customer",
+      });
+
+      if (msgError) {
+        console.error("Error saving user message:", msgError);
+      }
+
+      // Update conversation's last message
+      await supabase
+        .from("conversations")
+        .update({ 
+          last_message: lastUserMessage.content,
+          updated_at: new Date().toISOString(),
+          unread_count: 1,
+        })
+        .eq("id", activeConversationId);
+    }
+
+    // Check for escalation triggers
     const shouldEscalate = lastUserMessage && ESCALATION_TRIGGERS.some(
       trigger => lastUserMessage.content.toLowerCase().includes(trigger)
     );
 
     if (shouldEscalate) {
-      const escalationResponse = JSON.stringify({
-        type: "escalation",
-        message: "I understand you'd like to speak with a human agent. Let me connect you with one of our team members who can assist you further.",
-      });
+      const escalationMessage = "I understand you'd like to speak with a human agent. Let me connect you with one of our team members who can assist you further.";
       
-      return new Response(escalationResponse, {
+      // Save escalation message and update status
+      await supabase.from("messages").insert({
+        conversation_id: activeConversationId,
+        content: escalationMessage,
+        sender_type: "bot",
+      });
+
+      await supabase
+        .from("conversations")
+        .update({ 
+          status: "waiting",
+          last_message: escalationMessage,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", activeConversationId);
+
+      return new Response(JSON.stringify({
+        type: "escalation",
+        message: escalationMessage,
+        conversationId: activeConversationId,
+      }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
+    // Get AI response
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -119,9 +190,62 @@ serve(async (req) => {
       });
     }
 
-    return new Response(response.body, {
-      headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
+    // Create a transform stream to capture the full response while streaming
+    let fullResponse = "";
+    const transformStream = new TransformStream({
+      transform(chunk, controller) {
+        const text = new TextDecoder().decode(chunk);
+        
+        // Parse SSE to extract content
+        const lines = text.split("\n");
+        for (const line of lines) {
+          if (line.startsWith("data: ") && line.slice(6).trim() !== "[DONE]") {
+            try {
+              const parsed = JSON.parse(line.slice(6));
+              const content = parsed.choices?.[0]?.delta?.content;
+              if (content) {
+                fullResponse += content;
+              }
+            } catch {
+              // Ignore parse errors for partial chunks
+            }
+          }
+        }
+        
+        controller.enqueue(chunk);
+      },
+      async flush() {
+        // Save the complete bot response after streaming is done
+        if (fullResponse && activeConversationId) {
+          await supabase.from("messages").insert({
+            conversation_id: activeConversationId,
+            content: fullResponse,
+            sender_type: "bot",
+          });
+
+          await supabase
+            .from("conversations")
+            .update({ 
+              last_message: fullResponse.slice(0, 200),
+              updated_at: new Date().toISOString(),
+              unread_count: 0,
+            })
+            .eq("id", activeConversationId);
+        }
+      },
     });
+
+    // Pipe the response through our transform stream
+    const streamedResponse = response.body?.pipeThrough(transformStream);
+
+    // Add conversationId to response headers for client
+    const responseHeaders = {
+      ...corsHeaders,
+      "Content-Type": "text/event-stream",
+      "X-Conversation-Id": activeConversationId,
+    };
+
+    return new Response(streamedResponse, { headers: responseHeaders });
   } catch (error) {
     console.error("Support chat error:", error);
     return new Response(JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }), {
