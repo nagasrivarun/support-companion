@@ -6,6 +6,9 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Regex to match order numbers like ORD-20250106-1234
+const ORDER_ID_REGEX = /\bORD-\d{8}-\d{4}\b/gi;
+
 const SYSTEM_PROMPT = `You are SupportBot, a professional customer support assistant for an online retail store.
 
 PRIMARY GOAL:
@@ -20,6 +23,7 @@ STRICT RULES:
 - NEVER provide coding, medical, legal, or general knowledge answers
 - If required data (like order ID) is missing, request it clearly
 - If confidence is low or the issue is complex, escalate to a human agent
+- When you receive order information from the system, use it to answer the customer's questions accurately
 
 ALLOWED TOPICS:
 - Order tracking (only after receiving order ID)
@@ -51,7 +55,39 @@ const ESCALATION_TRIGGERS = [
   "supervisor",
   "manager",
   "complaint",
+  "live agent",
+  "human agent",
+  "connect me",
+  "talk to someone",
 ];
+
+function formatOrderStatus(status: string): string {
+  const statusMap: Record<string, string> = {
+    pending: "Pending - Your order is being processed",
+    processing: "Processing - Your order is being prepared",
+    shipped: "Shipped - Your order is on its way",
+    delivered: "Delivered - Your order has been delivered",
+    cancelled: "Cancelled - This order has been cancelled",
+  };
+  return statusMap[status] || status;
+}
+
+function formatOrderDetails(order: any): string {
+  const items = order.items || [];
+  const itemsList = items.map((item: any) => `- ${item.name} (Qty: ${item.quantity})`).join("\n");
+  
+  return `
+ORDER INFORMATION (use this to answer the customer):
+- Order Number: ${order.order_number}
+- Status: ${formatOrderStatus(order.status)}
+- Total Amount: $${Number(order.total_amount).toFixed(2)}
+- Order Date: ${new Date(order.created_at).toLocaleDateString()}
+- Customer Name: ${order.customer_name}
+${order.shipping_address ? `- Shipping Address: ${order.shipping_address}` : ""}
+${itemsList ? `\nItems:\n${itemsList}` : ""}
+${order.notes ? `\nNotes: ${order.notes}` : ""}
+`;
+}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -68,18 +104,16 @@ serve(async (req) => {
       throw new Error("LOVABLE_API_KEY is not configured");
     }
 
-    // Create Supabase client with service role for database operations
     const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
 
     // Get or create conversation
     let activeConversationId = conversationId;
     
     if (!activeConversationId) {
-      // Create new conversation
       const { data: newConversation, error: createError } = await supabase
         .from("conversations")
         .insert({
-          customer_name: customerName || "Anonymous Customer",
+          customer_name: customerName || "Website Visitor",
           customer_email: customerEmail || null,
           status: "bot",
           last_message: messages[messages.length - 1]?.content || "",
@@ -93,6 +127,13 @@ serve(async (req) => {
       }
       
       activeConversationId = newConversation.id;
+      console.log("Created new conversation:", activeConversationId);
+    } else if (customerEmail) {
+      // Update email if provided
+      await supabase
+        .from("conversations")
+        .update({ customer_email: customerEmail })
+        .eq("id", activeConversationId);
     }
 
     // Save the user message
@@ -108,7 +149,6 @@ serve(async (req) => {
         console.error("Error saving user message:", msgError);
       }
 
-      // Update conversation's last message
       await supabase
         .from("conversations")
         .update({ 
@@ -125,15 +165,15 @@ serve(async (req) => {
     );
 
     if (shouldEscalate) {
-      const escalationMessage = "I understand you'd like to speak with a human agent. Let me connect you with one of our team members who can assist you further.";
+      const escalationMessage = "I understand you'd like to speak with a human agent. I'm connecting you now. A team member will be with you shortly.";
       
-      // Save escalation message and update status
       await supabase.from("messages").insert({
         conversation_id: activeConversationId,
         content: escalationMessage,
         sender_type: "bot",
       });
 
+      // Update status to 'waiting' for human agent
       await supabase
         .from("conversations")
         .update({ 
@@ -142,6 +182,8 @@ serve(async (req) => {
           updated_at: new Date().toISOString(),
         })
         .eq("id", activeConversationId);
+
+      console.log("Escalated conversation:", activeConversationId);
 
       return new Response(JSON.stringify({
         type: "escalation",
@@ -152,6 +194,37 @@ serve(async (req) => {
       });
     }
 
+    // Check for order IDs in the last user message
+    let orderContext = "";
+    if (lastUserMessage) {
+      const orderIds = lastUserMessage.content.match(ORDER_ID_REGEX);
+      
+      if (orderIds && orderIds.length > 0) {
+        console.log("Found order IDs:", orderIds);
+        
+        // Query the orders table
+        const { data: orders, error: orderError } = await supabase
+          .from("orders")
+          .select("*")
+          .in("order_number", orderIds.map((id: string) => id.toUpperCase()));
+
+        if (orderError) {
+          console.error("Error fetching orders:", orderError);
+        } else if (orders && orders.length > 0) {
+          console.log("Found orders:", orders.length);
+          orderContext = orders.map(formatOrderDetails).join("\n---\n");
+        } else {
+          orderContext = `\nSYSTEM NOTE: No orders found matching the provided order number(s): ${orderIds.join(", ")}. Please inform the customer politely that the order was not found and ask them to verify the order number.`;
+        }
+      }
+    }
+
+    // Build messages for AI with order context
+    const aiMessages = [
+      { role: "system", content: SYSTEM_PROMPT + (orderContext ? `\n\n${orderContext}` : "") },
+      ...messages,
+    ];
+
     // Get AI response
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -161,10 +234,7 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         model: "google/gemini-2.5-flash",
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          ...messages,
-        ],
+        messages: aiMessages,
         stream: true,
       }),
     });
@@ -196,7 +266,6 @@ serve(async (req) => {
       transform(chunk, controller) {
         const text = new TextDecoder().decode(chunk);
         
-        // Parse SSE to extract content
         const lines = text.split("\n");
         for (const line of lines) {
           if (line.startsWith("data: ") && line.slice(6).trim() !== "[DONE]") {
@@ -215,7 +284,6 @@ serve(async (req) => {
         controller.enqueue(chunk);
       },
       async flush() {
-        // Save the complete bot response after streaming is done
         if (fullResponse && activeConversationId) {
           await supabase.from("messages").insert({
             conversation_id: activeConversationId,
@@ -235,10 +303,8 @@ serve(async (req) => {
       },
     });
 
-    // Pipe the response through our transform stream
     const streamedResponse = response.body?.pipeThrough(transformStream);
 
-    // Add conversationId to response headers for client
     const responseHeaders = {
       ...corsHeaders,
       "Content-Type": "text/event-stream",
