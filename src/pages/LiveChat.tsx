@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { 
   Send, 
@@ -7,16 +7,29 @@ import {
   Headphones,
   CheckCircle,
   MessageSquare,
-  ArrowLeft
+  ArrowLeft,
+  Bell,
+  BellOff,
+  Download,
+  FileText,
+  FileSpreadsheet
 } from 'lucide-react';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { supabase } from '@/integrations/supabase/client';
 import { Database } from '@/integrations/supabase/types';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
+import { useNotifications } from '@/hooks/useNotifications';
+import { exportToCSV, exportToPDF } from '@/utils/exportTranscript';
 import { cn } from '@/lib/utils';
 
 type Conversation = Database['public']['Tables']['conversations']['Row'];
@@ -24,17 +37,20 @@ type Message = Database['public']['Tables']['messages']['Row'];
 
 export default function LiveChat() {
   const [searchParams] = useSearchParams();
-  const conversationId = searchParams.get('conversation');
+  const conversationIdParam = searchParams.get('conversation');
   
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const previousConversationsRef = useRef<Conversation[]>([]);
   const { user } = useAuth();
   const { toast } = useToast();
+  const { notify, requestPermission } = useNotifications();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -44,24 +60,42 @@ export default function LiveChat() {
     scrollToBottom();
   }, [messages]);
 
-  const fetchConversations = async () => {
+  const fetchConversations = useCallback(async () => {
     const { data } = await supabase
       .from('conversations')
       .select('*')
       .in('status', ['live', 'waiting'])
       .order('updated_at', { ascending: false });
 
-    setConversations(data || []);
-    setLoading(false);
-
-    if (conversationId && data) {
-      const conv = data.find(c => c.id === conversationId);
-      if (conv) {
-        setSelectedConversation(conv);
-        fetchMessages(conversationId);
+    const newConversations = data || [];
+    
+    // Check for new escalated conversations
+    if (notificationsEnabled && previousConversationsRef.current.length > 0) {
+      const previousIds = new Set(previousConversationsRef.current.map(c => c.id));
+      const newEscalated = newConversations.filter(
+        c => !previousIds.has(c.id) && c.status === 'waiting'
+      );
+      
+      for (const conv of newEscalated) {
+        notify(`New escalation from ${conv.customer_name}`, {
+          body: conv.last_message || 'Customer needs assistance',
+          tag: conv.id,
+        });
       }
     }
-  };
+
+    previousConversationsRef.current = newConversations;
+    setConversations(newConversations);
+    setLoading(false);
+
+    if (conversationIdParam && data) {
+      const conv = data.find(c => c.id === conversationIdParam);
+      if (conv) {
+        setSelectedConversation(conv);
+        fetchMessages(conversationIdParam);
+      }
+    }
+  }, [conversationIdParam, notificationsEnabled, notify]);
 
   const fetchMessages = async (convId: string) => {
     const { data } = await supabase
@@ -71,6 +105,20 @@ export default function LiveChat() {
       .order('created_at', { ascending: true });
 
     setMessages(data || []);
+  };
+
+  const handleEnableNotifications = async () => {
+    const granted = await requestPermission();
+    if (granted) {
+      setNotificationsEnabled(true);
+      toast({ title: 'Notifications enabled', description: 'You will be notified of new escalations' });
+    } else {
+      toast({ 
+        variant: 'destructive', 
+        title: 'Permission denied', 
+        description: 'Please enable notifications in your browser settings' 
+      });
+    }
   };
 
   useEffect(() => {
@@ -106,7 +154,7 @@ export default function LiveChat() {
       supabase.removeChannel(messagesChannel);
       supabase.removeChannel(convChannel);
     };
-  }, [selectedConversation?.id]);
+  }, [selectedConversation?.id, fetchConversations]);
 
   const handleSelectConversation = (conv: Conversation) => {
     setSelectedConversation(conv);
@@ -127,12 +175,14 @@ export default function LiveChat() {
     if (error) {
       toast({ variant: 'destructive', title: 'Error', description: 'Failed to send message' });
     } else {
-      // Update conversation last message
+      // Update conversation to live status and last message
       await supabase
         .from('conversations')
         .update({ 
+          status: 'live',
           last_message: newMessage.trim(),
-          updated_at: new Date().toISOString()
+          updated_at: new Date().toISOString(),
+          assigned_agent_id: user?.id,
         })
         .eq('id', selectedConversation.id);
       
@@ -150,7 +200,19 @@ export default function LiveChat() {
 
     toast({ title: 'Conversation resolved' });
     setSelectedConversation(null);
+    setMessages([]);
     fetchConversations();
+  };
+
+  const handleExportCSV = () => {
+    if (!selectedConversation) return;
+    exportToCSV({ conversation: selectedConversation, messages });
+    toast({ title: 'Exported', description: 'Transcript downloaded as CSV' });
+  };
+
+  const handleExportPDF = () => {
+    if (!selectedConversation) return;
+    exportToPDF({ conversation: selectedConversation, messages });
   };
 
   return (
@@ -158,11 +220,26 @@ export default function LiveChat() {
       <div className="flex h-[calc(100vh-7rem)] gap-4">
         {/* Conversations List */}
         <div className="w-80 flex flex-col glass rounded-xl overflow-hidden shrink-0">
-          <div className="p-4 border-b border-border">
+          <div className="p-4 border-b border-border flex items-center justify-between">
             <h2 className="font-semibold text-foreground flex items-center gap-2">
               <Headphones className="h-5 w-5 text-primary" />
               Live Queue
             </h2>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={notificationsEnabled ? () => setNotificationsEnabled(false) : handleEnableNotifications}
+              className={cn(
+                notificationsEnabled && "text-primary"
+              )}
+              title={notificationsEnabled ? "Disable notifications" : "Enable notifications"}
+            >
+              {notificationsEnabled ? (
+                <Bell className="h-4 w-4" />
+              ) : (
+                <BellOff className="h-4 w-4" />
+              )}
+            </Button>
           </div>
           <div className="flex-1 overflow-auto p-2 space-y-2">
             {loading ? (
@@ -181,7 +258,8 @@ export default function LiveChat() {
                     "w-full text-left p-3 rounded-lg transition-all",
                     selectedConversation?.id === conv.id
                       ? "bg-primary/20 ring-1 ring-primary/50"
-                      : "hover:bg-secondary/50"
+                      : "hover:bg-secondary/50",
+                    conv.status === 'waiting' && "animate-pulse"
                   )}
                 >
                   <div className="flex items-center gap-3">
@@ -220,13 +298,33 @@ export default function LiveChat() {
                   </div>
                   <div>
                     <h3 className="font-medium text-foreground">{selectedConversation.customer_name}</h3>
-                    <p className="text-xs text-muted-foreground">{selectedConversation.customer_email}</p>
+                    <p className="text-xs text-muted-foreground">{selectedConversation.customer_email || 'No email'}</p>
                   </div>
                 </div>
-                <Button variant="success" size="sm" onClick={handleResolve}>
-                  <CheckCircle className="h-4 w-4 mr-1" />
-                  Resolve
-                </Button>
+                <div className="flex items-center gap-2">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" size="sm">
+                        <Download className="h-4 w-4 mr-1" />
+                        Export
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={handleExportCSV}>
+                        <FileSpreadsheet className="h-4 w-4 mr-2" />
+                        Export as CSV
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={handleExportPDF}>
+                        <FileText className="h-4 w-4 mr-2" />
+                        Export as PDF
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  <Button variant="success" size="sm" onClick={handleResolve}>
+                    <CheckCircle className="h-4 w-4 mr-1" />
+                    Resolve
+                  </Button>
+                </div>
               </div>
 
               {/* Messages */}
