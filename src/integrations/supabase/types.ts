@@ -14,15 +14,50 @@ export type Database = {
   }
   public: {
     Tables: {
+      canned_responses: {
+        Row: {
+          category: string | null
+          content: string
+          created_at: string
+          created_by: string | null
+          id: string
+          shortcut: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          content: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          shortcut?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          content?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          shortcut?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       conversations: {
         Row: {
           assigned_agent_id: string | null
           created_at: string | null
           customer_email: string | null
           customer_name: string
+          first_response_at: string | null
           id: string
           last_message: string | null
           order_id: string | null
+          resolved_at: string | null
           status: Database["public"]["Enums"]["conversation_status"] | null
           unread_count: number | null
           updated_at: string | null
@@ -32,9 +67,11 @@ export type Database = {
           created_at?: string | null
           customer_email?: string | null
           customer_name: string
+          first_response_at?: string | null
           id?: string
           last_message?: string | null
           order_id?: string | null
+          resolved_at?: string | null
           status?: Database["public"]["Enums"]["conversation_status"] | null
           unread_count?: number | null
           updated_at?: string | null
@@ -44,9 +81,11 @@ export type Database = {
           created_at?: string | null
           customer_email?: string | null
           customer_name?: string
+          first_response_at?: string | null
           id?: string
           last_message?: string | null
           order_id?: string | null
+          resolved_at?: string | null
           status?: Database["public"]["Enums"]["conversation_status"] | null
           unread_count?: number | null
           updated_at?: string | null
@@ -167,6 +206,38 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      satisfaction_ratings: {
+        Row: {
+          conversation_id: string
+          created_at: string
+          feedback: string | null
+          id: string
+          rating: number
+        }
+        Insert: {
+          conversation_id: string
+          created_at?: string
+          feedback?: string | null
+          id?: string
+          rating: number
+        }
+        Update: {
+          conversation_id?: string
+          created_at?: string
+          feedback?: string | null
+          id?: string
+          rating?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "satisfaction_ratings_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
