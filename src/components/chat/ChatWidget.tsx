@@ -1,17 +1,18 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { MessageCircle, X, Send, Loader2, UserRound, Mail } from "lucide-react";
+import { MessageCircle, X, Send, Loader2, UserRound, Mail, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { SatisfactionRating } from "./SatisfactionRating";
 
 type Message = {
   role: "user" | "assistant";
   content: string;
 };
 
-type ChatState = "email_collection" | "chatting" | "escalated";
+type ChatState = "email_collection" | "chatting" | "escalated" | "resolved" | "rating";
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/support-chat`;
 
@@ -36,7 +37,7 @@ export function ChatWidget() {
     scrollToBottom();
   }, [messages]);
 
-  // Subscribe to real-time messages when escalated
+  // Subscribe to real-time messages and conversation status changes when escalated
   useEffect(() => {
     if (!conversationId || chatState !== "escalated") return;
 
@@ -58,6 +59,21 @@ export function ChatWidget() {
               { role: "assistant", content: newMessage.content },
             ]);
             setWaitingForAgent(false);
+          }
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "conversations",
+          filter: `id=eq.${conversationId}`,
+        },
+        (payload) => {
+          const updated = payload.new as { status: string };
+          if (updated.status === "resolved") {
+            setChatState("rating");
           }
         }
       )
@@ -252,6 +268,14 @@ export function ChatWidget() {
     setWaitingForAgent(false);
   };
 
+  const handleRatingComplete = () => {
+    setChatState("resolved");
+  };
+
+  const startNewChat = () => {
+    resetChat();
+  };
+
   return (
     <>
       {/* Chat Toggle Button */}
@@ -352,8 +376,35 @@ export function ChatWidget() {
           </div>
         )}
 
+        {/* Rating State */}
+        {chatState === "rating" && conversationId && (
+          <SatisfactionRating
+            conversationId={conversationId}
+            onComplete={handleRatingComplete}
+          />
+        )}
+
+        {/* Resolved State */}
+        {chatState === "resolved" && (
+          <div className="flex-1 flex flex-col items-center justify-center p-6 space-y-4">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-500/10 text-green-500">
+              <MessageCircle className="h-8 w-8" />
+            </div>
+            <div className="text-center space-y-2">
+              <h3 className="text-lg font-semibold text-foreground">Conversation Ended</h3>
+              <p className="text-sm text-muted-foreground">
+                Thank you for chatting with us!
+              </p>
+            </div>
+            <Button onClick={startNewChat} className="mt-4">
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Start New Chat
+            </Button>
+          </div>
+        )}
+
         {/* Chat Interface */}
-        {chatState !== "email_collection" && (
+        {(chatState === "chatting" || chatState === "escalated") && (
           <>
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">

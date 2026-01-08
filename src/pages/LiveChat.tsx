@@ -30,6 +30,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useNotifications } from '@/hooks/useNotifications';
 import { exportToCSV, exportToPDF } from '@/utils/exportTranscript';
+import { CannedResponses } from '@/components/chat/CannedResponses';
 import { cn } from '@/lib/utils';
 
 type Conversation = Database['public']['Tables']['conversations']['Row'];
@@ -165,6 +166,8 @@ export default function LiveChat() {
     e.preventDefault();
     if (!newMessage.trim() || !selectedConversation) return;
 
+    const isFirstAgentMessage = !messages.some(m => m.sender_type === 'agent');
+    
     const { error } = await supabase.from('messages').insert({
       conversation_id: selectedConversation.id,
       sender_type: 'agent',
@@ -176,18 +179,29 @@ export default function LiveChat() {
       toast({ variant: 'destructive', title: 'Error', description: 'Failed to send message' });
     } else {
       // Update conversation to live status and last message
+      const updateData: Record<string, unknown> = { 
+        status: 'live',
+        last_message: newMessage.trim(),
+        updated_at: new Date().toISOString(),
+        assigned_agent_id: user?.id,
+      };
+
+      // Track first response time
+      if (isFirstAgentMessage) {
+        updateData.first_response_at = new Date().toISOString();
+      }
+
       await supabase
         .from('conversations')
-        .update({ 
-          status: 'live',
-          last_message: newMessage.trim(),
-          updated_at: new Date().toISOString(),
-          assigned_agent_id: user?.id,
-        })
+        .update(updateData)
         .eq('id', selectedConversation.id);
       
       setNewMessage('');
     }
+  };
+
+  const handleUseCannedResponse = (content: string) => {
+    setNewMessage(content);
   };
 
   const handleResolve = async () => {
@@ -195,7 +209,10 @@ export default function LiveChat() {
 
     await supabase
       .from('conversations')
-      .update({ status: 'resolved' })
+      .update({ 
+        status: 'resolved',
+        resolved_at: new Date().toISOString(),
+      })
       .eq('id', selectedConversation.id);
 
     toast({ title: 'Conversation resolved' });
@@ -369,6 +386,7 @@ export default function LiveChat() {
               {/* Input */}
               <form onSubmit={handleSendMessage} className="p-4 border-t border-border">
                 <div className="flex gap-2">
+                  <CannedResponses onSelect={handleUseCannedResponse} />
                   <Input
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
