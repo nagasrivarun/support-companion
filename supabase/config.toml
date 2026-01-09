@@ -2,3 +2,9 @@ project_id = "syfklflqokgnpqcdzclf"
 
 [functions.support-chat]
 verify_jwt = false
+
+[functions.commerce-chat]
+verify_jwt = false
+
+[functions.commerce-search]
+verify_jwt = false
