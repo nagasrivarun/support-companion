@@ -55,9 +55,12 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         query: searchQuery,
-        limit: 10,
+        limit: 12,
         lang: "en",
         country: "US",
+        scrapeOptions: {
+          formats: ["markdown"],
+        },
       }),
     });
 
@@ -85,19 +88,44 @@ serve(async (req) => {
       else if (url.includes("flipkart")) platform = "Flipkart";
       else if (url.includes("aliexpress")) platform = "AliExpress";
 
-      // Extract price from description if possible (basic regex)
+      // Extract price from description or markdown (basic regex)
       let price = "";
-      const priceMatch = (item.description || "").match(/\$[\d,]+\.?\d*/);
+      const textToSearch = (item.description || "") + " " + (item.markdown || "");
+      const priceMatch = textToSearch.match(/\$[\d,]+\.?\d*/);
       if (priceMatch) {
         price = priceMatch[0];
       }
 
+      // Try to extract image URL from markdown content
+      let image = "";
+      const markdown = item.markdown || "";
+      const imageMatch = markdown.match(/!\[.*?\]\((https?:\/\/[^\s)]+\.(jpg|jpeg|png|webp|gif)[^\s)]*)\)/i);
+      if (imageMatch) {
+        image = imageMatch[1];
+      } else {
+        // Try to find any image URL in the content
+        const imgUrlMatch = markdown.match(/(https?:\/\/[^\s"'<>]+\.(jpg|jpeg|png|webp|gif)[^\s"'<>]*)/i);
+        if (imgUrlMatch) {
+          image = imgUrlMatch[1];
+        }
+      }
+
+      // Clean up title - remove price and extra info
+      let cleanTitle = (item.title || "Product")
+        .replace(/\s*\$[\d,]+\.?\d*\s*/g, "")
+        .replace(/\s*-\s*Amazon\.com.*$/i, "")
+        .replace(/\s*\|\s*Amazon\.com.*$/i, "")
+        .replace(/\s*-\s*Walmart\.com.*$/i, "")
+        .replace(/\s*\|\s*eBay.*$/i, "")
+        .trim();
+
       return {
-        title: item.title || "Product",
+        title: cleanTitle || "Product",
         price,
-        description: item.description || "Click to view details",
+        description: (item.description || "Click to view details").substring(0, 150),
         platform,
         url: item.url || "#",
+        image,
       };
     }).filter((p: ProductResult) => 
       // Filter to only include results from known e-commerce platforms
