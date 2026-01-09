@@ -4,19 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { ProductGrid, type Product } from "./ProductCard";
 
 type Message = {
   role: "user" | "assistant";
   content: string;
-};
-
-type Product = {
-  title: string;
-  price: string;
-  description: string;
-  platform: string;
-  url: string;
+  products?: Product[];
 };
 
 const COMMERCE_CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/commerce-chat`;
@@ -80,7 +73,11 @@ export function CommerceWidget() {
     }
   };
 
-  const streamChat = useCallback(async (userMessages: Message[], searchResults?: Product[]) => {
+  const streamChat = useCallback(async (
+    userMessages: Message[], 
+    searchResults?: Product[],
+    onProductsFound?: (products: Product[]) => void
+  ) => {
     const resp = await fetch(COMMERCE_CHAT_URL, {
       method: "POST",
       headers: {
@@ -88,7 +85,7 @@ export function CommerceWidget() {
         Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
       },
       body: JSON.stringify({ 
-        messages: userMessages,
+        messages: userMessages.map(m => ({ role: m.role, content: m.content })),
         searchResults,
       }),
     });
@@ -114,6 +111,11 @@ export function CommerceWidget() {
     }
 
     if (!resp.body) throw new Error("No response body");
+
+    // If we have products, notify the callback
+    if (searchResults && searchResults.length > 0 && onProductsFound) {
+      onProductsFound(searchResults);
+    }
 
     const reader = resp.body.getReader();
     const decoder = new TextDecoder();
@@ -150,7 +152,7 @@ export function CommerceWidget() {
                   i === prev.length - 1 ? { ...m, content: assistantContent } : m
                 );
               }
-              return [...prev, { role: "assistant", content: assistantContent }];
+              return [...prev, { role: "assistant", content: assistantContent, products: searchResults }];
             });
           }
         } catch {
@@ -245,28 +247,36 @@ export function CommerceWidget() {
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.map((message, index) => (
-            <div
-              key={index}
-              className={cn(
-                "flex gap-3",
-                message.role === "user" ? "justify-end" : "justify-start"
-              )}
-            >
-              {message.role === "assistant" && (
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-rose-500 text-white">
-                  <Heart className="h-4 w-4" />
-                </div>
-              )}
+            <div key={index} className="space-y-3">
               <div
                 className={cn(
-                  "max-w-[80%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-wrap",
-                  message.role === "user"
-                    ? "bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-br-md"
-                    : "bg-muted text-foreground rounded-bl-md"
+                  "flex gap-3",
+                  message.role === "user" ? "justify-end" : "justify-start"
                 )}
               >
-                {message.content}
+                {message.role === "assistant" && (
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-rose-500 text-white">
+                    <Heart className="h-4 w-4" />
+                  </div>
+                )}
+                <div
+                  className={cn(
+                    "max-w-[80%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-wrap",
+                    message.role === "user"
+                      ? "bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-br-md"
+                      : "bg-muted text-foreground rounded-bl-md"
+                  )}
+                >
+                  {message.content}
+                </div>
               </div>
+              
+              {/* Product Cards */}
+              {message.role === "assistant" && message.products && message.products.length > 0 && (
+                <div className="ml-11">
+                  <ProductGrid products={message.products} />
+                </div>
+              )}
             </div>
           ))}
           
