@@ -4,7 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
-import { ProductGrid, ProductComparison, type Product } from "./ProductCard";
+import { ProductGrid, ProductComparison, WishlistPanel, type Product } from "./ProductCard";
+
+const WISHLIST_STORAGE_KEY = "commerce-wishlist";
 
 type Message = {
   role: "user" | "assistant";
@@ -14,6 +16,25 @@ type Message = {
 
 const COMMERCE_CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/commerce-chat`;
 const COMMERCE_SEARCH_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/commerce-search`;
+
+// Load wishlist from localStorage
+const loadWishlist = (): Product[] => {
+  try {
+    const stored = localStorage.getItem(WISHLIST_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+};
+
+// Save wishlist to localStorage
+const saveWishlist = (products: Product[]) => {
+  try {
+    localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(products));
+  } catch (e) {
+    console.error("Failed to save wishlist:", e);
+  }
+};
 
 export function CommerceWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,6 +49,8 @@ export function CommerceWidget() {
   const [isSearching, setIsSearching] = useState(false);
   const [compareProducts, setCompareProducts] = useState<Product[]>([]);
   const [showComparison, setShowComparison] = useState(false);
+  const [wishlist, setWishlist] = useState<Product[]>(loadWishlist);
+  const [showWishlist, setShowWishlist] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -38,6 +61,11 @@ export function CommerceWidget() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Persist wishlist to localStorage when it changes
+  useEffect(() => {
+    saveWishlist(wishlist);
+  }, [wishlist]);
 
   // Detect if message is a product search request
   const isProductSearch = (text: string): boolean => {
@@ -96,6 +124,30 @@ export function CommerceWidget() {
   // Remove product from comparison
   const handleRemoveFromComparison = useCallback((product: Product) => {
     setCompareProducts(prev => prev.filter(p => p.url !== product.url));
+  }, []);
+
+  // Toggle product in wishlist
+  const handleToggleWishlist = useCallback((product: Product) => {
+    setWishlist(prev => {
+      const exists = prev.some(p => p.url === product.url);
+      if (exists) {
+        toast({
+          title: "Removed from Wishlist",
+          description: "Product removed from your wishlist.",
+        });
+        return prev.filter(p => p.url !== product.url);
+      }
+      toast({
+        title: "Added to Wishlist",
+        description: "Product saved to your wishlist! ❤️",
+      });
+      return [...prev, product];
+    });
+  }, [toast]);
+
+  // Remove product from wishlist
+  const handleRemoveFromWishlist = useCallback((product: Product) => {
+    setWishlist(prev => prev.filter(p => p.url !== product.url));
   }, []);
 
   const streamChat = useCallback(async (
@@ -238,6 +290,15 @@ export function CommerceWidget() {
         />
       )}
 
+      {/* Wishlist Panel */}
+      {showWishlist && (
+        <WishlistPanel
+          products={wishlist}
+          onClose={() => setShowWishlist(false)}
+          onRemove={handleRemoveFromWishlist}
+        />
+      )}
+
       {/* Commerce Toggle Button */}
       <Button
         onClick={() => setIsOpen(!isOpen)}
@@ -270,14 +331,30 @@ export function CommerceWidget() {
               <p className="text-xs opacity-80">Find anything, anywhere 😊</p>
             </div>
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsOpen(false)}
-            className="text-white hover:bg-white/20"
-          >
-            <X className="h-5 w-5" />
-          </Button>
+          <div className="flex items-center gap-1">
+            {/* Wishlist Button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setShowWishlist(true)}
+              className="text-white hover:bg-white/20 relative"
+            >
+              <Heart className={cn("h-5 w-5", wishlist.length > 0 && "fill-current")} />
+              {wishlist.length > 0 && (
+                <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-white text-pink-500 text-xs font-bold flex items-center justify-center">
+                  {wishlist.length}
+                </span>
+              )}
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsOpen(false)}
+              className="text-white hover:bg-white/20"
+            >
+              <X className="h-5 w-5" />
+            </Button>
+          </div>
         </div>
 
         {/* Messages */}
@@ -315,6 +392,8 @@ export function CommerceWidget() {
                     compareProducts={compareProducts}
                     onToggleCompare={handleToggleCompare}
                     onOpenComparison={() => setShowComparison(true)}
+                    wishlist={wishlist}
+                    onToggleWishlist={handleToggleWishlist}
                   />
                 </div>
               )}
