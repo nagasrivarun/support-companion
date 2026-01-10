@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
-import { ProductGrid, type Product } from "./ProductCard";
+import { ProductGrid, ProductComparison, type Product } from "./ProductCard";
 
 type Message = {
   role: "user" | "assistant";
@@ -26,6 +26,8 @@ export function CommerceWidget() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [compareProducts, setCompareProducts] = useState<Product[]>([]);
+  const [showComparison, setShowComparison] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -72,6 +74,29 @@ export function CommerceWidget() {
       return [];
     }
   };
+
+  // Toggle product in comparison list
+  const handleToggleCompare = useCallback((product: Product) => {
+    setCompareProducts(prev => {
+      const exists = prev.some(p => p.url === product.url);
+      if (exists) {
+        return prev.filter(p => p.url !== product.url);
+      }
+      if (prev.length >= 4) {
+        toast({
+          title: "Limit Reached",
+          description: "You can compare up to 4 products at a time.",
+        });
+        return prev;
+      }
+      return [...prev, product];
+    });
+  }, [toast]);
+
+  // Remove product from comparison
+  const handleRemoveFromComparison = useCallback((product: Product) => {
+    setCompareProducts(prev => prev.filter(p => p.url !== product.url));
+  }, []);
 
   const streamChat = useCallback(async (
     userMessages: Message[], 
@@ -173,6 +198,8 @@ export function CommerceWidget() {
     const currentInput = input;
     setInput("");
     setIsLoading(true);
+    // Clear comparison when new search starts
+    setCompareProducts([]);
 
     try {
       let searchResults: Product[] = [];
@@ -202,6 +229,15 @@ export function CommerceWidget() {
 
   return (
     <>
+      {/* Product Comparison Modal */}
+      {showComparison && compareProducts.length >= 2 && (
+        <ProductComparison
+          products={compareProducts}
+          onClose={() => setShowComparison(false)}
+          onRemove={handleRemoveFromComparison}
+        />
+      )}
+
       {/* Commerce Toggle Button */}
       <Button
         onClick={() => setIsOpen(!isOpen)}
@@ -271,10 +307,15 @@ export function CommerceWidget() {
                 </div>
               </div>
               
-              {/* Product Cards */}
+              {/* Product Cards with filters and comparison */}
               {message.role === "assistant" && message.products && message.products.length > 0 && (
                 <div className="ml-11">
-                  <ProductGrid products={message.products} />
+                  <ProductGrid 
+                    products={message.products}
+                    compareProducts={compareProducts}
+                    onToggleCompare={handleToggleCompare}
+                    onOpenComparison={() => setShowComparison(true)}
+                  />
                 </div>
               )}
             </div>
