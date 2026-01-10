@@ -108,8 +108,16 @@ interface ProductGridProps {
   products: Product[];
 }
 
+import { useState as useLocalState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
+
 export function ProductGrid({ products }: ProductGridProps) {
+  const [isExpanded, setIsExpanded] = useLocalState(false);
+  
   if (products.length === 0) return null;
+
+  const displayedProducts = isExpanded ? products : products.slice(0, 4);
+  const hasMoreProducts = products.length > 4;
 
   return (
     <div className="space-y-2">
@@ -118,14 +126,29 @@ export function ProductGrid({ products }: ProductGridProps) {
         <span>Found {products.length} products</span>
       </div>
       <div className="grid grid-cols-2 gap-2">
-        {products.slice(0, 4).map((product, index) => (
+        {displayedProducts.map((product, index) => (
           <ProductCard key={index} product={product} />
         ))}
       </div>
-      {products.length > 4 && (
-        <p className="text-xs text-center text-muted-foreground">
-          +{products.length - 4} more products found
-        </p>
+      {hasMoreProducts && (
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="w-full text-xs border-pink-500/30 text-muted-foreground hover:text-foreground hover:border-pink-500/50"
+        >
+          {isExpanded ? (
+            <>
+              <ChevronUp className="h-3 w-3 mr-1" />
+              Show less
+            </>
+          ) : (
+            <>
+              <ChevronDown className="h-3 w-3 mr-1" />
+              Show {products.length - 4} more products
+            </>
+          )}
+        </Button>
       )}
     </div>
   );
