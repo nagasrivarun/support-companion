@@ -1,4 +1,4 @@
-import { ExternalLink, ShoppingCart, ImageOff, Check, Plus, ChevronDown, ChevronUp, ArrowUpDown, DollarSign, X } from "lucide-react";
+import { ExternalLink, ShoppingCart, ImageOff, Check, Plus, ChevronDown, ChevronUp, ArrowUpDown, DollarSign, X, Heart, Store } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -9,6 +9,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export type Product = {
   title: string;
@@ -24,6 +30,8 @@ interface ProductCardProps {
   isSelected?: boolean;
   onToggleCompare?: (product: Product) => void;
   compareMode?: boolean;
+  isWishlisted?: boolean;
+  onToggleWishlist?: (product: Product) => void;
 }
 
 const platformColors: Record<string, string> = {
@@ -48,6 +56,8 @@ const platformLogos: Record<string, string> = {
   AliExpress: "🌐",
 };
 
+export const ALL_PLATFORMS = ["Amazon", "Walmart", "eBay", "Target", "Best Buy", "Etsy", "Flipkart", "AliExpress"];
+
 // Helper to extract numeric price
 export function extractPrice(priceStr: string): number {
   const match = priceStr.match(/[\d,]+\.?\d*/);
@@ -57,7 +67,7 @@ export function extractPrice(priceStr: string): number {
   return 0;
 }
 
-export function ProductCard({ product, isSelected, onToggleCompare, compareMode }: ProductCardProps) {
+export function ProductCard({ product, isSelected, onToggleCompare, compareMode, isWishlisted, onToggleWishlist }: ProductCardProps) {
   const [imageError, setImageError] = useState(false);
   const platformColor = platformColors[product.platform] || "bg-gray-500";
   const platformLogo = platformLogos[product.platform] || "🛍️";
@@ -67,20 +77,38 @@ export function ProductCard({ product, isSelected, onToggleCompare, compareMode 
       "rounded-xl border bg-card overflow-hidden transition-all duration-200 hover:shadow-lg relative",
       isSelected ? "border-pink-500 ring-2 ring-pink-500/20" : "border-border hover:border-pink-500/50"
     )}>
-      {/* Compare checkbox */}
-      {compareMode && onToggleCompare && (
-        <button
-          onClick={() => onToggleCompare(product)}
-          className={cn(
-            "absolute top-2 right-2 z-10 h-6 w-6 rounded-full flex items-center justify-center transition-all",
-            isSelected 
-              ? "bg-pink-500 text-white" 
-              : "bg-background/80 backdrop-blur-sm border border-border text-muted-foreground hover:border-pink-500"
-          )}
-        >
-          {isSelected ? <Check className="h-3 w-3" /> : <Plus className="h-3 w-3" />}
-        </button>
-      )}
+      {/* Top right actions */}
+      <div className="absolute top-2 right-2 z-10 flex gap-1">
+        {/* Wishlist button */}
+        {onToggleWishlist && (
+          <button
+            onClick={() => onToggleWishlist(product)}
+            className={cn(
+              "h-6 w-6 rounded-full flex items-center justify-center transition-all",
+              isWishlisted 
+                ? "bg-pink-500 text-white" 
+                : "bg-background/80 backdrop-blur-sm border border-border text-muted-foreground hover:border-pink-500 hover:text-pink-500"
+            )}
+          >
+            <Heart className={cn("h-3 w-3", isWishlisted && "fill-current")} />
+          </button>
+        )}
+        
+        {/* Compare checkbox */}
+        {compareMode && onToggleCompare && (
+          <button
+            onClick={() => onToggleCompare(product)}
+            className={cn(
+              "h-6 w-6 rounded-full flex items-center justify-center transition-all",
+              isSelected 
+                ? "bg-pink-500 text-white" 
+                : "bg-background/80 backdrop-blur-sm border border-border text-muted-foreground hover:border-pink-500"
+            )}
+          >
+            {isSelected ? <Check className="h-3 w-3" /> : <Plus className="h-3 w-3" />}
+          </button>
+        )}
+      </div>
 
       {/* Product Image */}
       <div className="relative aspect-square bg-muted/50 flex items-center justify-center overflow-hidden">
@@ -149,17 +177,44 @@ interface ProductGridProps {
   compareProducts?: Product[];
   onToggleCompare?: (product: Product) => void;
   onOpenComparison?: () => void;
+  wishlist?: Product[];
+  onToggleWishlist?: (product: Product) => void;
 }
 
-export function ProductGrid({ products, compareProducts = [], onToggleCompare, onOpenComparison }: ProductGridProps) {
+export function ProductGrid({ 
+  products, 
+  compareProducts = [], 
+  onToggleCompare, 
+  onOpenComparison,
+  wishlist = [],
+  onToggleWishlist
+}: ProductGridProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
   const [priceFilter, setPriceFilter] = useState<PriceFilter>("all");
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
   
   if (products.length === 0) return null;
 
+  // Get unique platforms from products
+  const availablePlatforms = [...new Set(products.map(p => p.platform))];
+
+  // Toggle platform filter
+  const togglePlatform = (platform: string) => {
+    setSelectedPlatforms(prev => 
+      prev.includes(platform) 
+        ? prev.filter(p => p !== platform)
+        : [...prev, platform]
+    );
+  };
+
+  // Filter products by platform
+  const platformFilteredProducts = selectedPlatforms.length > 0
+    ? products.filter(p => selectedPlatforms.includes(p.platform))
+    : products;
+
   // Filter products by price
-  const filteredProducts = products.filter(product => {
+  const filteredProducts = platformFilteredProducts.filter(product => {
     const price = extractPrice(product.price);
     switch (priceFilter) {
       case "under25": return price > 0 && price < 25;
@@ -206,7 +261,7 @@ export function ProductGrid({ products, compareProducts = [], onToggleCompare, o
         )}
       </div>
 
-      {/* Filters and Sort */}
+      {/* Filters Row 1: Price and Sort */}
       <div className="flex gap-2">
         <Select value={priceFilter} onValueChange={(v) => setPriceFilter(v as PriceFilter)}>
           <SelectTrigger className="h-7 text-xs flex-1">
@@ -236,6 +291,33 @@ export function ProductGrid({ products, compareProducts = [], onToggleCompare, o
         </Select>
       </div>
 
+      {/* Filters Row 2: Platform Filter */}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="sm" className="h-7 text-xs w-full justify-between">
+            <div className="flex items-center">
+              <Store className="h-3 w-3 mr-1" />
+              {selectedPlatforms.length === 0 
+                ? "All Platforms" 
+                : `${selectedPlatforms.length} selected`}
+            </div>
+            <ChevronDown className="h-3 w-3 ml-1" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-48">
+          {availablePlatforms.map(platform => (
+            <DropdownMenuCheckboxItem
+              key={platform}
+              checked={selectedPlatforms.includes(platform)}
+              onCheckedChange={() => togglePlatform(platform)}
+            >
+              <span className="mr-2">{platformLogos[platform] || "🛍️"}</span>
+              {platform}
+            </DropdownMenuCheckboxItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+
       {/* Compare mode hint */}
       {compareMode && compareProducts.length < 2 && (
         <p className="text-xs text-muted-foreground text-center">
@@ -258,6 +340,8 @@ export function ProductGrid({ products, compareProducts = [], onToggleCompare, o
                 compareMode={compareMode}
                 isSelected={compareProducts.some(p => p.url === product.url)}
                 onToggleCompare={onToggleCompare}
+                isWishlisted={wishlist.some(p => p.url === product.url)}
+                onToggleWishlist={onToggleWishlist}
               />
             ))}
           </div>
@@ -371,6 +455,89 @@ export function ProductComparison({ products, onClose, onRemove }: ProductCompar
               );
             })}
           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Wishlist Panel Component
+interface WishlistPanelProps {
+  products: Product[];
+  onClose: () => void;
+  onRemove: (product: Product) => void;
+}
+
+export function WishlistPanel({ products, onClose, onRemove }: WishlistPanelProps) {
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+      <div className="bg-background rounded-2xl border border-border shadow-2xl w-full max-w-md max-h-[80vh] overflow-hidden flex flex-col">
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-gradient-to-r from-pink-500 to-rose-500 text-white">
+          <div className="flex items-center gap-2">
+            <Heart className="h-5 w-5 fill-current" />
+            <h3 className="font-semibold">My Wishlist ({products.length})</h3>
+          </div>
+          <Button variant="ghost" size="icon" onClick={onClose} className="text-white hover:bg-white/20">
+            <X className="h-5 w-5" />
+          </Button>
+        </div>
+
+        {/* Wishlist Items */}
+        <div className="overflow-auto flex-1 p-4">
+          {products.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              <Heart className="h-12 w-12 mx-auto mb-3 opacity-30" />
+              <p className="text-sm">Your wishlist is empty</p>
+              <p className="text-xs mt-1">Tap the heart icon on products to save them</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {products.map((product, index) => (
+                <div key={index} className="flex gap-3 p-2 rounded-lg border border-border hover:border-pink-500/50 transition-colors">
+                  {/* Image */}
+                  <div className="w-16 h-16 rounded-lg bg-muted overflow-hidden shrink-0">
+                    {product.image ? (
+                      <img src={product.image} alt={product.title} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="flex items-center justify-center h-full text-muted-foreground">
+                        <ImageOff className="h-6 w-6" />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Info */}
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-medium text-sm line-clamp-1">{product.title}</h4>
+                    <p className="text-xs text-muted-foreground">{product.platform}</p>
+                    <p className="text-sm font-bold text-foreground mt-1">{product.price}</p>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex flex-col gap-1">
+                    <Button
+                      asChild
+                      size="sm"
+                      variant="outline"
+                      className="h-7 text-xs"
+                    >
+                      <a href={product.url} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="h-3 w-3" />
+                      </a>
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => onRemove(product)}
+                      className="h-7 text-xs text-muted-foreground hover:text-destructive"
+                    >
+                      <X className="h-3 w-3" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
