@@ -1,7 +1,7 @@
-import { ExternalLink, ShoppingCart, ImageOff, Check, Plus, ChevronDown, ChevronUp, ArrowUpDown, DollarSign, X, Heart, Store } from "lucide-react";
+import { ExternalLink, ShoppingCart, ImageOff, Check, Plus, ChevronDown, ChevronUp, ArrowUpDown, DollarSign, X, Heart, Store, Bell, BellOff, TrendingDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Select,
   SelectContent,
@@ -15,6 +15,12 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export type Product = {
   title: string;
@@ -23,6 +29,34 @@ export type Product = {
   platform: string;
   url: string;
   image?: string;
+};
+
+export type PriceAlert = {
+  productUrl: string;
+  targetPrice: number;
+  originalPrice: number;
+  createdAt: string;
+};
+
+const PRICE_ALERTS_STORAGE_KEY = "commerce-price-alerts";
+
+// Load price alerts from localStorage
+export const loadPriceAlerts = (): PriceAlert[] => {
+  try {
+    const stored = localStorage.getItem(PRICE_ALERTS_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+};
+
+// Save price alerts to localStorage
+export const savePriceAlerts = (alerts: PriceAlert[]) => {
+  try {
+    localStorage.setItem(PRICE_ALERTS_STORAGE_KEY, JSON.stringify(alerts));
+  } catch (e) {
+    console.error("Failed to save price alerts:", e);
+  }
 };
 
 interface ProductCardProps {
@@ -461,14 +495,111 @@ export function ProductComparison({ products, onClose, onRemove }: ProductCompar
   );
 }
 
+// Price Alert Button Component
+interface PriceAlertButtonProps {
+  product: Product;
+  priceAlerts: PriceAlert[];
+  onSetAlert: (product: Product, targetPrice: number) => void;
+  onRemoveAlert: (productUrl: string) => void;
+}
+
+function PriceAlertButton({ product, priceAlerts, onSetAlert, onRemoveAlert }: PriceAlertButtonProps) {
+  const [targetPrice, setTargetPrice] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  
+  const existingAlert = priceAlerts.find(a => a.productUrl === product.url);
+  const currentPrice = extractPrice(product.price);
+
+  const handleSetAlert = () => {
+    const price = parseFloat(targetPrice);
+    if (price > 0 && price < currentPrice) {
+      onSetAlert(product, price);
+      setTargetPrice("");
+      setIsOpen(false);
+    }
+  };
+
+  if (existingAlert) {
+    return (
+      <Button
+        size="sm"
+        variant="outline"
+        onClick={() => onRemoveAlert(product.url)}
+        className="h-7 text-xs border-green-500/50 text-green-500 hover:bg-green-500/10"
+      >
+        <Bell className="h-3 w-3 mr-1 fill-current" />
+        ${existingAlert.targetPrice.toFixed(0)}
+      </Button>
+    );
+  }
+
+  return (
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          size="sm"
+          variant="outline"
+          className="h-7 text-xs"
+        >
+          <Bell className="h-3 w-3" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-52 p-3" align="end">
+        <div className="space-y-2">
+          <p className="text-xs font-medium">Set Price Alert</p>
+          <p className="text-xs text-muted-foreground">Current: {product.price}</p>
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <DollarSign className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
+              <Input
+                type="number"
+                placeholder="Target"
+                value={targetPrice}
+                onChange={(e) => setTargetPrice(e.target.value)}
+                className="h-7 text-xs pl-6"
+                max={currentPrice - 1}
+              />
+            </div>
+            <Button
+              size="sm"
+              onClick={handleSetAlert}
+              disabled={!targetPrice || parseFloat(targetPrice) >= currentPrice}
+              className="h-7 text-xs bg-gradient-to-r from-pink-500 to-rose-500"
+            >
+              Set
+            </Button>
+          </div>
+          {targetPrice && parseFloat(targetPrice) >= currentPrice && (
+            <p className="text-xs text-destructive">Must be lower than current price</p>
+          )}
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
 // Wishlist Panel Component
 interface WishlistPanelProps {
   products: Product[];
   onClose: () => void;
   onRemove: (product: Product) => void;
+  priceAlerts: PriceAlert[];
+  onSetAlert: (product: Product, targetPrice: number) => void;
+  onRemoveAlert: (productUrl: string) => void;
+  priceDrops: { product: Product; oldPrice: number; newPrice: number }[];
 }
 
-export function WishlistPanel({ products, onClose, onRemove }: WishlistPanelProps) {
+export function WishlistPanel({ 
+  products, 
+  onClose, 
+  onRemove, 
+  priceAlerts, 
+  onSetAlert, 
+  onRemoveAlert,
+  priceDrops 
+}: WishlistPanelProps) {
+  const alertCount = priceAlerts.length;
+  
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div className="bg-background rounded-2xl border border-border shadow-2xl w-full max-w-md max-h-[80vh] overflow-hidden flex flex-col">
@@ -478,10 +609,36 @@ export function WishlistPanel({ products, onClose, onRemove }: WishlistPanelProp
             <Heart className="h-5 w-5 fill-current" />
             <h3 className="font-semibold">My Wishlist ({products.length})</h3>
           </div>
-          <Button variant="ghost" size="icon" onClick={onClose} className="text-white hover:bg-white/20">
-            <X className="h-5 w-5" />
-          </Button>
+          <div className="flex items-center gap-2">
+            {alertCount > 0 && (
+              <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full">
+                {alertCount} alert{alertCount !== 1 ? 's' : ''}
+              </span>
+            )}
+            <Button variant="ghost" size="icon" onClick={onClose} className="text-white hover:bg-white/20">
+              <X className="h-5 w-5" />
+            </Button>
+          </div>
         </div>
+
+        {/* Price Drop Notifications */}
+        {priceDrops.length > 0 && (
+          <div className="p-3 bg-green-500/10 border-b border-green-500/20">
+            <div className="flex items-center gap-2 text-green-600 mb-2">
+              <TrendingDown className="h-4 w-4" />
+              <span className="text-sm font-medium">Price Drops!</span>
+            </div>
+            <div className="space-y-1">
+              {priceDrops.map((drop, i) => (
+                <div key={i} className="text-xs flex items-center gap-2">
+                  <span className="line-clamp-1 flex-1">{drop.product.title}</span>
+                  <span className="line-through text-muted-foreground">${drop.oldPrice.toFixed(2)}</span>
+                  <span className="text-green-600 font-bold">${drop.newPrice.toFixed(2)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Wishlist Items */}
         <div className="overflow-auto flex-1 p-4">
@@ -493,52 +650,95 @@ export function WishlistPanel({ products, onClose, onRemove }: WishlistPanelProp
             </div>
           ) : (
             <div className="space-y-3">
-              {products.map((product, index) => (
-                <div key={index} className="flex gap-3 p-2 rounded-lg border border-border hover:border-pink-500/50 transition-colors">
-                  {/* Image */}
-                  <div className="w-16 h-16 rounded-lg bg-muted overflow-hidden shrink-0">
-                    {product.image ? (
-                      <img src={product.image} alt={product.title} className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="flex items-center justify-center h-full text-muted-foreground">
-                        <ImageOff className="h-6 w-6" />
-                      </div>
+              {products.map((product, index) => {
+                const hasAlert = priceAlerts.some(a => a.productUrl === product.url);
+                const priceDrop = priceDrops.find(d => d.product.url === product.url);
+                
+                return (
+                  <div 
+                    key={index} 
+                    className={cn(
+                      "flex gap-3 p-2 rounded-lg border transition-colors",
+                      priceDrop 
+                        ? "border-green-500 bg-green-500/5" 
+                        : "border-border hover:border-pink-500/50"
                     )}
-                  </div>
+                  >
+                    {/* Image */}
+                    <div className="w-16 h-16 rounded-lg bg-muted overflow-hidden shrink-0 relative">
+                      {product.image ? (
+                        <img src={product.image} alt={product.title} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="flex items-center justify-center h-full text-muted-foreground">
+                          <ImageOff className="h-6 w-6" />
+                        </div>
+                      )}
+                      {hasAlert && (
+                        <div className="absolute top-1 right-1 h-4 w-4 rounded-full bg-green-500 flex items-center justify-center">
+                          <Bell className="h-2.5 w-2.5 text-white fill-current" />
+                        </div>
+                      )}
+                    </div>
 
-                  {/* Info */}
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-sm line-clamp-1">{product.title}</h4>
-                    <p className="text-xs text-muted-foreground">{product.platform}</p>
-                    <p className="text-sm font-bold text-foreground mt-1">{product.price}</p>
-                  </div>
+                    {/* Info */}
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-medium text-sm line-clamp-1">{product.title}</h4>
+                      <p className="text-xs text-muted-foreground">{product.platform}</p>
+                      <div className="flex items-center gap-2 mt-1">
+                        {priceDrop ? (
+                          <>
+                            <span className="text-xs line-through text-muted-foreground">${priceDrop.oldPrice.toFixed(2)}</span>
+                            <span className="text-sm font-bold text-green-600">${priceDrop.newPrice.toFixed(2)}</span>
+                          </>
+                        ) : (
+                          <p className="text-sm font-bold text-foreground">{product.price}</p>
+                        )}
+                      </div>
+                    </div>
 
-                  {/* Actions */}
-                  <div className="flex flex-col gap-1">
-                    <Button
-                      asChild
-                      size="sm"
-                      variant="outline"
-                      className="h-7 text-xs"
-                    >
-                      <a href={product.url} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="h-3 w-3" />
-                      </a>
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => onRemove(product)}
-                      className="h-7 text-xs text-muted-foreground hover:text-destructive"
-                    >
-                      <X className="h-3 w-3" />
-                    </Button>
+                    {/* Actions */}
+                    <div className="flex flex-col gap-1">
+                      <PriceAlertButton
+                        product={product}
+                        priceAlerts={priceAlerts}
+                        onSetAlert={onSetAlert}
+                        onRemoveAlert={onRemoveAlert}
+                      />
+                      <Button
+                        asChild
+                        size="sm"
+                        variant="outline"
+                        className="h-7 text-xs"
+                      >
+                        <a href={product.url} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="h-3 w-3" />
+                        </a>
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => onRemove(product)}
+                        className="h-7 text-xs text-muted-foreground hover:text-destructive"
+                      >
+                        <X className="h-3 w-3" />
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
+
+        {/* Footer hint */}
+        {products.length > 0 && priceAlerts.length === 0 && (
+          <div className="px-4 py-2 border-t border-border bg-muted/30">
+            <p className="text-xs text-muted-foreground text-center">
+              <Bell className="h-3 w-3 inline mr-1" />
+              Tap the bell icon to set price drop alerts
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
