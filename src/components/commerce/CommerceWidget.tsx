@@ -1,10 +1,19 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { ShoppingBag, X, Send, Loader2, Heart, Search } from "lucide-react";
+import { ShoppingBag, X, Send, Loader2, Heart, Search, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
-import { ProductGrid, ProductComparison, WishlistPanel, type Product } from "./ProductCard";
+import { 
+  ProductGrid, 
+  ProductComparison, 
+  WishlistPanel, 
+  type Product, 
+  type PriceAlert,
+  extractPrice,
+  loadPriceAlerts,
+  savePriceAlerts 
+} from "./ProductCard";
 
 const WISHLIST_STORAGE_KEY = "commerce-wishlist";
 
@@ -12,6 +21,12 @@ type Message = {
   role: "user" | "assistant";
   content: string;
   products?: Product[];
+};
+
+type PriceDrop = {
+  product: Product;
+  oldPrice: number;
+  newPrice: number;
 };
 
 const COMMERCE_CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/commerce-chat`;
@@ -51,6 +66,9 @@ export function CommerceWidget() {
   const [showComparison, setShowComparison] = useState(false);
   const [wishlist, setWishlist] = useState<Product[]>(loadWishlist);
   const [showWishlist, setShowWishlist] = useState(false);
+  const [priceAlerts, setPriceAlerts] = useState<PriceAlert[]>(loadPriceAlerts);
+  const [priceDrops, setPriceDrops] = useState<PriceDrop[]>([]);
+  const [hasNewAlerts, setHasNewAlerts] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -66,6 +84,76 @@ export function CommerceWidget() {
   useEffect(() => {
     saveWishlist(wishlist);
   }, [wishlist]);
+
+  // Persist price alerts to localStorage when they change
+  useEffect(() => {
+    savePriceAlerts(priceAlerts);
+  }, [priceAlerts]);
+
+  // Simulate price check on widget open (in real app, this would be a backend job)
+  useEffect(() => {
+    if (isOpen && priceAlerts.length > 0 && wishlist.length > 0) {
+      // Simulate checking for price drops (10% chance per alert for demo)
+      const drops: PriceDrop[] = [];
+      
+      priceAlerts.forEach(alert => {
+        const product = wishlist.find(p => p.url === alert.productUrl);
+        if (product) {
+          // Simulate a random price drop for demo purposes
+          const currentPrice = extractPrice(product.price);
+          if (Math.random() < 0.1 && currentPrice > alert.targetPrice) {
+            // Simulate price dropped to or below target
+            const newPrice = alert.targetPrice * (0.95 + Math.random() * 0.05);
+            drops.push({
+              product: { ...product, price: `$${newPrice.toFixed(2)}` },
+              oldPrice: currentPrice,
+              newPrice
+            });
+          }
+        }
+      });
+
+      if (drops.length > 0) {
+        setPriceDrops(drops);
+        setHasNewAlerts(true);
+        toast({
+          title: "🎉 Price Drop Alert!",
+          description: `${drops.length} item${drops.length > 1 ? 's' : ''} on your wishlist dropped in price!`,
+        });
+      }
+    }
+  }, [isOpen]);
+
+  // Set a price alert
+  const handleSetPriceAlert = useCallback((product: Product, targetPrice: number) => {
+    const currentPrice = extractPrice(product.price);
+    
+    setPriceAlerts(prev => {
+      // Remove any existing alert for this product
+      const filtered = prev.filter(a => a.productUrl !== product.url);
+      
+      return [...filtered, {
+        productUrl: product.url,
+        targetPrice,
+        originalPrice: currentPrice,
+        createdAt: new Date().toISOString()
+      }];
+    });
+    
+    toast({
+      title: "Price Alert Set! 🔔",
+      description: `We'll notify you when ${product.title.slice(0, 30)}... drops below $${targetPrice.toFixed(2)}`,
+    });
+  }, [toast]);
+
+  // Remove a price alert
+  const handleRemovePriceAlert = useCallback((productUrl: string) => {
+    setPriceAlerts(prev => prev.filter(a => a.productUrl !== productUrl));
+    toast({
+      title: "Alert Removed",
+      description: "Price alert has been removed.",
+    });
+  }, [toast]);
 
   // Detect if message is a product search request
   const isProductSearch = (text: string): boolean => {
@@ -294,8 +382,15 @@ export function CommerceWidget() {
       {showWishlist && (
         <WishlistPanel
           products={wishlist}
-          onClose={() => setShowWishlist(false)}
+          onClose={() => {
+            setShowWishlist(false);
+            setHasNewAlerts(false);
+          }}
           onRemove={handleRemoveFromWishlist}
+          priceAlerts={priceAlerts}
+          onSetAlert={handleSetPriceAlert}
+          onRemoveAlert={handleRemovePriceAlert}
+          priceDrops={priceDrops}
         />
       )}
 
@@ -344,6 +439,9 @@ export function CommerceWidget() {
                 <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-white text-pink-500 text-xs font-bold flex items-center justify-center">
                   {wishlist.length}
                 </span>
+              )}
+              {hasNewAlerts && (
+                <span className="absolute -top-1 -left-1 h-3 w-3 rounded-full bg-green-500 animate-pulse" />
               )}
             </Button>
             <Button
