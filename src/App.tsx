@@ -12,6 +12,8 @@ import Orders from "./pages/Orders";
 import Conversations from "./pages/Conversations";
 import LiveChat from "./pages/LiveChat";
 import Analytics from "./pages/Analytics";
+import Shop from "./pages/Shop";
+import ProductDetail from "./pages/ProductDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,8 +26,15 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            {/* Public Shop Routes */}
+            <Route path="/" element={<Shop />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/product/:handle" element={<ProductDetail />} />
+            
+            {/* Auth */}
             <Route path="/auth" element={<Auth />} />
+            
+            {/* Protected Dashboard Routes */}
             <Route path="/dashboard" element={
               <ProtectedRoute>
                 <Dashboard />
@@ -53,7 +62,6 @@ const App = () => (
             } />
             <Route path="*" element={<NotFound />} />
           </Routes>
-          <ChatWidget />
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
