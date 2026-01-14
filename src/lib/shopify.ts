@@ -13,8 +13,15 @@ export interface ShopifyProduct {
     title: string;
     description: string;
     handle: string;
+    productType: string;
+    vendor: string;
+    tags: string[];
     priceRange: {
       minVariantPrice: {
+        amount: string;
+        currencyCode: string;
+      };
+      maxVariantPrice: {
         amount: string;
         currencyCode: string;
       };
@@ -51,6 +58,19 @@ export interface ShopifyProduct {
   };
 }
 
+export interface ShopifyCollection {
+  node: {
+    id: string;
+    title: string;
+    handle: string;
+    description: string;
+    image?: {
+      url: string;
+      altText: string | null;
+    };
+  };
+}
+
 // GraphQL Queries
 const STOREFRONT_PRODUCTS_QUERY = `
   query GetProducts($first: Int!, $query: String) {
@@ -61,8 +81,15 @@ const STOREFRONT_PRODUCTS_QUERY = `
           title
           description
           handle
+          productType
+          vendor
+          tags
           priceRange {
             minVariantPrice {
+              amount
+              currencyCode
+            }
+            maxVariantPrice {
               amount
               currencyCode
             }
@@ -109,8 +136,15 @@ const STOREFRONT_PRODUCT_BY_HANDLE_QUERY = `
       title
       description
       handle
+      productType
+      vendor
+      tags
       priceRange {
         minVariantPrice {
+          amount
+          currencyCode
+        }
+        maxVariantPrice {
           amount
           currencyCode
         }
@@ -143,6 +177,86 @@ const STOREFRONT_PRODUCT_BY_HANDLE_QUERY = `
       options {
         name
         values
+      }
+    }
+  }
+`;
+
+const STOREFRONT_COLLECTIONS_QUERY = `
+  query GetCollections($first: Int!) {
+    collections(first: $first) {
+      edges {
+        node {
+          id
+          title
+          handle
+          description
+          image {
+            url
+            altText
+          }
+        }
+      }
+    }
+  }
+`;
+
+const STOREFRONT_COLLECTION_PRODUCTS_QUERY = `
+  query GetCollectionProducts($handle: String!, $first: Int!) {
+    collectionByHandle(handle: $handle) {
+      id
+      title
+      products(first: $first) {
+        edges {
+          node {
+            id
+            title
+            description
+            handle
+            productType
+            vendor
+            tags
+            priceRange {
+              minVariantPrice {
+                amount
+                currencyCode
+              }
+              maxVariantPrice {
+                amount
+                currencyCode
+              }
+            }
+            images(first: 5) {
+              edges {
+                node {
+                  url
+                  altText
+                }
+              }
+            }
+            variants(first: 10) {
+              edges {
+                node {
+                  id
+                  title
+                  price {
+                    amount
+                    currencyCode
+                  }
+                  availableForSale
+                  selectedOptions {
+                    name
+                    value
+                  }
+                }
+              }
+            }
+            options {
+              name
+              values
+            }
+          }
+        }
       }
     }
   }
@@ -250,6 +364,44 @@ export async function fetchProductByHandle(handle: string): Promise<ShopifyProdu
   }
 }
 
+// Fetch collections
+export async function fetchCollections(first: number = 10): Promise<ShopifyCollection[]> {
+  try {
+    const data = await storefrontApiRequest(STOREFRONT_COLLECTIONS_QUERY, { first });
+    if (!data) return [];
+    return data.data.collections.edges;
+  } catch (error) {
+    console.error('Error fetching collections:', error);
+    return [];
+  }
+}
+
+// Fetch products by collection
+export async function fetchCollectionProducts(handle: string, first: number = 20): Promise<ShopifyProduct[]> {
+  try {
+    const data = await storefrontApiRequest(STOREFRONT_COLLECTION_PRODUCTS_QUERY, { handle, first });
+    if (!data || !data.data.collectionByHandle) return [];
+    return data.data.collectionByHandle.products.edges;
+  } catch (error) {
+    console.error('Error fetching collection products:', error);
+    return [];
+  }
+}
+
+// Search products
+export async function searchProducts(searchQuery: string, first: number = 10): Promise<ShopifyProduct[]> {
+  try {
+    // Build search query for Shopify
+    const query = searchQuery.trim();
+    const data = await storefrontApiRequest(STOREFRONT_PRODUCTS_QUERY, { first, query: `title:*${query}* OR description:*${query}* OR tag:*${query}*` });
+    if (!data) return [];
+    return data.data.products.edges;
+  } catch (error) {
+    console.error('Error searching products:', error);
+    return [];
+  }
+}
+
 // Create checkout via Shopify Payments
 export async function createStorefrontCheckout(items: Array<{ variantId: string; quantity: number }>): Promise<string> {
   try {
@@ -293,4 +445,40 @@ export function formatPrice(amount: string, currencyCode: string): string {
     style: 'currency',
     currency: currencyCode,
   }).format(numAmount);
+}
+
+// Get unique product types from products
+export function getProductTypes(products: ShopifyProduct[]): string[] {
+  const types = new Set<string>();
+  products.forEach(p => {
+    if (p.node.productType) {
+      types.add(p.node.productType);
+    }
+  });
+  return Array.from(types).sort();
+}
+
+// Get unique vendors from products
+export function getVendors(products: ShopifyProduct[]): string[] {
+  const vendors = new Set<string>();
+  products.forEach(p => {
+    if (p.node.vendor) {
+      vendors.add(p.node.vendor);
+    }
+  });
+  return Array.from(vendors).sort();
+}
+
+// Get price range from products
+export function getPriceRange(products: ShopifyProduct[]): { min: number; max: number } {
+  let min = Infinity;
+  let max = 0;
+  
+  products.forEach(p => {
+    const price = parseFloat(p.node.priceRange.minVariantPrice.amount);
+    if (price < min) min = price;
+    if (price > max) max = price;
+  });
+  
+  return { min: min === Infinity ? 0 : min, max };
 }
