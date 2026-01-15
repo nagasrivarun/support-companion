@@ -34,29 +34,29 @@ const App = () => (
             {/* Auth */}
             <Route path="/auth" element={<Auth />} />
             
-            {/* Protected Dashboard Routes */}
+            {/* Protected Dashboard Routes - Staff only (admin/agent) */}
             <Route path="/dashboard" element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRoles={['admin', 'agent']}>
                 <Dashboard />
               </ProtectedRoute>
             } />
             <Route path="/orders" element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRoles={['admin', 'agent']}>
                 <Orders />
               </ProtectedRoute>
             } />
             <Route path="/conversations" element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRoles={['admin', 'agent']}>
                 <Conversations />
               </ProtectedRoute>
             } />
             <Route path="/live-chat" element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRoles={['admin', 'agent']}>
                 <LiveChat />
               </ProtectedRoute>
             } />
             <Route path="/analytics" element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRoles={['admin', 'agent']}>
                 <Analytics />
               </ProtectedRoute>
             } />
