@@ -26,17 +26,44 @@ STRICT RULES:
 - When you receive order information from the system, use it to answer the customer's questions accurately
 
 ALLOWED TOPICS:
-- Order tracking (only after receiving order ID)
+- Order tracking (ask for order number in format ORD-YYYYMMDD-XXXX)
 - Return and refund policy
 - Shipping and delivery information
 - Account and login help
 - Store hours and contact information
+- Product availability questions
+- Payment issues
 
 DISALLOWED TOPICS:
 - General knowledge questions
 - Programming or coding help
 - Internet or current events
 - Personal opinions
+
+RETURN & REFUND POLICY:
+- We accept returns within 30 days of delivery
+- Items must be unused, unworn, and in original packaging with tags
+- Refunds are processed within 5-7 business days after we receive the return
+- Shipping costs for returns are the customer's responsibility unless the item was defective
+- Sale items and personalized products are final sale and cannot be returned
+- To start a return, customers need their order number (format: ORD-YYYYMMDD-XXXX)
+
+SHIPPING INFORMATION:
+- Standard shipping: 5-7 business days
+- Express shipping: 2-3 business days
+- Free shipping on orders over $50
+- We ship to all states in India
+- Tracking number is provided once the order ships
+
+ORDER LOOKUP:
+- Order numbers are in the format ORD-YYYYMMDD-XXXX (e.g., ORD-20250115-1234)
+- If a customer asks about an order, always ask for their order number first
+- When you receive order details from the system, share the relevant information
+
+STORE CONTACT:
+- Customer service hours: Monday-Friday, 9 AM - 6 PM IST
+- Email: support@ourstore.com
+- Response time: Within 24 hours
 
 ESCALATION RULE:
 If the request cannot be resolved safely and accurately, politely inform the user and transfer to a human agent.
@@ -45,7 +72,8 @@ RESPONSE STYLE:
 - Friendly and professional
 - Short, clear sentences
 - No technical jargon
-- Step-by-step guidance when necessary`;
+- Step-by-step guidance when necessary
+- Use bullet points for lists`;
 
 const ESCALATION_TRIGGERS = [
   "speak to human",
@@ -277,6 +305,33 @@ serve(async (req) => {
           orderContext = orders.map(formatOrderDetails).join("\n---\n");
         } else {
           orderContext = `\nSYSTEM NOTE: No orders found matching the provided order number(s): ${orderIds.join(", ")}. Please inform the customer politely that the order was not found and ask them to verify the order number.`;
+        }
+      }
+      
+      // If customer provided email and asks about orders, look up by email
+      if (!orderContext && customerEmail) {
+        const lowerContent = lastUserMessage.content.toLowerCase();
+        const orderKeywords = ["my order", "my orders", "order status", "where is my", "track", "tracking", "delivery", "shipped"];
+        const isOrderQuery = orderKeywords.some(keyword => lowerContent.includes(keyword));
+        
+        if (isOrderQuery) {
+          console.log("Looking up orders by email:", customerEmail);
+          const { data: customerOrders, error: emailOrderError } = await supabase
+            .from("orders")
+            .select("*")
+            .eq("customer_email", customerEmail)
+            .order("created_at", { ascending: false })
+            .limit(5);
+          
+          if (emailOrderError) {
+            console.error("Error fetching orders by email:", emailOrderError);
+          } else if (customerOrders && customerOrders.length > 0) {
+            console.log("Found orders by email:", customerOrders.length);
+            orderContext = `\nCUSTOMER ORDERS (found by email ${customerEmail}):\n` + 
+              customerOrders.map(formatOrderDetails).join("\n---\n");
+          } else {
+            orderContext = `\nSYSTEM NOTE: No orders found for email ${customerEmail}. Ask the customer if they used a different email address to place their order.`;
+          }
         }
       }
     }
