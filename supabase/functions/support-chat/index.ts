@@ -137,8 +137,8 @@ serve(async (req) => {
       }
     }
 
-    // Validate optional fields
-    if (conversationId !== undefined && typeof conversationId !== "string") {
+    // Validate optional fields (allow null or undefined for new conversations)
+    if (conversationId !== undefined && conversationId !== null && typeof conversationId !== "string") {
       return new Response(
         JSON.stringify({ error: "Invalid conversation ID" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -152,7 +152,7 @@ serve(async (req) => {
       );
     }
 
-    if (customerEmail !== undefined && typeof customerEmail !== "string") {
+    if (customerEmail !== undefined && customerEmail !== null && typeof customerEmail !== "string") {
       return new Response(
         JSON.stringify({ error: "Invalid customer email" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
