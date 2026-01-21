@@ -1,6 +1,8 @@
 import { ShopHeader } from "@/components/shop/ShopHeader";
 import { ProductGrid } from "@/components/shop/ProductGrid";
 import { ChatWidget } from "@/components/chat/ChatWidget";
+import { Newsletter } from "@/components/home/Newsletter";
+import { FAQ } from "@/components/home/FAQ";
 
 const Shop = () => {
   return (
@@ -29,6 +31,12 @@ const Shop = () => {
           <ProductGrid />
         </div>
       </section>
+
+      {/* Newsletter Section */}
+      <Newsletter />
+
+      {/* FAQ Section */}
+      <FAQ />
 
       {/* Support Chat Widget */}
       <ChatWidget />

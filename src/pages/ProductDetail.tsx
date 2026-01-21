@@ -19,6 +19,7 @@ import { ShopifyProduct, fetchProductByHandle, formatPrice } from "@/lib/shopify
 import { useCartStore, CartItem } from "@/stores/cartStore";
 import { toast } from "sonner";
 import { ChatWidget } from "@/components/chat/ChatWidget";
+import { ProductReviews } from "@/components/product/ProductReviews";
 
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
@@ -266,18 +267,24 @@ const ProductDetail = () => {
             <div className="border-t border-border pt-6 space-y-4">
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <CreditCard className="h-5 w-5 text-primary" />
-                <span>Secure checkout with Shopify Payments</span>
+                <span>Secure checkout with Shopify Payments & PayPal</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Truck className="h-5 w-5 text-primary" />
-                <span>Fast shipping across India</span>
+                <span>Worldwide shipping to 8+ countries</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Shield className="h-5 w-5 text-primary" />
-                <span>100% secure payment</span>
+                <span>30-day return policy</span>
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Reviews Section */}
+        <div className="mt-16 border-t border-border pt-12">
+          <h2 className="text-2xl font-bold text-foreground mb-8">Customer Reviews</h2>
+          <ProductReviews productHandle={handle || ""} productTitle={product.title} />
         </div>
       </div>
 

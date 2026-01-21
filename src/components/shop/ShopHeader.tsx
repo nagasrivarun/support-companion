@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import { CartDrawer } from "./CartDrawer";
-import { Store, MessageCircle, LayoutDashboard } from "lucide-react";
+import { Store, MessageCircle, LayoutDashboard, Truck, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
 
 export const ShopHeader = () => {
+  const { user } = useAuth();
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4">
@@ -28,17 +31,28 @@ export const ShopHeader = () => {
             >
               Products
             </Link>
+            <Link 
+              to="/shipping" 
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Shipping
+            </Link>
           </nav>
 
           {/* Actions */}
           <div className="flex items-center gap-2">
-            <Link to="/">
-              <Button variant="ghost" size="icon" className="hidden sm:inline-flex">
-                <MessageCircle className="h-5 w-5" />
+            <Link to="/shipping">
+              <Button variant="ghost" size="icon" className="hidden sm:inline-flex" title="Shipping Info">
+                <Truck className="h-5 w-5" />
+              </Button>
+            </Link>
+            <Link to={user ? "/account" : "/auth"}>
+              <Button variant="ghost" size="icon" title={user ? "My Account" : "Sign In"}>
+                <User className="h-5 w-5" />
               </Button>
             </Link>
             <Link to="/dashboard">
-              <Button variant="ghost" size="icon" className="hidden sm:inline-flex">
+              <Button variant="ghost" size="icon" className="hidden sm:inline-flex" title="Dashboard">
                 <LayoutDashboard className="h-5 w-5" />
               </Button>
             </Link>

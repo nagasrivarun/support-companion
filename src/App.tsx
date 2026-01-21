@@ -14,6 +14,8 @@ import LiveChat from "./pages/LiveChat";
 import Analytics from "./pages/Analytics";
 import Shop from "./pages/Shop";
 import ProductDetail from "./pages/ProductDetail";
+import Shipping from "./pages/Shipping";
+import Account from "./pages/Account";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,9 +32,13 @@ const App = () => (
             <Route path="/" element={<Shop />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/product/:handle" element={<ProductDetail />} />
+            <Route path="/shipping" element={<Shipping />} />
             
             {/* Auth */}
             <Route path="/auth" element={<Auth />} />
+            
+            {/* Customer Account - requires login */}
+            <Route path="/account" element={<Account />} />
             
             {/* Protected Dashboard Routes - Staff only (admin/agent) */}
             <Route path="/dashboard" element={
