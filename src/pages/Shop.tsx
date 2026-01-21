@@ -16,7 +16,7 @@ const Shop = () => {
             </h1>
             <p className="text-lg text-muted-foreground">
               Discover quality products with secure checkout powered by Shopify Payments.
-              Fast shipping available across India.
+              Fast shipping to USA, UK, Canada, Australia, Germany, France, UAE & India.
             </p>
           </div>
         </div>
