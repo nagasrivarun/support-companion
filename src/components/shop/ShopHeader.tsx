@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { CartDrawer } from "./CartDrawer";
-import { Store, MessageCircle, LayoutDashboard, Truck, User } from "lucide-react";
+import { Store, Heart, LayoutDashboard, Truck, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -41,6 +41,11 @@ export const ShopHeader = () => {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
+            <Link to="/wishlist">
+              <Button variant="ghost" size="icon" title="Wishlist">
+                <Heart className="h-5 w-5" />
+              </Button>
+            </Link>
             <Link to="/shipping">
               <Button variant="ghost" size="icon" className="hidden sm:inline-flex" title="Shipping Info">
                 <Truck className="h-5 w-5" />
