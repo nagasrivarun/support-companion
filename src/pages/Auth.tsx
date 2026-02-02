@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
+import { GoogleLoginButton } from '@/components/auth/GoogleLoginButton';
+import { Separator } from '@/components/ui/separator';
 import { z } from 'zod';
 
 // Strong password validation to compensate for lack of Leaked Password Protection
@@ -219,6 +221,21 @@ export default function Auth() {
               )}
             </Button>
           </form>
+
+          <div className="mt-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <Separator className="w-full" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+              </div>
+            </div>
+            
+            <div className="mt-6">
+              <GoogleLoginButton />
+            </div>
+          </div>
 
           <div className="mt-6 text-center">
             <button
