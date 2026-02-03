@@ -12,6 +12,7 @@ import Orders from "./pages/Orders";
 import Conversations from "./pages/Conversations";
 import LiveChat from "./pages/LiveChat";
 import Analytics from "./pages/Analytics";
+import Automations from "./pages/Automations";
 import Shop from "./pages/Shop";
 import ProductDetail from "./pages/ProductDetail";
 import Shipping from "./pages/Shipping";
@@ -68,6 +69,11 @@ const App = () => (
             <Route path="/analytics" element={
               <ProtectedRoute requiredRoles={['admin', 'agent']}>
                 <Analytics />
+              </ProtectedRoute>
+            } />
+            <Route path="/automations" element={
+              <ProtectedRoute requiredRoles={['admin', 'agent']}>
+                <Automations />
               </ProtectedRoute>
             } />
             <Route path="*" element={<NotFound />} />
