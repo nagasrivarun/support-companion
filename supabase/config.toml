@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.commerce-search]
 verify_jwt = false
+
+[functions.make-automation]
+verify_jwt = false

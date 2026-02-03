@@ -14,6 +14,122 @@ export type Database = {
   }
   public: {
     Tables: {
+      abandoned_carts: {
+        Row: {
+          abandoned_at: string | null
+          cart_items: Json
+          created_at: string | null
+          currency_code: string | null
+          customer_email: string | null
+          id: string
+          recovered: boolean | null
+          recovery_email_sent: boolean | null
+          session_id: string
+          total_amount: number | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          abandoned_at?: string | null
+          cart_items?: Json
+          created_at?: string | null
+          currency_code?: string | null
+          customer_email?: string | null
+          id?: string
+          recovered?: boolean | null
+          recovery_email_sent?: boolean | null
+          session_id: string
+          total_amount?: number | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          abandoned_at?: string | null
+          cart_items?: Json
+          created_at?: string | null
+          currency_code?: string | null
+          customer_email?: string | null
+          id?: string
+          recovered?: boolean | null
+          recovery_email_sent?: boolean | null
+          session_id?: string
+          total_amount?: number | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      automation_logs: {
+        Row: {
+          created_at: string | null
+          error_message: string | null
+          event_type: string
+          id: string
+          payload: Json
+          response_data: Json | null
+          status: string
+          webhook_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          error_message?: string | null
+          event_type: string
+          id?: string
+          payload?: Json
+          response_data?: Json | null
+          status: string
+          webhook_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          error_message?: string | null
+          event_type?: string
+          id?: string
+          payload?: Json
+          response_data?: Json | null
+          status?: string
+          webhook_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automation_logs_webhook_id_fkey"
+            columns: ["webhook_id"]
+            isOneToOne: false
+            referencedRelation: "automation_webhooks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      automation_webhooks: {
+        Row: {
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          updated_at: string | null
+          user_id: string
+          webhook_type: string
+          webhook_url: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          updated_at?: string | null
+          user_id: string
+          webhook_type: string
+          webhook_url: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          updated_at?: string | null
+          user_id?: string
+          webhook_type?: string
+          webhook_url?: string
+        }
+        Relationships: []
+      }
       canned_responses: {
         Row: {
           category: string | null
