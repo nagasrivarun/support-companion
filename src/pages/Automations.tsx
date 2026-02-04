@@ -333,6 +333,41 @@ export default function Automations() {
           </TabsList>
 
           <TabsContent value="webhooks" className="space-y-4">
+            {/* Mock Testing Card */}
+            <Card className="bg-primary/5 border-primary/20">
+              <CardContent className="pt-6">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-lg bg-primary/10">
+                      <Play className="h-6 w-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold">Test Without Make.com</h3>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Use the built-in mock webhook to test automations locally. 
+                        Click the button to auto-fill all webhook URLs with the mock endpoint.
+                      </p>
+                    </div>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => {
+                      const mockUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/mock-webhook`;
+                      WEBHOOK_TYPES.forEach(({ type }) => {
+                        updateFormData(type, 'url', mockUrl);
+                      });
+                      toast({
+                        title: 'Mock URLs Applied',
+                        description: 'All webhooks now point to the mock endpoint. Toggle them active and save to test.',
+                      });
+                    }}
+                  >
+                    Use Mock Webhook
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
             <Card className="bg-muted/50 border-dashed">
               <CardContent className="pt-6">
                 <div className="flex items-start gap-4">
