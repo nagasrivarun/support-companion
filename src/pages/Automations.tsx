@@ -19,10 +19,12 @@ import {
   Clock,
   ExternalLink,
   Loader2,
-  Save
+  Save,
+  Play
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useAutomation } from '@/hooks/useAutomation';
 
 interface Webhook {
   id: string;
@@ -79,8 +81,16 @@ export default function Automations() {
   const [logs, setLogs] = useState<AutomationLog[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState<string | null>(null);
+  const [testing, setTesting] = useState<string | null>(null);
   const [formData, setFormData] = useState<Record<string, { url: string; active: boolean }>>({});
   const { toast } = useToast();
+  const {
+    triggerOrderNotification,
+    triggerAbandonedCartRecovery,
+    triggerProductRecommendation,
+    triggerReviewRequest,
+    triggerCustomerSupport,
+  } = useAutomation();
 
   useEffect(() => {
     fetchWebhooks();
@@ -209,6 +219,90 @@ export default function Automations() {
     }
   };
 
+  const testAutomation = async (type: string) => {
+    if (!formData[type]?.active || !formData[type]?.url) {
+      toast({
+        variant: 'destructive',
+        title: 'Cannot Test',
+        description: 'Please save and activate the webhook before testing',
+      });
+      return;
+    }
+
+    setTesting(type);
+    let success = false;
+
+    try {
+      switch (type) {
+        case 'order_notification':
+          success = await triggerOrderNotification({
+            orderNumber: 'TEST-' + Date.now(),
+            customerName: 'Test Customer',
+            customerEmail: 'test@example.com',
+            totalAmount: 99.99,
+            items: [{ name: 'Test Product', quantity: 1, price: 99.99 }],
+            shippingAddress: '123 Test Street, Test City, TC 12345',
+          });
+          break;
+        case 'customer_support':
+          success = await triggerCustomerSupport({
+            customerEmail: 'test@example.com',
+            customerName: 'Test Customer',
+            message: 'This is a test support request from the automation dashboard.',
+            category: 'general',
+          });
+          break;
+        case 'abandoned_cart':
+          success = await triggerAbandonedCartRecovery({
+            customerEmail: 'test@example.com',
+            items: [
+              { productId: 'test-1', title: 'Test Product', price: 49.99, quantity: 2 },
+            ],
+            totalAmount: 99.98,
+            cartUrl: window.location.origin + '/shop',
+          });
+          break;
+        case 'product_recommendation':
+          success = await triggerProductRecommendation({
+            customerEmail: 'test@example.com',
+            recentPurchases: [{ productId: 'prod-1', title: 'Previous Purchase' }],
+            viewedProducts: [{ productId: 'prod-2', title: 'Viewed Item' }],
+            preferences: ['electronics', 'fashion'],
+          });
+          break;
+        case 'review_request':
+          success = await triggerReviewRequest({
+            customerEmail: 'test@example.com',
+            customerName: 'Test Customer',
+            orderNumber: 'ORD-12345',
+            products: [{ productId: 'prod-1', title: 'Test Product', handle: 'test-product' }],
+            orderDate: new Date().toISOString(),
+          });
+          break;
+      }
+
+      toast({
+        title: success ? 'Test Sent' : 'Test Failed',
+        description: success 
+          ? 'Test payload sent to webhook successfully' 
+          : 'Webhook not configured or failed to respond',
+        variant: success ? 'default' : 'destructive',
+      });
+
+      // Refresh logs after test
+      setTimeout(fetchLogs, 1000);
+    } catch (error) {
+      console.error('Test error:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Test Failed',
+        description: 'An error occurred while testing the automation',
+      });
+    } finally {
+      setTesting(null);
+    }
+  };
+
   if (loading) {
     return (
       <DashboardLayout>
@@ -306,6 +400,18 @@ export default function Automations() {
                           <Save className="h-4 w-4" />
                         )}
                         <span className="ml-2">Save</span>
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => testAutomation(type)}
+                        disabled={testing === type || !formData[type]?.active || !formData[type]?.url}
+                      >
+                        {testing === type ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <Play className="h-4 w-4" />
+                        )}
+                        <span className="ml-2">Test</span>
                       </Button>
                     </div>
                   </CardContent>
