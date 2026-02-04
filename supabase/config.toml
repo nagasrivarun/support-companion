@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.make-automation]
 verify_jwt = false
+
+[functions.mock-webhook]
+verify_jwt = false
