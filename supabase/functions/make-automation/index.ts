@@ -37,17 +37,18 @@ async function triggerMakeWebhook(
       }),
     });
 
+    const responseText = await response.text();
+
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Make.com webhook error:", response.status, errorText);
-      return { success: false, error: `HTTP ${response.status}: ${errorText}` };
+      console.error("Make.com webhook error:", response.status, responseText);
+      return { success: false, error: `HTTP ${response.status}: ${responseText}` };
     }
 
     let data;
     try {
-      data = await response.json();
+      data = JSON.parse(responseText);
     } catch {
-      data = await response.text();
+      data = responseText;
     }
 
     console.log("Make.com webhook success:", data);
