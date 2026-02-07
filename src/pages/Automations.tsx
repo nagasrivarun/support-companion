@@ -457,11 +457,36 @@ export default function Automations() {
 
           <TabsContent value="logs">
             <Card>
-              <CardHeader>
-                <CardTitle>Recent Automation Activity</CardTitle>
-                <CardDescription>
-                  View the history of triggered automations and their status
-                </CardDescription>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle>Recent Automation Activity</CardTitle>
+                  <CardDescription>
+                    View the history of triggered automations and their status
+                  </CardDescription>
+                </div>
+                {logs.length > 0 && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={async () => {
+                      try {
+                        const { error } = await supabase
+                          .from('automation_logs')
+                          .delete()
+                          .neq('id', '00000000-0000-0000-0000-000000000000');
+                        if (error) throw error;
+                        setLogs([]);
+                        toast({ title: 'Cleared', description: 'All automation logs have been removed' });
+                      } catch (error) {
+                        console.error('Error clearing logs:', error);
+                        toast({ variant: 'destructive', title: 'Error', description: 'Failed to clear logs' });
+                      }
+                    }}
+                  >
+                    <XCircle className="h-4 w-4 mr-1" />
+                    Clear Logs
+                  </Button>
+                )}
               </CardHeader>
               <CardContent>
                 {logs.length === 0 ? (
