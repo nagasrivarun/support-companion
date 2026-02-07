@@ -18,14 +18,24 @@ interface TriggerRequest {
   payload: Record<string, unknown>;
 }
 
+function normalizeWebhookUrl(url: string): string {
+  let normalized = url.trim();
+  // If URL doesn't start with http(s), add https://
+  if (!normalized.startsWith("http://") && !normalized.startsWith("https://")) {
+    normalized = "https://" + normalized;
+  }
+  return normalized;
+}
+
 async function triggerMakeWebhook(
   webhookUrl: string,
   payload: Record<string, unknown>
 ): Promise<{ success: boolean; data?: unknown; error?: string }> {
   try {
-    console.log("Triggering Make.com webhook:", webhookUrl);
+    const normalizedUrl = normalizeWebhookUrl(webhookUrl);
+    console.log("Triggering Make.com webhook:", normalizedUrl);
     
-    const response = await fetch(webhookUrl, {
+    const response = await fetch(normalizedUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
