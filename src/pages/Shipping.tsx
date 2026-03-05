@@ -10,89 +10,12 @@ const shippingRegions = [
     flag: "🇮🇳",
     standard: "5-7 business days",
     express: "2-3 business days",
-    freeThreshold: "$50",
+    freeThreshold: "₹4,000",
     standardRate: "₹99",
     expressRate: "₹249",
     customs: "No customs duties for domestic orders",
     notes: "Free shipping on orders over ₹4,000"
   },
-  {
-    region: "United States",
-    flag: "🇺🇸",
-    standard: "7-10 business days",
-    express: "3-5 business days",
-    freeThreshold: "$75",
-    standardRate: "$9.99",
-    expressRate: "$24.99",
-    customs: "Orders under $800 are duty-free",
-    notes: "Tracking available for all shipments"
-  },
-  {
-    region: "United Kingdom",
-    flag: "🇬🇧",
-    standard: "7-12 business days",
-    express: "4-6 business days",
-    freeThreshold: "£60",
-    standardRate: "£7.99",
-    expressRate: "£19.99",
-    customs: "VAT may apply on orders over £135",
-    notes: "Royal Mail or DHL delivery"
-  },
-  {
-    region: "Canada",
-    flag: "🇨🇦",
-    standard: "8-12 business days",
-    express: "4-6 business days",
-    freeThreshold: "CAD $100",
-    standardRate: "CAD $12.99",
-    expressRate: "CAD $29.99",
-    customs: "Duties may apply on orders over CAD $20",
-    notes: "Canada Post or FedEx delivery"
-  },
-  {
-    region: "Australia",
-    flag: "🇦🇺",
-    standard: "10-14 business days",
-    express: "5-7 business days",
-    freeThreshold: "AUD $100",
-    standardRate: "AUD $14.99",
-    expressRate: "AUD $34.99",
-    customs: "GST applies on orders over AUD $1,000",
-    notes: "Australia Post delivery"
-  },
-  {
-    region: "Germany",
-    flag: "🇩🇪",
-    standard: "7-10 business days",
-    express: "4-5 business days",
-    freeThreshold: "€70",
-    standardRate: "€8.99",
-    expressRate: "€22.99",
-    customs: "EU VAT included in price",
-    notes: "DHL or Deutsche Post delivery"
-  },
-  {
-    region: "France",
-    flag: "🇫🇷",
-    standard: "7-10 business days",
-    express: "4-5 business days",
-    freeThreshold: "€70",
-    standardRate: "€8.99",
-    expressRate: "€22.99",
-    customs: "EU VAT included in price",
-    notes: "La Poste or DHL delivery"
-  },
-  {
-    region: "UAE",
-    flag: "🇦🇪",
-    standard: "5-8 business days",
-    express: "2-4 business days",
-    freeThreshold: "AED 300",
-    standardRate: "AED 39",
-    expressRate: "AED 89",
-    customs: "VAT 5% applies to all orders",
-    notes: "Aramex or Emirates Post delivery"
-  }
 ];
 
 const Shipping = () => {
@@ -111,7 +34,7 @@ const Shipping = () => {
               Shipping Information
             </h1>
             <p className="text-lg text-muted-foreground">
-              We ship worldwide! Find delivery times, rates, and customs information for your region.
+              We currently ship across India! Find delivery times, rates, and more details below. International shipping coming soon.
             </p>
           </div>
         </div>
@@ -124,8 +47,8 @@ const Shipping = () => {
             <div className="flex items-center gap-3 p-4 bg-card rounded-lg border border-border">
               <Globe className="h-8 w-8 text-primary flex-shrink-0" />
               <div>
-                <p className="font-semibold text-foreground">8 Countries</p>
-                <p className="text-sm text-muted-foreground">Worldwide shipping</p>
+                <p className="font-semibold text-foreground">All India</p>
+                <p className="text-sm text-muted-foreground">Pan-India delivery</p>
               </div>
             </div>
             <div className="flex items-center gap-3 p-4 bg-card rounded-lg border border-border">
@@ -145,7 +68,7 @@ const Shipping = () => {
             <div className="flex items-center gap-3 p-4 bg-card rounded-lg border border-border">
               <CreditCard className="h-8 w-8 text-primary flex-shrink-0" />
               <div>
-                <p className="font-semibold text-foreground">PayPal & Cards</p>
+                <p className="font-semibold text-foreground">UPI, Cards & More</p>
                 <p className="text-sm text-muted-foreground">Secure payments</p>
               </div>
             </div>
@@ -226,11 +149,10 @@ const Shipping = () => {
               </div>
               
               <div className="bg-card p-6 rounded-lg border border-border">
-                <h3 className="font-semibold text-foreground mb-2">Customs & Duties</h3>
+                <h3 className="font-semibold text-foreground mb-2">No Hidden Charges</h3>
                 <p className="text-muted-foreground text-sm">
-                  International orders may be subject to import duties and taxes. These charges are 
-                  the responsibility of the recipient and vary by country. Check with your local 
-                  customs office for specific rates.
+                  All prices include applicable taxes. No customs or import duties for domestic orders 
+                  within India. What you see is what you pay.
                 </p>
               </div>
               
@@ -243,10 +165,10 @@ const Shipping = () => {
               </div>
               
               <div className="bg-card p-6 rounded-lg border border-border">
-                <h3 className="font-semibold text-foreground mb-2">Expanding Soon</h3>
+                <h3 className="font-semibold text-foreground mb-2">International Shipping — Coming Soon!</h3>
                 <p className="text-muted-foreground text-sm">
-                  We're constantly adding new shipping destinations! If your country isn't listed, 
-                  contact us and we'll do our best to accommodate your order.
+                  We're working on expanding to more countries soon. Stay tuned for international 
+                  shipping updates! Subscribe to our newsletter to be the first to know.
                 </p>
               </div>
             </div>
