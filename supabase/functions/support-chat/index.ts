@@ -49,27 +49,23 @@ RETURN & REFUND POLICY:
 - To start a return, customers need their order number (format: ORD-YYYYMMDD-XXXX)
 
 SHIPPING INFORMATION:
-- Standard shipping: 5-7 business days (domestic)
-- Express shipping: 2-3 business days (domestic)
-- International shipping: 7-14 business days
-- Free shipping on orders over $50
+- Standard shipping: 5-7 business days (within India)
+- Express shipping: 2-3 business days (within India)
+- Free shipping on orders over ₹4,000
+- Standard shipping rate: ₹99
+- Express shipping rate: ₹249
 - Tracking number is provided once the order ships
+- We currently ship only within India. International shipping is coming soon!
 
 SUPPORTED SHIPPING REGIONS:
-- India (all states)
-- United States (all states)
-- United Kingdom
-- Canada
-- Australia
-- Germany
-- France
-- UAE (United Arab Emirates)
-- More regions coming soon! We're expanding globally.
+- India (all states and union territories)
+- More regions coming soon! We're expanding internationally.
 
 PAYMENT METHODS:
-- Credit/Debit Cards (Visa, Mastercard, American Express)
-- PayPal (available in all supported regions)
-- Local payment methods vary by region
+- UPI (Google Pay, PhonePe, Paytm, etc.)
+- Credit/Debit Cards (Visa, Mastercard, RuPay)
+- Net Banking
+- Cash on Delivery (COD) available in select areas
 
 ORDER LOOKUP:
 - Order numbers are in the format ORD-YYYYMMDD-XXXX (e.g., ORD-20250115-1234)
