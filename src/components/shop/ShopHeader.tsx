@@ -60,7 +60,16 @@ export const ShopHeader = () => {
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
+            {/* Search Toggle */}
+            <Button
+              variant="ghost"
+              size="icon"
+              title="Search"
+              onClick={() => setSearchOpen(!searchOpen)}
+            >
+              {searchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
+            </Button>
             <Link to="/wishlist">
               <Button variant="ghost" size="icon" title="Wishlist">
                 <Heart className="h-5 w-5" />
