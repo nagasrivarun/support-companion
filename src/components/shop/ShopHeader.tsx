@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { CartDrawer } from "./CartDrawer";
-import { Store, Heart, LayoutDashboard, Truck, User } from "lucide-react";
+import { Heart, LayoutDashboard, Truck, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -12,9 +12,9 @@ export const ShopHeader = () => {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo / Brand */}
-          <Link to="/shop" className="flex items-center gap-2">
-            <Store className="h-6 w-6 text-primary" />
-            <span className="font-bold text-xl text-foreground">Shop</span>
+          <Link to="/shop" className="flex items-center gap-1">
+            <span className="text-2xl font-extrabold tracking-tight text-gradient">SHOP</span>
+            <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground ml-1 mt-1">India</span>
           </Link>
 
           {/* Navigation */}
