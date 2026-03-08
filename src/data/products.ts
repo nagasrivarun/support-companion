@@ -877,6 +877,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "Foldable aluminum phone stand for desk. Adjustable angle, compatible with all smartphones and tablets.",
     handle: "phone-stand",
     productType: "Phone Accessories",
+    vendor: "MobiTech",
+    tags: ["phone-stand", "holder", "desk", "phone-accessories"],
     price: 349,
     originalPrice: 699,
     currencyCode: "INR",
