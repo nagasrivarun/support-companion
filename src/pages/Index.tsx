@@ -347,6 +347,9 @@ const Index = () => {
   const peripherals = getProductsByCategory("Computer Peripherals");
   const phoneAccessories = getProductsByCategory("Phone Accessories");
   const computersLaptops = getProductsByCategory("Computers & Laptops");
+  const homeDecor = getProductsByCategory("Home Decor");
+  const kitchen = getProductsByCategory("Kitchen Appliances");
+  const sports = getProductsByCategory("Sports & Fitness");
   const mostLoved = [...LOCAL_PRODUCTS].sort((a, b) => b.reviewCount - a.reviewCount);
   const topRated = [...LOCAL_PRODUCTS].sort((a, b) => b.rating - a.rating || b.reviewCount - a.reviewCount);
   const bestDeals = [...LOCAL_PRODUCTS].filter(p => p.originalPrice && p.originalPrice > p.price).sort((a, b) => {
@@ -441,6 +444,18 @@ const Index = () => {
       <section className="bg-background mt-3">
         <div className="container mx-auto">
           <ProductCarousel title={`Starting ₹${computersLaptops.length > 0 ? Math.min(...computersLaptops.map(p => p.price)).toLocaleString("en-IN") : "18,999"} | Computers & Laptops`} products={computersLaptops} />
+        </div>
+      </section>
+
+      {/* Card Grid 4 — New Categories */}
+      <section className="bg-background mt-3 py-4">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <CategoryCard title="Home Decor" products={homeDecor.slice(0, 4)} linkTo="/shop?category=Home Decor" />
+            <CategoryCard title="Kitchen Appliances" products={kitchen.slice(0, 4)} linkTo="/shop?category=Kitchen Appliances" />
+            <CategoryCard title="Sports & Fitness" products={sports.slice(0, 4)} linkTo="/shop?category=Sports %26 Fitness" />
+            <CategoryCard title="Computers & Laptops" products={computersLaptops.slice(0, 4)} linkTo="/shop?category=Computers %26 Laptops" />
+          </div>
         </div>
       </section>
 
