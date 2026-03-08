@@ -799,6 +799,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "Ultra-slim wireless keyboard with quiet keys. Compact design perfect for home and office use.",
     handle: "wireless-keyboard",
     productType: "Computer Peripherals",
+    vendor: "ChargeTech",
+    tags: ["keyboard", "wireless", "computer", "peripherals"],
     price: 899,
     originalPrice: 1799,
     currencyCode: "INR",
