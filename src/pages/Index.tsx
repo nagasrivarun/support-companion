@@ -463,6 +463,43 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Beauty & Books Carousel */}
+      <section className="bg-background mt-3">
+        <div className="container mx-auto">
+          <ProductCarousel title="Beauty & Personal Care" products={beauty} linkText="See all" />
+        </div>
+      </section>
+
+      {/* Card Grid 5 — Books, Toys, Beauty */}
+      <section className="bg-background mt-3 py-4">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <CategoryCard title="Books" products={books.slice(0, 4)} linkTo="/shop?category=Books" />
+            <CategoryCard title="Toys & Games" products={toys.slice(0, 4)} linkTo="/shop?category=Toys %26 Games" />
+            <CategoryCard title="Beauty & Personal Care" products={beauty.slice(0, 4)} linkTo="/shop?category=Beauty %26 Personal Care" />
+            <CategoryCard title="Best Deals — Up to 60% Off" products={bestDeals.slice(0, 4)} linkTo="/shop" />
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Brands */}
+      <section className="bg-background mt-3 py-6">
+        <div className="container mx-auto px-4">
+          <h2 className="text-xl font-bold text-foreground mb-4">Featured Brands</h2>
+          <div className="flex flex-wrap gap-3 justify-center">
+            {allBrands.map(brand => (
+              <button
+                key={brand}
+                onClick={() => navigate(`/shop?search=${encodeURIComponent(brand)}`)}
+                className="px-5 py-2.5 rounded-lg border border-border bg-card hover:bg-primary hover:text-primary-foreground text-sm font-medium text-foreground transition-colors shadow-sm"
+              >
+                {brand}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Also Viewed Carousel */}
       <section className="bg-background mt-3">
         <div className="container mx-auto">
