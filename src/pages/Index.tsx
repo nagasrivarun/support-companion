@@ -24,8 +24,8 @@ const emailSchema = z.string().trim().email().max(255);
 
 // ── Hero Banner Carousel ────────────────────────────────────────
 const banners = [
-  { image: fashionBanner, link: "/shop?category=T-Shirts", alt: "Fashion Sale up to 50% off" },
-  { image: electronicsBanner, link: "/shop?category=Electronics", alt: "Electronics deals starting ₹999" },
+  { image: fashionBanner, link: "/shop?category=Clothing", alt: "Fashion Sale up to 50% off" },
+  { image: electronicsBanner, link: "/shop?category=Audio", alt: "Audio & Electronics deals starting ₹199" },
   { image: footwearBanner, link: "/shop?category=Footwear", alt: "Footwear collection new arrivals" },
   { image: accessoriesBanner, link: "/shop?category=Accessories", alt: "Summer Accessories Sale up to 40% off" },
   { image: bagsBanner, link: "/shop?category=Bags", alt: "Bags Collection starting ₹599" },
@@ -286,9 +286,10 @@ const Footer = () => (
             <h4 className="font-bold text-foreground mb-3">Shop With Us</h4>
             <ul className="space-y-2 text-sm">
               <li><Link to="/shop" className="text-muted-foreground hover:text-foreground transition-colors">All Products</Link></li>
+              <li><Link to="/shop?category=Clothing" className="text-muted-foreground hover:text-foreground transition-colors">Clothing</Link></li>
               <li><Link to="/shop?category=Footwear" className="text-muted-foreground hover:text-foreground transition-colors">Footwear</Link></li>
-              <li><Link to="/shop?category=Accessories" className="text-muted-foreground hover:text-foreground transition-colors">Accessories</Link></li>
-              <li><Link to="/shop?category=Electronics" className="text-muted-foreground hover:text-foreground transition-colors">Electronics</Link></li>
+              <li><Link to="/shop?category=Audio" className="text-muted-foreground hover:text-foreground transition-colors">Audio</Link></li>
+              <li><Link to="/shop?category=Phones & Tablets" className="text-muted-foreground hover:text-foreground transition-colors">Phones & Tablets</Link></li>
             </ul>
           </div>
           <div>
@@ -335,11 +336,15 @@ const Index = () => {
   const recentlyViewed = viewedHandles.map(h => getProductByHandle(h)).filter((p): p is LocalProduct => !!p);
   const lastViewed = recentlyViewed[0];
 
-  const clothing = [...getProductsByCategory("T-Shirts"), ...getProductsByCategory("Jeans"), ...getProductsByCategory("Hoodies"), ...getProductsByCategory("Shorts")];
+  const clothing = getProductsByCategory("Clothing");
   const footwear = getProductsByCategory("Footwear");
   const accessories = getProductsByCategory("Accessories");
-  const electronics = getProductsByCategory("Electronics");
+  const audio = [...getProductsByCategory("Audio"), ...getProductsByCategory("Wearable Tech")];
   const bags = getProductsByCategory("Bags");
+  const cablesChargers = getProductsByCategory("Cables & Chargers");
+  const phonesTablets = getProductsByCategory("Phones & Tablets");
+  const peripherals = getProductsByCategory("Computer Peripherals");
+  const phoneAccessories = getProductsByCategory("Phone Accessories");
   const mostLoved = [...LOCAL_PRODUCTS].sort((a, b) => b.reviewCount - a.reviewCount);
   const topRated = [...LOCAL_PRODUCTS].sort((a, b) => b.rating - a.rating || b.reviewCount - a.reviewCount);
   const bestDeals = [...LOCAL_PRODUCTS].filter(p => p.originalPrice && p.originalPrice > p.price).sort((a, b) => {
@@ -383,7 +388,7 @@ const Index = () => {
             ) : (
               <CategoryCard title="Top Rated Products" products={topRated.slice(0, 4)} linkTo="/shop" />
             )}
-            <CategoryCard title="Customers' Most-Loved Fashion" products={clothing.slice(0, 4)} linkTo="/shop?category=T-Shirts" />
+            <CategoryCard title="Customers' Most-Loved Fashion" products={clothing.slice(0, 4)} linkTo="/shop?category=Clothing" />
             <CategoryCard title={`Starting ₹${Math.min(...accessories.map(p => p.price))} | Accessories`} products={accessories.slice(0, 4)} linkTo="/shop?category=Accessories" />
           </div>
         </div>
@@ -403,10 +408,10 @@ const Index = () => {
       <section className="bg-background mt-3 py-4">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <CategoryCard title="Best Deals on Electronics" products={electronics.slice(0, 4)} linkTo="/shop?category=Electronics" />
-            <CategoryCard title="Bags & Backpacks" products={bags.slice(0, 4)} linkTo="/shop?category=Bags" />
-            <CategoryCard title="Footwear for Every Occasion" products={footwear.slice(0, 4)} linkTo="/shop?category=Footwear" />
-            <CategoryCard title="Today's Best Deals" products={bestDeals.slice(0, 4)} linkTo="/shop" />
+            <CategoryCard title="Audio & Wearable Tech" products={audio.slice(0, 4)} linkTo="/shop?category=Audio" />
+            <CategoryCard title="Phones & Tablets" products={phonesTablets.slice(0, 4)} linkTo="/shop?category=Phones %26 Tablets" />
+            <CategoryCard title="Cables & Chargers" products={cablesChargers.slice(0, 4)} linkTo="/shop?category=Cables %26 Chargers" />
+            <CategoryCard title="Computer Peripherals" products={peripherals.slice(0, 4)} linkTo="/shop?category=Computer Peripherals" />
           </div>
         </div>
       </section>
