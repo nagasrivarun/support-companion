@@ -74,6 +74,21 @@ import yogaMatImg from "@/assets/products/yoga-mat.jpg";
 import dumbbellsImg from "@/assets/products/dumbbells.jpg";
 import cricketBatImg from "@/assets/products/cricket-bat.jpg";
 import footballImg from "@/assets/products/football.jpg";
+import fictionBookImg from "@/assets/products/fiction-book.jpg";
+import selfHelpBookImg from "@/assets/products/self-help-book.jpg";
+import buildingBlocksImg from "@/assets/products/building-blocks.jpg";
+import rcCarImg from "@/assets/products/rc-car.jpg";
+import boardGameImg from "@/assets/products/board-game.jpg";
+import teddyBearImg from "@/assets/products/teddy-bear.jpg";
+import faceWashImg from "@/assets/products/face-wash.jpg";
+import hairDryerImg from "@/assets/products/hair-dryer.jpg";
+import perfumeImg from "@/assets/products/perfume.jpg";
+import beardTrimmerImg from "@/assets/products/beard-trimmer.jpg";
+import sunscreenImg from "@/assets/products/sunscreen.jpg";
+import denimJacketImg from "@/assets/products/denim-jacket.jpg";
+import formalShirtImg from "@/assets/products/formal-shirt.jpg";
+import hikingBootsImg from "@/assets/products/hiking-boots.jpg";
+import waterBottleImg from "@/assets/products/water-bottle.jpg";
 
 export interface LocalProduct {
   id: string;
