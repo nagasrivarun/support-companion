@@ -15,6 +15,7 @@ import { CompareToggle } from "@/components/compare/CompareToggle";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { FilterSidebar } from "@/components/shop/FilterSidebar";
 
 type SortOption = "relevance" | "price-low" | "price-high" | "rating" | "name-asc";
 
