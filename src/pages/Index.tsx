@@ -406,6 +406,13 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Phones & Tablets Carousel */}
+      <section className="bg-background mt-3">
+        <div className="container mx-auto">
+          <ProductCarousel title={`Starting ₹${phonesTablets.length > 0 ? Math.min(...phonesTablets.map(p => p.price)).toLocaleString("en-IN") : "8,999"} | Phones & Tablets — All Brands`} products={phonesTablets} linkText="See all phones" />
+        </div>
+      </section>
+
       {/* Card Grid 2 */}
       <section className="bg-background mt-3 py-4">
         <div className="container mx-auto px-4">
