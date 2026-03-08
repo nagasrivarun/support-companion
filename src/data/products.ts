@@ -32,6 +32,10 @@ import capImg from "@/assets/products/cap.jpg";
 import poloShirtImg from "@/assets/products/polo-shirt.jpg";
 import phoneCaseImg from "@/assets/products/phone-case.jpg";
 import trackPantsImg from "@/assets/products/track-pants.jpg";
+import wallAdapterImg from "@/assets/products/wall-adapter.jpg";
+import lightningCableImg from "@/assets/products/lightning-cable.jpg";
+import usbHubImg from "@/assets/products/usb-hub.jpg";
+import microUsbCableImg from "@/assets/products/micro-usb-cable.jpg";
 
 export interface LocalProduct {
   id: string;
