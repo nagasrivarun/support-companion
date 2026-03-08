@@ -150,7 +150,7 @@ const Shop = () => {
     setInStockOnly(false);
   };
 
-  const activeCount = [search, category !== "all", vendor !== "all", selectedBrands.length > 0, priceRange[0] > 0 || priceRange[1] < 150000, minRating > 0].filter(Boolean).length;
+  const activeCount = [search, category !== "all", vendor !== "all", selectedBrands.length > 0, priceRange[0] > 0 || priceRange[1] < 150000, minRating > 0, inStockOnly].filter(Boolean).length;
 
   return (
     <div className="min-h-screen bg-background">
