@@ -290,6 +290,7 @@ const Footer = () => (
               <li><Link to="/shop?category=Footwear" className="text-muted-foreground hover:text-foreground transition-colors">Footwear</Link></li>
               <li><Link to="/shop?category=Audio" className="text-muted-foreground hover:text-foreground transition-colors">Audio</Link></li>
               <li><Link to="/shop?category=Phones & Tablets" className="text-muted-foreground hover:text-foreground transition-colors">Phones & Tablets</Link></li>
+              <li><Link to="/shop?category=Computers %26 Laptops" className="text-muted-foreground hover:text-foreground transition-colors">Computers & Laptops</Link></li>
             </ul>
           </div>
           <div>
@@ -345,6 +346,7 @@ const Index = () => {
   const phonesTablets = getProductsByCategory("Phones & Tablets");
   const peripherals = getProductsByCategory("Computer Peripherals");
   const phoneAccessories = getProductsByCategory("Phone Accessories");
+  const computersLaptops = getProductsByCategory("Computers & Laptops");
   const mostLoved = [...LOCAL_PRODUCTS].sort((a, b) => b.reviewCount - a.reviewCount);
   const topRated = [...LOCAL_PRODUCTS].sort((a, b) => b.rating - a.rating || b.reviewCount - a.reviewCount);
   const bestDeals = [...LOCAL_PRODUCTS].filter(p => p.originalPrice && p.originalPrice > p.price).sort((a, b) => {
@@ -413,6 +415,25 @@ const Index = () => {
             <CategoryCard title="Cables & Chargers" products={cablesChargers.slice(0, 4)} linkTo="/shop?category=Cables %26 Chargers" />
             <CategoryCard title="Computer Peripherals" products={peripherals.slice(0, 4)} linkTo="/shop?category=Computer Peripherals" />
           </div>
+        </div>
+      </section>
+
+      {/* Card Grid 3 */}
+      <section className="bg-background mt-3 py-4">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <CategoryCard title="Bags & Luggage" products={bags.slice(0, 4)} linkTo="/shop?category=Bags" />
+            <CategoryCard title={`Starting ₹${Math.min(...footwear.map(p => p.price))} | Footwear`} products={footwear.slice(0, 4)} linkTo="/shop?category=Footwear" />
+            <CategoryCard title="Phone Accessories" products={phoneAccessories.slice(0, 4)} linkTo="/shop?category=Phone Accessories" />
+            <CategoryCard title="Best Deals — Up to 60% Off" products={bestDeals.slice(0, 4)} linkTo="/shop" />
+          </div>
+        </div>
+      </section>
+
+      {/* Computers & Laptops Carousel */}
+      <section className="bg-background mt-3">
+        <div className="container mx-auto">
+          <ProductCarousel title={`Starting ₹${computersLaptops.length > 0 ? Math.min(...computersLaptops.map(p => p.price)).toLocaleString("en-IN") : "18,999"} | Computers & Laptops`} products={computersLaptops} />
         </div>
       </section>
 
