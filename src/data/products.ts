@@ -52,6 +52,12 @@ import vivoPhoneImg from "@/assets/products/vivo-phone.jpg";
 import nothingPhoneImg from "@/assets/products/nothing-phone.jpg";
 import pixelPhoneImg from "@/assets/products/pixel-phone.jpg";
 import motorolaPhoneImg from "@/assets/products/motorola-phone.jpg";
+import laptopImg from "@/assets/products/laptop.jpg";
+import gamingLaptopImg from "@/assets/products/gaming-laptop.jpg";
+import desktopPcImg from "@/assets/products/desktop-pc.jpg";
+import samsungTabletImg from "@/assets/products/samsung-tablet.jpg";
+import ipadImg from "@/assets/products/ipad.jpg";
+import chromebookImg from "@/assets/products/chromebook.jpg";
 
 export interface LocalProduct {
   id: string;
