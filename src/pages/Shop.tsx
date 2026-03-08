@@ -137,7 +137,7 @@ const Shop = () => {
     setCategory("all");
     setVendor("all");
     setSortBy("relevance");
-    setPriceRange([0, 5000]);
+    setPriceRange([0, 150000]);
   };
 
   const activeCount = [search, category !== "all", vendor !== "all", priceRange[0] > 0 || priceRange[1] < 5000].filter(Boolean).length;
