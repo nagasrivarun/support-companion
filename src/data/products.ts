@@ -682,6 +682,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "Comfortable athletic track pants with side stripe design. Elastic waistband and zippered pockets.",
     handle: "track-pants",
     productType: "Clothing",
+    vendor: "StyleCraft",
+    tags: ["track-pants", "joggers", "sports", "men", "casual"],
     price: 699,
     originalPrice: 1299,
     currencyCode: "INR",
