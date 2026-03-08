@@ -703,6 +703,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "Compact dual-port USB wall charger with fast charging support. Universal compatibility for phones and tablets.",
     handle: "dual-usb-wall-adapter",
     productType: "Cables & Chargers",
+    vendor: "ChargeTech",
+    tags: ["adapter", "charger", "usb", "wall-charger"],
     price: 399,
     originalPrice: 799,
     currencyCode: "INR",
