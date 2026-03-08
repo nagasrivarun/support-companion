@@ -405,6 +405,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "Compact bluetooth speaker with powerful bass. Perfect for outdoor parties and travel.",
     handle: "bluetooth-speaker",
     productType: "Audio",
+    vendor: "SoundTech",
+    tags: ["speaker", "bluetooth", "portable", "audio"],
     price: 1799,
     originalPrice: 3499,
     currencyCode: "INR",
