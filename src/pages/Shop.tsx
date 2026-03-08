@@ -38,6 +38,19 @@ const ProductCard = ({ product, onQuickView }: { product: LocalProduct; onQuickV
       <Link to={`/product/${product.handle}`}>
         <div className="aspect-square bg-muted overflow-hidden relative">
           <CompareToggle product={product} />
+          <div className="absolute top-2 right-2 z-10 flex flex-col gap-1">
+            <WishlistButton
+              product={{
+                id: product.id,
+                handle: product.handle,
+                title: product.title,
+                image: product.image,
+                price: product.price,
+                currencyCode: product.currencyCode,
+              }}
+              className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+            />
+          </div>
           <button
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); onQuickView(product); }}
             className="absolute bottom-2 right-2 z-10 bg-background/80 backdrop-blur-sm p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background"
@@ -52,7 +65,7 @@ const ProductCard = ({ product, onQuickView }: { product: LocalProduct; onQuickV
             </Badge>
           )}
           {!product.inStock && (
-            <Badge variant="secondary" className="absolute top-2 right-2">Out of Stock</Badge>
+            <Badge variant="secondary" className="absolute top-10 right-2">Out of Stock</Badge>
           )}
         </div>
         <div className="p-3">
