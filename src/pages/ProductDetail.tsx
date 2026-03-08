@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ShopHeader } from "@/components/shop/ShopHeader";
 import { Button } from "@/components/ui/button";
@@ -10,14 +10,32 @@ import { getProductByHandle, getProductsByCategory, LOCAL_PRODUCTS, type LocalPr
 import { useBrowsingHistory } from "@/stores/browsingHistory";
 import { ArrowLeft, Star, ExternalLink, Truck, Shield, RotateCcw, Check, ChevronLeft, ChevronRight } from "lucide-react";
 
+// Color name to CSS color mapping
+const colorMap: Record<string, string> = {
+  Black: "#1a1a1a", White: "#ffffff", Grey: "#9ca3af", Navy: "#1e3a5f",
+  Red: "#ef4444", Blue: "#3b82f6", Green: "#22c55e", Yellow: "#eab308",
+  Pink: "#ec4899", Purple: "#a855f7", Orange: "#f97316", Brown: "#92400e",
+  Beige: "#d4b896", Cream: "#fffdd0", "Sky Blue": "#87CEEB", "Sage Green": "#9DC183",
+  "Dusty Pink": "#D4A5A5", Lavender: "#E6E6FA", Peach: "#FFDAB9", Maroon: "#800000",
+  Teal: "#008080", Charcoal: "#36454F", Silver: "#C0C0C0", Gold: "#FFD700",
+  "White Floral": "#fff5f5", "Blue Floral": "#dbeafe", "Pink Floral": "#fce7f3",
+};
+
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
   const product = handle ? getProductByHandle(handle) : undefined;
   const addViewed = useBrowsingHistory(s => s.addViewed);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
   useEffect(() => {
     if (handle && product) {
       addViewed(handle);
+      // Set defaults
+      if (product.colors?.length) setSelectedColor(product.colors[0]);
+      else setSelectedColor(null);
+      if (product.sizes?.length) setSelectedSize(product.sizes[0]);
+      else setSelectedSize(null);
     }
   }, [handle, product, addViewed]);
 
@@ -95,21 +113,53 @@ const ProductDetail = () => {
             {/* Options */}
             {product.sizes && (
               <div>
-                <label className="text-sm font-medium text-foreground mb-2 block">Available Sizes</label>
+                <label className="text-sm font-medium text-foreground mb-2 block">
+                  Size: <span className="text-primary">{selectedSize}</span>
+                </label>
                 <div className="flex flex-wrap gap-2">
                   {product.sizes.map(s => (
-                    <Badge key={s} variant="outline" className="px-3 py-1">{s}</Badge>
+                    <button
+                      key={s}
+                      onClick={() => setSelectedSize(s)}
+                      className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
+                        selectedSize === s
+                          ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                          : "border-border bg-card text-foreground hover:border-primary/50"
+                      }`}
+                    >
+                      {s}
+                    </button>
                   ))}
                 </div>
               </div>
             )}
             {product.colors && (
               <div>
-                <label className="text-sm font-medium text-foreground mb-2 block">Available Colors</label>
-                <div className="flex flex-wrap gap-2">
-                  {product.colors.map(c => (
-                    <Badge key={c} variant="outline" className="px-3 py-1">{c}</Badge>
-                  ))}
+                <label className="text-sm font-medium text-foreground mb-2 block">
+                  Color: <span className="text-primary">{selectedColor}</span>
+                </label>
+                <div className="flex flex-wrap gap-3">
+                  {product.colors.map(c => {
+                    const bgColor = colorMap[c] || "#9ca3af";
+                    const isLight = ["White", "Cream", "Beige", "Yellow", "White Floral", "Lavender", "Peach", "Pink Floral"].includes(c);
+                    return (
+                      <button
+                        key={c}
+                        onClick={() => setSelectedColor(c)}
+                        title={c}
+                        className={`relative w-10 h-10 rounded-full border-2 transition-all ${
+                          selectedColor === c
+                            ? "border-primary ring-2 ring-primary/30 scale-110"
+                            : isLight ? "border-border hover:border-primary/50" : "border-transparent hover:border-primary/50"
+                        }`}
+                        style={{ backgroundColor: bgColor }}
+                      >
+                        {selectedColor === c && (
+                          <Check className={`h-4 w-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isLight ? "text-foreground" : "text-white"}`} />
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
