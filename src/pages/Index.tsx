@@ -290,6 +290,7 @@ const Footer = () => (
               <li><Link to="/shop?category=Footwear" className="text-muted-foreground hover:text-foreground transition-colors">Footwear</Link></li>
               <li><Link to="/shop?category=Audio" className="text-muted-foreground hover:text-foreground transition-colors">Audio</Link></li>
               <li><Link to="/shop?category=Phones & Tablets" className="text-muted-foreground hover:text-foreground transition-colors">Phones & Tablets</Link></li>
+              <li><Link to="/shop?category=Computers %26 Laptops" className="text-muted-foreground hover:text-foreground transition-colors">Computers & Laptops</Link></li>
             </ul>
           </div>
           <div>
