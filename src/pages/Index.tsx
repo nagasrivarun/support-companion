@@ -24,8 +24,8 @@ const emailSchema = z.string().trim().email().max(255);
 
 // ── Hero Banner Carousel ────────────────────────────────────────
 const banners = [
-  { image: fashionBanner, link: "/shop?category=T-Shirts", alt: "Fashion Sale up to 50% off" },
-  { image: electronicsBanner, link: "/shop?category=Electronics", alt: "Electronics deals starting ₹999" },
+  { image: fashionBanner, link: "/shop?category=Clothing", alt: "Fashion Sale up to 50% off" },
+  { image: electronicsBanner, link: "/shop?category=Audio", alt: "Audio & Electronics deals starting ₹199" },
   { image: footwearBanner, link: "/shop?category=Footwear", alt: "Footwear collection new arrivals" },
   { image: accessoriesBanner, link: "/shop?category=Accessories", alt: "Summer Accessories Sale up to 40% off" },
   { image: bagsBanner, link: "/shop?category=Bags", alt: "Bags Collection starting ₹599" },
