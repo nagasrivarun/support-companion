@@ -1,11 +1,12 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { ShopHeader } from "@/components/shop/ShopHeader";
 import { ChatWidget } from "@/components/chat/ChatWidget";
-import { LOCAL_PRODUCTS, getCategories, getProductsByCategory, type LocalProduct } from "@/data/products";
-import { Star, ChevronRight, Zap, Truck, Shield, RotateCcw, TrendingUp, Flame, ExternalLink } from "lucide-react";
+import { LOCAL_PRODUCTS, getCategories, getProductsByCategory, getProductByHandle, type LocalProduct } from "@/data/products";
+import { Star, ChevronRight, Zap, Truck, Shield, RotateCcw, TrendingUp, Flame, ExternalLink, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useBrowsingHistory } from "@/stores/browsingHistory";
 
 const StarRating = ({ rating, count }: { rating: number; count: number }) => (
   <div className="flex items-center gap-1">
