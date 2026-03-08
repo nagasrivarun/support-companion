@@ -760,6 +760,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "Durable micro USB cable for charging and data transfer. Gold-plated connectors for reliable connection.",
     handle: "micro-usb-cable",
     productType: "Cables & Chargers",
+    vendor: "ChargeTech",
+    tags: ["cable", "micro-usb", "charging"],
     price: 149,
     originalPrice: 399,
     currencyCode: "INR",
