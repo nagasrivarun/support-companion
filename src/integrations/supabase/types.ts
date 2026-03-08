@@ -443,6 +443,48 @@ export type Database = {
         }
         Relationships: []
       }
+      return_requests: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          order_number: string
+          product_handle: string | null
+          product_title: string
+          return_reason: string
+          return_type: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          order_number: string
+          product_handle?: string | null
+          product_title: string
+          return_reason: string
+          return_type?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          order_number?: string
+          product_handle?: string | null
+          product_title?: string
+          return_reason?: string
+          return_type?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       satisfaction_ratings: {
         Row: {
           conversation_id: string
