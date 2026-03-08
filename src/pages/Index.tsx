@@ -347,6 +347,9 @@ const Index = () => {
   const peripherals = getProductsByCategory("Computer Peripherals");
   const phoneAccessories = getProductsByCategory("Phone Accessories");
   const computersLaptops = getProductsByCategory("Computers & Laptops");
+  const homeDecor = getProductsByCategory("Home Decor");
+  const kitchen = getProductsByCategory("Kitchen Appliances");
+  const sports = getProductsByCategory("Sports & Fitness");
   const mostLoved = [...LOCAL_PRODUCTS].sort((a, b) => b.reviewCount - a.reviewCount);
   const topRated = [...LOCAL_PRODUCTS].sort((a, b) => b.rating - a.rating || b.reviewCount - a.reviewCount);
   const bestDeals = [...LOCAL_PRODUCTS].filter(p => p.originalPrice && p.originalPrice > p.price).sort((a, b) => {
