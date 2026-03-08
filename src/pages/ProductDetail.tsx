@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ShopHeader } from "@/components/shop/ShopHeader";
 import { Button } from "@/components/ui/button";
@@ -5,11 +6,19 @@ import { Badge } from "@/components/ui/badge";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { ProductReviews } from "@/components/product/ProductReviews";
 import { getProductByHandle } from "@/data/products";
+import { useBrowsingHistory } from "@/stores/browsingHistory";
 import { ArrowLeft, Star, ExternalLink, Truck, Shield, RotateCcw, Check } from "lucide-react";
 
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
   const product = handle ? getProductByHandle(handle) : undefined;
+  const addViewed = useBrowsingHistory(s => s.addViewed);
+
+  useEffect(() => {
+    if (handle && product) {
+      addViewed(handle);
+    }
+  }, [handle, product, addViewed]);
 
   if (!product) {
     return (

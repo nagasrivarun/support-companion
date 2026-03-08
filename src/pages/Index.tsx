@@ -1,11 +1,12 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { ShopHeader } from "@/components/shop/ShopHeader";
 import { ChatWidget } from "@/components/chat/ChatWidget";
-import { LOCAL_PRODUCTS, getCategories, getProductsByCategory, type LocalProduct } from "@/data/products";
-import { Star, ChevronRight, Zap, Truck, Shield, RotateCcw, TrendingUp, Flame, ExternalLink } from "lucide-react";
+import { LOCAL_PRODUCTS, getCategories, getProductsByCategory, getProductByHandle, type LocalProduct } from "@/data/products";
+import { Star, ChevronRight, Zap, Truck, Shield, RotateCcw, TrendingUp, Flame, ExternalLink, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useBrowsingHistory } from "@/stores/browsingHistory";
 
 const StarRating = ({ rating, count }: { rating: number; count: number }) => (
   <div className="flex items-center gap-1">
@@ -84,6 +85,14 @@ const CategorySection = ({ category, products }: { category: string; products: L
 
 const Index = () => {
   const categories = getCategories();
+  const viewedHandles = useBrowsingHistory(s => s.viewedHandles);
+  const clearHistory = useBrowsingHistory(s => s.clearHistory);
+
+  // Recently viewed products
+  const recentlyViewed = viewedHandles
+    .map(h => getProductByHandle(h))
+    .filter((p): p is LocalProduct => !!p)
+    .slice(0, 6);
 
   // Trending: sorted by review count (popularity)
   const trending = [...LOCAL_PRODUCTS]
@@ -159,6 +168,25 @@ const Index = () => {
       </section>
 
       <div className="container mx-auto px-4">
+        {/* Recently Viewed */}
+        {recentlyViewed.length > 0 && (
+          <section className="py-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
+                <Clock className="h-5 w-5 text-accent" /> Recently Viewed
+              </h2>
+              <Button variant="link" className="text-muted-foreground gap-1 p-0 text-sm" onClick={clearHistory}>
+                Clear history
+              </Button>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+              {recentlyViewed.map(p => (
+                <DealCard key={p.id} product={p} />
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* Trending Now */}
         <section className="py-6">
           <div className="flex items-center justify-between mb-4">
