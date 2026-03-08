@@ -33,7 +33,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             {/* Public Shop Routes */}
-            <Route path="/" element={<Shop />} />
+            <Route path="/" element={<Index />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/product/:handle" element={<ProductDetail />} />
             <Route path="/shipping" element={<Shipping />} />
