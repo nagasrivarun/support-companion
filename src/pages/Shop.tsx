@@ -225,7 +225,7 @@ const Shop = () => {
                 </div>
                 <div className="space-y-4">
                   <Label>Price Range</Label>
-                  <Slider value={priceRange} min={0} max={5000} step={100} onValueChange={v => setPriceRange(v as [number, number])} />
+                  <Slider value={priceRange} min={0} max={150000} step={1000} onValueChange={v => setPriceRange(v as [number, number])} />
                   <div className="flex justify-between text-sm text-muted-foreground">
                     <span>₹{priceRange[0].toLocaleString("en-IN")}</span>
                     <span>₹{priceRange[1].toLocaleString("en-IN")}</span>
