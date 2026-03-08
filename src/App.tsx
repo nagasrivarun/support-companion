@@ -23,6 +23,7 @@ import Shipping from "./pages/Shipping";
 import Account from "./pages/Account";
 import Wishlist from "./pages/Wishlist";
 import OrderConfirmation from "./pages/OrderConfirmation";
+import Returns from "./pages/Returns";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,6 +43,7 @@ const App = () => (
             <Route path="/shipping" element={<Shipping />} />
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/order-confirmation" element={<OrderConfirmation />} />
+            <Route path="/returns" element={<Returns />} />
             
             {/* Auth */}
             <Route path="/auth" element={<Auth />} />
