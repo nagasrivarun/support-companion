@@ -200,6 +200,17 @@ export const FilterSidebar = ({
                 ))}
               </div>
             </div>
+
+            {/* In Stock */}
+            <div className="space-y-2">
+              <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Availability
+              </Label>
+              <label className="flex items-center justify-between px-2 py-1.5 rounded-md hover:bg-muted cursor-pointer">
+                <span className="text-sm text-foreground">In Stock Only</span>
+                <Switch checked={inStockOnly} onCheckedChange={setInStockOnly} />
+              </label>
+            </div>
           </div>
         </ScrollArea>
       </div>
