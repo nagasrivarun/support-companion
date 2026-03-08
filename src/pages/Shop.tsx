@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Star, Search, X, SlidersHorizontal, ExternalLink, Eye } from "lucide-react";
 import { QuickViewModal } from "@/components/shop/QuickViewModal";
+import { WishlistButton } from "@/components/shop/WishlistButton";
 import { CompareToggle } from "@/components/compare/CompareToggle";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Label } from "@/components/ui/label";

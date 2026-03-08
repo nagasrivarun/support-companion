@@ -84,6 +84,7 @@ const App = () => (
           </Routes>
           <CompareFloatingBar />
           <CompareModal />
+          <RecentlyViewedWidget />
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
