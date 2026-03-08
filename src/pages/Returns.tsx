@@ -192,7 +192,7 @@ const Returns = () => {
               </Card>
             ) : submitted ? (
               <Card className="p-8 text-center">
-                <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
+                <CheckCircle className="h-16 w-16 text-success mx-auto mb-4" />
                 <h3 className="text-xl font-bold text-foreground mb-2">Request Submitted!</h3>
                 <p className="text-muted-foreground mb-4">
                   We've received your return request for order <strong>{orderNumber}</strong>. 
