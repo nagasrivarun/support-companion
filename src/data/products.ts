@@ -583,6 +583,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "Durable braided nylon USB-C cable with fast charging support. 1.5m length, compatible with all USB-C devices.",
     handle: "usb-c-charging-cable",
     productType: "Cables & Chargers",
+    vendor: "ChargeTech",
+    tags: ["cable", "usb-c", "charging", "cables-chargers"],
     price: 199,
     originalPrice: 499,
     currencyCode: "INR",
