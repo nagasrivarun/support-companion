@@ -33,8 +33,9 @@ export const SearchAutocomplete = ({ onClose, alwaysVisible }: SearchAutocomplet
     setSelectedIndex(-1);
   }, [query]);
 
-  // Close on outside click
+  // Close on outside click (skip if always visible)
   useEffect(() => {
+    if (alwaysVisible) return;
     const handler = (e: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         onClose();
@@ -42,7 +43,7 @@ export const SearchAutocomplete = ({ onClose, alwaysVisible }: SearchAutocomplet
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [onClose]);
+  }, [onClose, alwaysVisible]);
 
   const goToProduct = (handle: string) => {
     navigate(`/product/${handle}`);
