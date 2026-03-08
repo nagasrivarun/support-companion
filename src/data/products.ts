@@ -32,6 +32,10 @@ import capImg from "@/assets/products/cap.jpg";
 import poloShirtImg from "@/assets/products/polo-shirt.jpg";
 import phoneCaseImg from "@/assets/products/phone-case.jpg";
 import trackPantsImg from "@/assets/products/track-pants.jpg";
+import wallAdapterImg from "@/assets/products/wall-adapter.jpg";
+import lightningCableImg from "@/assets/products/lightning-cable.jpg";
+import usbHubImg from "@/assets/products/usb-hub.jpg";
+import microUsbCableImg from "@/assets/products/micro-usb-cable.jpg";
 
 export interface LocalProduct {
   id: string;
@@ -686,6 +690,82 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     sizes: ["S", "M", "L", "XL", "XXL"],
     colors: ["Black", "Navy", "Grey"],
     features: ["Elastic waistband", "Zippered pockets", "Side stripe", "Lightweight", "Breathable"],
+  },
+  {
+    id: "32",
+    title: "Dual USB Wall Adapter",
+    description: "Compact dual-port USB wall charger with fast charging support. Universal compatibility for phones and tablets.",
+    handle: "dual-usb-wall-adapter",
+    productType: "Electronics",
+    vendor: "ChargeTech",
+    tags: ["adapter", "charger", "usb", "wall-charger", "electronics"],
+    price: 399,
+    originalPrice: 799,
+    currencyCode: "INR",
+    image: wallAdapterImg,
+    images: [wallAdapterImg],
+    rating: 4.2,
+    reviewCount: 9876,
+    amazonUrl: amazonProductUrl("dual usb wall charger adapter"),
+    inStock: true,
+    features: ["Dual USB ports", "Fast charging", "BIS certified", "Compact design", "Universal compatibility"],
+  },
+  {
+    id: "33",
+    title: "Lightning Charging Cable",
+    description: "MFi-certified lightning cable for fast and safe charging. Durable build with 1m length.",
+    handle: "lightning-cable",
+    productType: "Electronics",
+    vendor: "ChargeTech",
+    tags: ["cable", "lightning", "charging", "apple", "electronics"],
+    price: 349,
+    originalPrice: 799,
+    currencyCode: "INR",
+    image: lightningCableImg,
+    images: [lightningCableImg],
+    rating: 4.1,
+    reviewCount: 12345,
+    amazonUrl: amazonProductUrl("lightning charging cable mfi certified"),
+    inStock: true,
+    features: ["MFi certified", "Fast charging", "1m length", "Durable TPE", "Data sync"],
+  },
+  {
+    id: "34",
+    title: "USB-C Multi-Port Hub",
+    description: "6-in-1 USB-C hub with HDMI, USB 3.0, and PD charging. Perfect for laptops and tablets.",
+    handle: "usb-c-hub",
+    productType: "Electronics",
+    vendor: "ChargeTech",
+    tags: ["hub", "usb-c", "adapter", "hdmi", "electronics"],
+    price: 1299,
+    originalPrice: 2499,
+    currencyCode: "INR",
+    image: usbHubImg,
+    images: [usbHubImg],
+    rating: 4.3,
+    reviewCount: 2345,
+    amazonUrl: amazonProductUrl("usb c hub multiport adapter hdmi"),
+    inStock: true,
+    features: ["6-in-1", "4K HDMI", "USB 3.0 ports", "PD charging", "Plug & play"],
+  },
+  {
+    id: "35",
+    title: "Micro USB Cable 1.5m",
+    description: "Durable micro USB cable for charging and data transfer. Gold-plated connectors for reliable connection.",
+    handle: "micro-usb-cable",
+    productType: "Electronics",
+    vendor: "ChargeTech",
+    tags: ["cable", "micro-usb", "charging", "electronics"],
+    price: 149,
+    originalPrice: 399,
+    currencyCode: "INR",
+    image: microUsbCableImg,
+    images: [microUsbCableImg],
+    rating: 4.0,
+    reviewCount: 18765,
+    amazonUrl: amazonProductUrl("micro usb cable 1.5m durable"),
+    inStock: true,
+    features: ["1.5m length", "Gold-plated", "Fast charging", "Data sync", "Tangle-free"],
   },
 ];
 
