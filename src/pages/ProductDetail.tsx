@@ -1,13 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ShopHeader } from "@/components/shop/ShopHeader";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { ProductReviews } from "@/components/product/ProductReviews";
-import { getProductByHandle } from "@/data/products";
+import { getProductByHandle, getProductsByCategory, LOCAL_PRODUCTS, type LocalProduct } from "@/data/products";
 import { useBrowsingHistory } from "@/stores/browsingHistory";
-import { ArrowLeft, Star, ExternalLink, Truck, Shield, RotateCcw, Check } from "lucide-react";
+import { ArrowLeft, Star, ExternalLink, Truck, Shield, RotateCcw, Check, ChevronLeft, ChevronRight } from "lucide-react";
 
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
