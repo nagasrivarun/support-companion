@@ -345,6 +345,7 @@ const Index = () => {
   const phonesTablets = getProductsByCategory("Phones & Tablets");
   const peripherals = getProductsByCategory("Computer Peripherals");
   const phoneAccessories = getProductsByCategory("Phone Accessories");
+  const computersLaptops = getProductsByCategory("Computers & Laptops");
   const mostLoved = [...LOCAL_PRODUCTS].sort((a, b) => b.reviewCount - a.reviewCount);
   const topRated = [...LOCAL_PRODUCTS].sort((a, b) => b.rating - a.rating || b.reviewCount - a.reviewCount);
   const bestDeals = [...LOCAL_PRODUCTS].filter(p => p.originalPrice && p.originalPrice > p.price).sort((a, b) => {
