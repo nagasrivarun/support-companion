@@ -20,6 +20,18 @@ import earbudsImg from "@/assets/products/bluetooth-earbuds.jpg";
 import speakerImg from "@/assets/products/bluetooth-speaker.jpg";
 import trackerImg from "@/assets/products/fitness-tracker.jpg";
 import powerbankImg from "@/assets/products/power-bank.jpg";
+import smartphoneImg from "@/assets/products/smartphone.jpg";
+import wiredEarphonesImg from "@/assets/products/wired-earphones.jpg";
+import tabletImg from "@/assets/products/tablet.jpg";
+import walletImg from "@/assets/products/wallet.jpg";
+import headphonesImg from "@/assets/products/headphones.jpg";
+import smartwatchImg from "@/assets/products/smartwatch.jpg";
+import chargingCableImg from "@/assets/products/charging-cable.jpg";
+import laptopSleeveImg from "@/assets/products/laptop-sleeve.jpg";
+import capImg from "@/assets/products/cap.jpg";
+import poloShirtImg from "@/assets/products/polo-shirt.jpg";
+import phoneCaseImg from "@/assets/products/phone-case.jpg";
+import trackPantsImg from "@/assets/products/track-pants.jpg";
 
 export interface LocalProduct {
   id: string;
