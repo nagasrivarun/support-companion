@@ -364,7 +364,7 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     title: "Cargo Shorts",
     description: "Comfortable cargo shorts with multiple pockets. Perfect for summer and outdoor activities.",
     handle: "cargo-shorts",
-    productType: "Shorts",
+    productType: "Clothing",
     vendor: "StyleCraft",
     tags: ["shorts", "cargo", "summer", "men"],
     price: 799,
