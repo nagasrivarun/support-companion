@@ -15,6 +15,8 @@ import { z } from "zod";
 import fashionBanner from "@/assets/banners/fashion-sale.jpg";
 import electronicsBanner from "@/assets/banners/electronics-deals.jpg";
 import footwearBanner from "@/assets/banners/footwear-collection.jpg";
+import accessoriesBanner from "@/assets/banners/accessories-summer.jpg";
+import bagsBanner from "@/assets/banners/bags-collection.jpg";
 
 const emailSchema = z.string().trim().email().max(255);
 
@@ -23,6 +25,8 @@ const banners = [
   { image: fashionBanner, link: "/shop?category=T-Shirts", alt: "Fashion Sale up to 50% off" },
   { image: electronicsBanner, link: "/shop?category=Electronics", alt: "Electronics deals starting ₹999" },
   { image: footwearBanner, link: "/shop?category=Footwear", alt: "Footwear collection new arrivals" },
+  { image: accessoriesBanner, link: "/shop?category=Accessories", alt: "Summer Accessories Sale up to 40% off" },
+  { image: bagsBanner, link: "/shop?category=Bags", alt: "Bags Collection starting ₹599" },
 ];
 
 const HeroBanner = () => {
