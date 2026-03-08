@@ -10,7 +10,7 @@ import { getProductByHandle, getProductsByCategory, LOCAL_PRODUCTS, type LocalPr
 import { useBrowsingHistory } from "@/stores/browsingHistory";
 import { ArrowLeft, Star, ExternalLink, Truck, Shield, RotateCcw, Check, ChevronLeft, ChevronRight } from "lucide-react";
 
-// Color name to CSS color mapping
+// Color name to CSS color mapping (hex + rgba for overlay)
 const colorMap: Record<string, string> = {
   Black: "#1a1a1a", White: "#ffffff", Grey: "#9ca3af", Navy: "#1e3a5f",
   Red: "#ef4444", Blue: "#3b82f6", Green: "#22c55e", Yellow: "#eab308",
@@ -19,6 +19,21 @@ const colorMap: Record<string, string> = {
   "Dusty Pink": "#D4A5A5", Lavender: "#E6E6FA", Peach: "#FFDAB9", Maroon: "#800000",
   Teal: "#008080", Charcoal: "#36454F", Silver: "#C0C0C0", Gold: "#FFD700",
   "White Floral": "#fff5f5", "Blue Floral": "#dbeafe", "Pink Floral": "#fce7f3",
+  "Black/White": "#1a1a1a", "Red/White": "#ef4444", "Blue/Yellow": "#3b82f6",
+  "White/Black": "#ffffff", "Grey/Black": "#6b7280",
+};
+
+// Get the overlay color for a selected color (returns rgba string)
+const getColorOverlay = (colorName: string | null, defaultColor?: string): string | undefined => {
+  if (!colorName || !defaultColor) return undefined;
+  if (colorName === defaultColor) return undefined; // No overlay for default color
+  const hex = colorMap[colorName];
+  if (!hex) return undefined;
+  // Convert hex to rgba with low opacity for tinting
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, 0.25)`;
 };
 
 const ProductDetail = () => {
