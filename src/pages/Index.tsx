@@ -286,9 +286,10 @@ const Footer = () => (
             <h4 className="font-bold text-foreground mb-3">Shop With Us</h4>
             <ul className="space-y-2 text-sm">
               <li><Link to="/shop" className="text-muted-foreground hover:text-foreground transition-colors">All Products</Link></li>
+              <li><Link to="/shop?category=Clothing" className="text-muted-foreground hover:text-foreground transition-colors">Clothing</Link></li>
               <li><Link to="/shop?category=Footwear" className="text-muted-foreground hover:text-foreground transition-colors">Footwear</Link></li>
-              <li><Link to="/shop?category=Accessories" className="text-muted-foreground hover:text-foreground transition-colors">Accessories</Link></li>
-              <li><Link to="/shop?category=Electronics" className="text-muted-foreground hover:text-foreground transition-colors">Electronics</Link></li>
+              <li><Link to="/shop?category=Audio" className="text-muted-foreground hover:text-foreground transition-colors">Audio</Link></li>
+              <li><Link to="/shop?category=Phones & Tablets" className="text-muted-foreground hover:text-foreground transition-colors">Phones & Tablets</Link></li>
             </ul>
           </div>
           <div>
