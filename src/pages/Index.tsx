@@ -24,11 +24,11 @@ const emailSchema = z.string().trim().email().max(255);
 
 // ── Hero Banner Carousel ────────────────────────────────────────
 const banners = [
-  { image: fashionBanner, link: "/shop?category=Clothing", alt: "Fashion Sale up to 50% off" },
-  { image: electronicsBanner, link: "/shop?category=Audio", alt: "Audio & Electronics deals starting ₹199" },
-  { image: footwearBanner, link: "/shop?category=Footwear", alt: "Footwear collection new arrivals" },
-  { image: accessoriesBanner, link: "/shop?category=Accessories", alt: "Summer Accessories Sale up to 40% off" },
-  { image: bagsBanner, link: "/shop?category=Bags", alt: "Bags Collection starting ₹599" },
+  { image: fashionBanner, link: "/shop?category=Clothing", alt: "Fashion Sale up to 50% off", title: "Fashion Sale", subtitle: "Up to 50% Off on Clothing", cta: "Shop Now" },
+  { image: electronicsBanner, link: "/shop?category=Audio", alt: "Audio & Electronics deals starting ₹199", title: "Electronics Deals", subtitle: "Premium Audio & Gadgets from ₹199", cta: "Explore" },
+  { image: footwearBanner, link: "/shop?category=Footwear", alt: "Footwear collection new arrivals", title: "New Arrivals", subtitle: "Footwear Collection for Every Style", cta: "Shop Footwear" },
+  { image: accessoriesBanner, link: "/shop?category=Accessories", alt: "Summer Accessories Sale up to 40% off", title: "Accessories", subtitle: "Premium Watches, Belts & More — 40% Off", cta: "Browse" },
+  { image: bagsBanner, link: "/shop?category=Bags", alt: "Bags Collection starting ₹599", title: "Bags Collection", subtitle: "Backpacks, Totes & Messenger Bags from ₹599", cta: "Shop Bags" },
 ];
 
 const HeroBanner = () => {
