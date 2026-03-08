@@ -81,13 +81,36 @@ const ProductDetail = () => {
         </Link>
 
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-          {/* Image */}
+          {/* Image with Color Tint */}
           <div className="aspect-square overflow-hidden rounded-lg bg-muted relative">
             <img src={product.image} alt={product.title} className="h-full w-full object-cover" />
+            {/* Color overlay tint */}
+            {selectedColor && product.colors && selectedColor !== product.colors[0] && (
+              <div
+                className="absolute inset-0 transition-all duration-500 mix-blend-multiply pointer-events-none"
+                style={{ backgroundColor: getColorOverlay(selectedColor, product.colors[0]) || 'transparent' }}
+              />
+            )}
             {discount > 0 && (
-              <Badge className="absolute top-4 left-4 bg-destructive text-destructive-foreground text-sm font-bold px-3 py-1">
+              <Badge className="absolute top-4 left-4 bg-destructive text-destructive-foreground text-sm font-bold px-3 py-1 z-10">
                 {discount}% OFF
               </Badge>
+            )}
+            {/* Selected color/size indicator */}
+            {(selectedColor || selectedSize) && (
+              <div className="absolute bottom-4 left-4 right-4 z-10 flex gap-2 flex-wrap">
+                {selectedColor && (
+                  <span className="bg-card/90 backdrop-blur-sm border border-border text-foreground text-xs font-medium px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                    <span className="w-3 h-3 rounded-full border border-border" style={{ backgroundColor: colorMap[selectedColor] || '#9ca3af' }} />
+                    {selectedColor}
+                  </span>
+                )}
+                {selectedSize && (
+                  <span className="bg-card/90 backdrop-blur-sm border border-border text-foreground text-xs font-medium px-3 py-1.5 rounded-full">
+                    Size: {selectedSize}
+                  </span>
+                )}
+              </div>
             )}
           </div>
 
