@@ -352,8 +352,8 @@ const Index = () => {
       <ShopHeader />
 
       {/* Search Bar Strip */}
-      <div className="bg-primary/10 border-b border-border py-2">
-        <div className="container mx-auto px-4 max-w-2xl">
+      <div className="bg-background/60 backdrop-blur-sm border-b border-border py-3">
+        <div className="container mx-auto px-4 max-w-3xl">
           <SearchAutocomplete onClose={() => {}} alwaysVisible />
         </div>
       </div>
@@ -361,8 +361,8 @@ const Index = () => {
       {/* Hero Banner */}
       <HeroBanner />
 
-      {/* Card Grid 1 - overlaps banner slightly */}
-      <section className="bg-transparent relative z-20 -mt-10 md:-mt-16">
+      {/* Card Grid 1 */}
+      <section className="bg-transparent relative z-20 mt-4">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <CategoryCard title="Customers' Most-Loved Products" products={mostLoved.slice(0, 4)} linkTo="/shop" />
