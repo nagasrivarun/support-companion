@@ -79,7 +79,7 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     title: "Basic Cotton T-Shirt",
     description: "Premium quality 100% cotton t-shirt. Comfortable fit, breathable fabric perfect for everyday wear. Available in multiple colors.",
     handle: "basic-cotton-tshirt",
-    productType: "T-Shirts",
+    productType: "Clothing",
     vendor: "StyleCraft",
     tags: ["cotton", "casual", "men", "women", "bestseller"],
     price: 499,
