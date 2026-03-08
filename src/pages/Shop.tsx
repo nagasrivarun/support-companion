@@ -128,6 +128,7 @@ const Shop = () => {
     if (selectedBrands.length > 0) result = result.filter(p => selectedBrands.includes(p.vendor));
     result = result.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1]);
     if (minRating > 0) result = result.filter(p => p.rating >= minRating);
+    if (inStockOnly) result = result.filter(p => p.inStock);
 
     switch (sortBy) {
       case "price-low": result.sort((a, b) => a.price - b.price); break;
