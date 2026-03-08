@@ -42,6 +42,16 @@ import screenProtectorImg from "@/assets/products/screen-protector.jpg";
 import earphoneCaseImg from "@/assets/products/earphone-case.jpg";
 import mousepadImg from "@/assets/products/mousepad.jpg";
 import phoneStandImg from "@/assets/products/phone-stand.jpg";
+import samsungPhoneImg from "@/assets/products/samsung-phone.jpg";
+import iphoneImg from "@/assets/products/iphone.jpg";
+import oneplusPhoneImg from "@/assets/products/oneplus-phone.jpg";
+import xiaomiPhoneImg from "@/assets/products/xiaomi-phone.jpg";
+import realmePhoneImg from "@/assets/products/realme-phone.jpg";
+import oppoPhoneImg from "@/assets/products/oppo-phone.jpg";
+import vivoPhoneImg from "@/assets/products/vivo-phone.jpg";
+import nothingPhoneImg from "@/assets/products/nothing-phone.jpg";
+import pixelPhoneImg from "@/assets/products/pixel-phone.jpg";
+import motorolaPhoneImg from "@/assets/products/motorola-phone.jpg";
 
 export interface LocalProduct {
   id: string;
