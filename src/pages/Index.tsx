@@ -388,7 +388,7 @@ const Index = () => {
             ) : (
               <CategoryCard title="Top Rated Products" products={topRated.slice(0, 4)} linkTo="/shop" />
             )}
-            <CategoryCard title="Customers' Most-Loved Fashion" products={clothing.slice(0, 4)} linkTo="/shop?category=T-Shirts" />
+            <CategoryCard title="Customers' Most-Loved Fashion" products={clothing.slice(0, 4)} linkTo="/shop?category=Clothing" />
             <CategoryCard title={`Starting ₹${Math.min(...accessories.map(p => p.price))} | Accessories`} products={accessories.slice(0, 4)} linkTo="/shop?category=Accessories" />
           </div>
         </div>
