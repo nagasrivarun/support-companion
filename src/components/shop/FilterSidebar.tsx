@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { getCategories, getVendorsList } from "@/data/products";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
