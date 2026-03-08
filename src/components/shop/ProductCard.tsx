@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Check, ImageOff } from "lucide-react";
 import { ShopifyProduct, formatPrice } from "@/lib/shopify";
 import { useCartStore, CartItem } from "@/stores/cartStore";
+import { CompareToggle } from "@/components/compare/CompareToggle";
+import { getProductByHandle } from "@/data/products";
 import { toast } from "sonner";
 
 interface ProductCardProps {
