@@ -642,6 +642,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "Premium cotton polo shirt with ribbed collar and cuffs. Smart casual essential for every wardrobe.",
     handle: "polo-tshirt",
     productType: "Clothing",
+    vendor: "StyleCraft",
+    tags: ["polo", "tshirt", "cotton", "men", "smart-casual"],
     price: 699,
     originalPrice: 1499,
     currencyCode: "INR",
