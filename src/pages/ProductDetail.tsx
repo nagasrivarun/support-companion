@@ -146,6 +146,9 @@ const ProductDetail = () => {
           </div>
         </div>
 
+        {/* Customers Also Bought */}
+        <CustomersAlsoBought product={product} />
+
         {/* Reviews */}
         <div className="mt-16 border-t border-border pt-12">
           <h2 className="text-2xl font-bold text-foreground mb-8">Customer Reviews</h2>
@@ -154,6 +157,63 @@ const ProductDetail = () => {
       </div>
 
       <ChatWidget />
+    </div>
+  );
+};
+
+const CustomersAlsoBought = ({ product }: { product: LocalProduct }) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const scroll = (dir: "left" | "right") => {
+    if (!scrollRef.current) return;
+    scrollRef.current.scrollBy({ left: dir === "left" ? -scrollRef.current.clientWidth * 0.8 : scrollRef.current.clientWidth * 0.8, behavior: "smooth" });
+  };
+
+  // Get products from same category, excluding current, then pad with top-rated from other categories
+  const sameCategory = getProductsByCategory(product.productType).filter(p => p.id !== product.id);
+  const otherProducts = LOCAL_PRODUCTS
+    .filter(p => p.id !== product.id && p.productType !== product.productType)
+    .sort((a, b) => b.rating - a.rating || b.reviewCount - a.reviewCount);
+  const related = [...sameCategory, ...otherProducts].slice(0, 12);
+
+  if (related.length === 0) return null;
+
+  return (
+    <div className="mt-16 border-t border-border pt-12">
+      <h2 className="text-xl font-bold text-foreground mb-6">Customers who bought this also bought</h2>
+      <div className="relative group">
+        <button onClick={() => scroll("left")} className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-card/95 border border-border shadow-lg rounded-r-md p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <ChevronLeft className="h-6 w-6 text-foreground" />
+        </button>
+        <div ref={scrollRef} className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth">
+          {related.map(p => {
+            const discount = p.originalPrice ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100) : 0;
+            return (
+              <Link key={p.id} to={`/product/${p.handle}`} className="flex-shrink-0 w-[180px] group/card">
+                <div className="w-[180px] h-[180px] bg-muted rounded overflow-hidden mb-2">
+                  <img src={p.image} alt={p.title} className="h-full w-full object-cover group-hover/card:scale-105 transition-transform" />
+                </div>
+                <p className="text-sm text-primary hover:text-primary/80 line-clamp-2 mb-1">{p.title}</p>
+                <div className="flex items-center gap-1 mb-1">
+                  <div className="flex">
+                    {[1, 2, 3, 4, 5].map(i => (
+                      <Star key={i} className={`h-3 w-3 ${i <= Math.floor(p.rating) ? "fill-warning text-warning" : "text-muted-foreground/30"}`} />
+                    ))}
+                  </div>
+                  <span className="text-xs text-primary">{p.reviewCount.toLocaleString("en-IN")}</span>
+                </div>
+                <div className="flex items-baseline gap-1">
+                  {discount > 0 && <span className="text-xs text-destructive font-medium">-{discount}%</span>}
+                  <span className="text-base font-bold text-foreground">₹{p.price.toLocaleString("en-IN")}</span>
+                  {p.originalPrice && <span className="text-xs text-muted-foreground line-through">₹{p.originalPrice.toLocaleString("en-IN")}</span>}
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+        <button onClick={() => scroll("right")} className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-card/95 border border-border shadow-lg rounded-l-md p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <ChevronRight className="h-6 w-6 text-foreground" />
+        </button>
+      </div>
     </div>
   );
 };
