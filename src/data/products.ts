@@ -722,6 +722,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "MFi-certified lightning cable for fast and safe charging. Durable build with 1m length.",
     handle: "lightning-cable",
     productType: "Cables & Chargers",
+    vendor: "ChargeTech",
+    tags: ["cable", "lightning", "charging", "apple"],
     price: 349,
     originalPrice: 799,
     currencyCode: "INR",
