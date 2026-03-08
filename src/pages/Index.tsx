@@ -408,10 +408,10 @@ const Index = () => {
       <section className="bg-background mt-3 py-4">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <CategoryCard title="Best Deals on Electronics" products={electronics.slice(0, 4)} linkTo="/shop?category=Electronics" />
-            <CategoryCard title="Bags & Backpacks" products={bags.slice(0, 4)} linkTo="/shop?category=Bags" />
-            <CategoryCard title="Footwear for Every Occasion" products={footwear.slice(0, 4)} linkTo="/shop?category=Footwear" />
-            <CategoryCard title="Today's Best Deals" products={bestDeals.slice(0, 4)} linkTo="/shop" />
+            <CategoryCard title="Audio & Wearable Tech" products={audio.slice(0, 4)} linkTo="/shop?category=Audio" />
+            <CategoryCard title="Phones & Tablets" products={phonesTablets.slice(0, 4)} linkTo="/shop?category=Phones %26 Tablets" />
+            <CategoryCard title="Cables & Chargers" products={cablesChargers.slice(0, 4)} linkTo="/shop?category=Cables %26 Chargers" />
+            <CategoryCard title="Computer Peripherals" products={peripherals.slice(0, 4)} linkTo="/shop?category=Computer Peripherals" />
           </div>
         </div>
       </section>
