@@ -100,7 +100,7 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     title: "Slim Fit Denim Jeans",
     description: "Classic slim fit denim jeans with stretch comfort. Perfect for casual and semi-formal occasions.",
     handle: "slim-fit-denim-jeans",
-    productType: "Jeans",
+    productType: "Clothing",
     vendor: "DenimCo",
     tags: ["denim", "slim-fit", "men", "casual"],
     price: 1299,
