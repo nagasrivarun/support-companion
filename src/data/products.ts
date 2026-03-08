@@ -819,6 +819,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "9H hardness tempered glass screen protector with oleophobic coating. Bubble-free installation kit included.",
     handle: "screen-protector",
     productType: "Phone Accessories",
+    vendor: "MobiTech",
+    tags: ["screen-protector", "tempered-glass", "phone-accessories"],
     price: 199,
     originalPrice: 499,
     currencyCode: "INR",
