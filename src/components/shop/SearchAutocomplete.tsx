@@ -7,9 +7,10 @@ import { searchLocalProducts, type LocalProduct } from "@/data/products";
 
 interface SearchAutocompleteProps {
   onClose: () => void;
+  alwaysVisible?: boolean;
 }
 
-export const SearchAutocomplete = ({ onClose }: SearchAutocompleteProps) => {
+export const SearchAutocomplete = ({ onClose, alwaysVisible }: SearchAutocompleteProps) => {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<LocalProduct[]>([]);
@@ -32,8 +33,9 @@ export const SearchAutocomplete = ({ onClose }: SearchAutocompleteProps) => {
     setSelectedIndex(-1);
   }, [query]);
 
-  // Close on outside click
+  // Close on outside click (skip if always visible)
   useEffect(() => {
+    if (alwaysVisible) return;
     const handler = (e: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         onClose();
@@ -41,7 +43,7 @@ export const SearchAutocomplete = ({ onClose }: SearchAutocompleteProps) => {
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [onClose]);
+  }, [onClose, alwaysVisible]);
 
   const goToProduct = (handle: string) => {
     navigate(`/product/${handle}`);

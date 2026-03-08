@@ -4,6 +4,7 @@ import { ShopHeader } from "@/components/shop/ShopHeader";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { LOCAL_PRODUCTS, getCategories, getProductsByCategory, getProductByHandle, type LocalProduct } from "@/data/products";
 import { Star, ChevronRight, ChevronLeft, Mail, Send, Loader2, CheckCircle } from "lucide-react";
+import { SearchAutocomplete } from "@/components/shop/SearchAutocomplete";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -43,6 +44,11 @@ const HeroBanner = () => {
 
   return (
     <section className="relative w-full overflow-hidden bg-muted">
+      {/* Search bar overlay */}
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 w-[90%] max-w-2xl">
+        <SearchAutocomplete onClose={() => {}} alwaysVisible />
+      </div>
+
       <div className="relative aspect-[3.3/1] md:aspect-[3.5/1]">
         {banners.map((b, i) => (
           <Link
