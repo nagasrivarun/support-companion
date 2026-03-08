@@ -62,7 +62,7 @@ const HeroBanner = () => {
                 <p className="text-sm md:text-lg text-white/90 mb-4 drop-shadow-md">
                   {b.subtitle}
                 </p>
-                <span className="inline-block bg-white text-foreground font-semibold px-5 py-2 rounded-lg text-sm md:text-base hover:bg-white/90 transition-colors shadow-lg">
+                <span className="inline-block bg-primary text-primary-foreground font-semibold px-6 py-2.5 rounded-lg text-sm md:text-base hover:bg-primary/90 transition-colors shadow-lg">
                   {b.cta} →
                 </span>
               </div>
