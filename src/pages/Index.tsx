@@ -336,11 +336,15 @@ const Index = () => {
   const recentlyViewed = viewedHandles.map(h => getProductByHandle(h)).filter((p): p is LocalProduct => !!p);
   const lastViewed = recentlyViewed[0];
 
-  const clothing = [...getProductsByCategory("T-Shirts"), ...getProductsByCategory("Jeans"), ...getProductsByCategory("Hoodies"), ...getProductsByCategory("Shorts")];
+  const clothing = getProductsByCategory("Clothing");
   const footwear = getProductsByCategory("Footwear");
   const accessories = getProductsByCategory("Accessories");
-  const electronics = getProductsByCategory("Electronics");
+  const audio = [...getProductsByCategory("Audio"), ...getProductsByCategory("Wearable Tech")];
   const bags = getProductsByCategory("Bags");
+  const cablesChargers = getProductsByCategory("Cables & Chargers");
+  const phonesTablets = getProductsByCategory("Phones & Tablets");
+  const peripherals = getProductsByCategory("Computer Peripherals");
+  const phoneAccessories = getProductsByCategory("Phone Accessories");
   const mostLoved = [...LOCAL_PRODUCTS].sort((a, b) => b.reviewCount - a.reviewCount);
   const topRated = [...LOCAL_PRODUCTS].sort((a, b) => b.rating - a.rating || b.reviewCount - a.reviewCount);
   const bestDeals = [...LOCAL_PRODUCTS].filter(p => p.originalPrice && p.originalPrice > p.price).sort((a, b) => {
