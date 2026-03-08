@@ -124,7 +124,9 @@ const Shop = () => {
     }
     if (category !== "all") result = result.filter(p => p.productType === category);
     if (vendor !== "all") result = result.filter(p => p.vendor === vendor);
+    if (selectedBrands.length > 0) result = result.filter(p => selectedBrands.includes(p.vendor));
     result = result.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1]);
+    if (minRating > 0) result = result.filter(p => p.rating >= minRating);
 
     switch (sortBy) {
       case "price-low": result.sort((a, b) => a.price - b.price); break;
@@ -133,17 +135,19 @@ const Shop = () => {
       case "name-asc": result.sort((a, b) => a.title.localeCompare(b.title)); break;
     }
     return result;
-  }, [search, category, vendor, sortBy, priceRange]);
+  }, [search, category, vendor, selectedBrands, sortBy, priceRange, minRating]);
 
   const resetFilters = () => {
     setSearch("");
     setCategory("all");
     setVendor("all");
+    setSelectedBrands([]);
     setSortBy("relevance");
     setPriceRange([0, 150000]);
+    setMinRating(0);
   };
 
-  const activeCount = [search, category !== "all", vendor !== "all", priceRange[0] > 0 || priceRange[1] < 150000].filter(Boolean).length;
+  const activeCount = [search, category !== "all", vendor !== "all", selectedBrands.length > 0, priceRange[0] > 0 || priceRange[1] < 150000, minRating > 0].filter(Boolean).length;
 
   return (
     <div className="min-h-screen bg-background">
