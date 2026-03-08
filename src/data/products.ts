@@ -563,6 +563,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "Feature-rich smartwatch with AMOLED display, GPS, SpO2, heart rate monitor, and 100+ watch faces.",
     handle: "smart-watch-pro",
     productType: "Wearable Tech",
+    vendor: "FitGear",
+    tags: ["smartwatch", "fitness", "gps", "health"],
     price: 3499,
     originalPrice: 6999,
     currencyCode: "INR",
