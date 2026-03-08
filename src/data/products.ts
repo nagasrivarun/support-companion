@@ -741,6 +741,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "6-in-1 USB-C hub with HDMI, USB 3.0, and PD charging. Perfect for laptops and tablets.",
     handle: "usb-c-hub",
     productType: "Computer Peripherals",
+    vendor: "ChargeTech",
+    tags: ["hub", "usb-c", "adapter", "hdmi", "peripherals"],
     price: 1299,
     originalPrice: 2499,
     currencyCode: "INR",
