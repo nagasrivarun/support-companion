@@ -4,6 +4,7 @@ import { ShopHeader } from "@/components/shop/ShopHeader";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ChatWidget } from "@/components/chat/ChatWidget";
+import { CompareToggle } from "@/components/compare/CompareToggle";
 import { ProductReviews } from "@/components/product/ProductReviews";
 import { getProductByHandle, getProductsByCategory, LOCAL_PRODUCTS, type LocalProduct } from "@/data/products";
 import { useBrowsingHistory } from "@/stores/browsingHistory";
@@ -87,6 +88,9 @@ const ProductDetail = () => {
             </div>
 
             <p className="text-muted-foreground">{product.description}</p>
+
+            {/* Compare Button */}
+            <CompareToggle product={product} variant="full" />
 
             {/* Options */}
             {product.sizes && (
