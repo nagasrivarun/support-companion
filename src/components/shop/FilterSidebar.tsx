@@ -20,6 +20,8 @@ interface FilterSidebarProps {
   setPriceRange: (v: [number, number]) => void;
   minRating: number;
   setMinRating: (v: number) => void;
+  inStockOnly: boolean;
+  setInStockOnly: (v: boolean) => void;
   onReset: () => void;
   activeCount: number;
 }
