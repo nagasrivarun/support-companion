@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { ShopHeader } from "@/components/shop/ShopHeader";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { LOCAL_PRODUCTS, getCategories, getProductsByCategory, type LocalProduct } from "@/data/products";
-import { Star, ChevronRight, Zap, Truck, Shield, RotateCcw, TrendingUp, Flame } from "lucide-react";
+import { Star, ChevronRight, Zap, Truck, Shield, RotateCcw, TrendingUp, Flame, ExternalLink } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -27,8 +27,8 @@ const DealCard = ({ product, rank }: { product: LocalProduct; rank?: number }) =
     : 0;
 
   return (
-    <Link to={`/product/${product.handle}`} className="block group">
-      <Card className="overflow-hidden border-border hover:border-primary/40 transition-all hover:shadow-lg h-full">
+    <Card className="overflow-hidden border-border hover:border-primary/40 transition-all hover:shadow-lg h-full group">
+      <Link to={`/product/${product.handle}`} className="block">
         <div className="aspect-square bg-muted overflow-hidden relative">
           <img src={product.image} alt={product.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform" />
           {discount > 0 && (
@@ -52,8 +52,15 @@ const DealCard = ({ product, rank }: { product: LocalProduct; rank?: number }) =
             )}
           </div>
         </div>
-      </Card>
-    </Link>
+      </Link>
+      <div className="px-3 pb-3">
+        <a href={product.amazonUrl} target="_blank" rel="noopener noreferrer">
+          <Button className="w-full gap-2 bg-warning text-warning-foreground hover:bg-warning/90" size="sm">
+            <ExternalLink className="h-3.5 w-3.5" /> Buy on Amazon
+          </Button>
+        </a>
+      </div>
+    </Card>
   );
 };
 
