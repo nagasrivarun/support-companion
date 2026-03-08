@@ -89,6 +89,13 @@ import denimJacketImg from "@/assets/products/denim-jacket.jpg";
 import formalShirtImg from "@/assets/products/formal-shirt.jpg";
 import hikingBootsImg from "@/assets/products/hiking-boots.jpg";
 import waterBottleImg from "@/assets/products/water-bottle.jpg";
+import herbalShampooImg from "@/assets/products/herbal-shampoo.jpg";
+import antiDandruffShampooImg from "@/assets/products/anti-dandruff-shampoo.jpg";
+import keratinShampooImg from "@/assets/products/keratin-shampoo.jpg";
+import onionShampooImg from "@/assets/products/onion-shampoo.jpg";
+import zipHoodieImg from "@/assets/products/zip-hoodie.jpg";
+import oversizedHoodieImg from "@/assets/products/oversized-hoodie.jpg";
+import graphicHoodieImg from "@/assets/products/graphic-hoodie.jpg";
 
 export interface LocalProduct {
   id: string;
