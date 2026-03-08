@@ -24,11 +24,11 @@ const emailSchema = z.string().trim().email().max(255);
 
 // ── Hero Banner Carousel ────────────────────────────────────────
 const banners = [
-  { image: fashionBanner, link: "/shop?category=Clothing", alt: "Fashion Sale up to 50% off" },
-  { image: electronicsBanner, link: "/shop?category=Audio", alt: "Audio & Electronics deals starting ₹199" },
-  { image: footwearBanner, link: "/shop?category=Footwear", alt: "Footwear collection new arrivals" },
-  { image: accessoriesBanner, link: "/shop?category=Accessories", alt: "Summer Accessories Sale up to 40% off" },
-  { image: bagsBanner, link: "/shop?category=Bags", alt: "Bags Collection starting ₹599" },
+  { image: fashionBanner, link: "/shop?category=Clothing", alt: "Fashion Sale up to 50% off", title: "Fashion Sale", subtitle: "Up to 50% Off on Clothing", cta: "Shop Now" },
+  { image: electronicsBanner, link: "/shop?category=Audio", alt: "Audio & Electronics deals starting ₹199", title: "Electronics Deals", subtitle: "Premium Audio & Gadgets from ₹199", cta: "Explore" },
+  { image: footwearBanner, link: "/shop?category=Footwear", alt: "Footwear collection new arrivals", title: "New Arrivals", subtitle: "Footwear Collection for Every Style", cta: "Shop Footwear" },
+  { image: accessoriesBanner, link: "/shop?category=Accessories", alt: "Summer Accessories Sale up to 40% off", title: "Accessories", subtitle: "Premium Watches, Belts & More — 40% Off", cta: "Browse" },
+  { image: bagsBanner, link: "/shop?category=Bags", alt: "Bags Collection starting ₹599", title: "Bags Collection", subtitle: "Backpacks, Totes & Messenger Bags from ₹599", cta: "Shop Bags" },
 ];
 
 const HeroBanner = () => {
@@ -53,6 +53,20 @@ const HeroBanner = () => {
             className={`absolute inset-0 transition-opacity duration-700 ${i === current ? "opacity-100 z-10" : "opacity-0 z-0"}`}
           >
             <img src={b.image} alt={b.alt} className="w-full h-full object-cover" />
+            {/* Text Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent flex items-center">
+              <div className="pl-8 md:pl-16 lg:pl-24 max-w-lg">
+                <h2 className="text-2xl md:text-4xl lg:text-5xl font-extrabold text-white mb-2 drop-shadow-lg">
+                  {b.title}
+                </h2>
+                <p className="text-sm md:text-lg text-white/90 mb-4 drop-shadow-md">
+                  {b.subtitle}
+                </p>
+                <span className="inline-block bg-white text-foreground font-semibold px-5 py-2 rounded-lg text-sm md:text-base hover:bg-white/90 transition-colors shadow-lg">
+                  {b.cta} →
+                </span>
+              </div>
+            </div>
           </Link>
         ))}
       </div>
