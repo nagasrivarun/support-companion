@@ -13,6 +13,7 @@ import Conversations from "./pages/Conversations";
 import LiveChat from "./pages/LiveChat";
 import Analytics from "./pages/Analytics";
 import Automations from "./pages/Automations";
+import Index from "./pages/Index";
 import Shop from "./pages/Shop";
 import ProductDetail from "./pages/ProductDetail";
 import Shipping from "./pages/Shipping";
@@ -32,7 +33,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             {/* Public Shop Routes */}
-            <Route path="/" element={<Shop />} />
+            <Route path="/" element={<Index />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/product/:handle" element={<ProductDetail />} />
             <Route path="/shipping" element={<Shipping />} />
