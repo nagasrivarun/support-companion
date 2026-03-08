@@ -838,6 +838,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "Hard shell carrying case for earphones and earbuds. Compact, lightweight with carabiner clip.",
     handle: "earphone-case",
     productType: "Phone Accessories",
+    vendor: "SoundTech",
+    tags: ["earphone-case", "carrying-case", "phone-accessories"],
     price: 199,
     originalPrice: 399,
     currencyCode: "INR",
