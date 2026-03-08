@@ -483,6 +483,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "High-quality wired earphones with in-line microphone and deep bass. Compatible with all 3.5mm devices.",
     handle: "wired-earphones",
     productType: "Audio",
+    vendor: "SoundTech",
+    tags: ["earphones", "wired", "audio", "mic"],
     price: 299,
     originalPrice: 699,
     currencyCode: "INR",
