@@ -2443,6 +2443,48 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
 ];
 
 
+// Default colors/sizes by category for products that don't have them
+const defaultColorsByCategory: Record<string, string[]> = {
+  "Clothing": ["Black", "White", "Navy", "Grey"],
+  "Footwear": ["Black", "White", "Grey"],
+  "Accessories": ["Black", "Silver", "Gold"],
+  "Bags": ["Black", "Brown", "Grey"],
+  "Audio": ["Black", "White", "Blue"],
+  "Wearable Tech": ["Black", "Silver", "Blue"],
+  "Cables & Chargers": ["Black", "White"],
+  "Phones & Tablets": ["Black", "Blue", "Silver"],
+  "Phone Accessories": ["Black", "Clear", "Navy"],
+  "Computer Peripherals": ["Black", "Silver", "White"],
+  "Computers & Laptops": ["Silver", "Space Grey", "Black"],
+  "Home Decor": ["White", "Black", "Beige"],
+  "Kitchen Appliances": ["Black", "Silver", "White"],
+  "Sports & Fitness": ["Black", "Blue", "Red"],
+  "Books": [],
+  "Toys & Games": [],
+  "Beauty & Personal Care": [],
+};
+
+const defaultSizesByCategory: Record<string, string[]> = {
+  "Clothing": ["S", "M", "L", "XL"],
+  "Footwear": ["7", "8", "9", "10", "11"],
+};
+
+// Ensure all products have colors and sizes where applicable
+LOCAL_PRODUCTS.forEach(p => {
+  if (!p.colors || p.colors.length === 0) {
+    const defaults = defaultColorsByCategory[p.productType];
+    if (defaults && defaults.length > 0) {
+      p.colors = defaults;
+    }
+  }
+  if (!p.sizes || p.sizes.length === 0) {
+    const defaults = defaultSizesByCategory[p.productType];
+    if (defaults && defaults.length > 0) {
+      p.sizes = defaults;
+    }
+  }
+});
+
 // Helper functions
 export function getProductByHandle(handle: string): LocalProduct | undefined {
   return LOCAL_PRODUCTS.find(p => p.handle === handle);
