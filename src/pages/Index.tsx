@@ -350,6 +350,10 @@ const Index = () => {
   const homeDecor = getProductsByCategory("Home Decor");
   const kitchen = getProductsByCategory("Kitchen Appliances");
   const sports = getProductsByCategory("Sports & Fitness");
+  const books = getProductsByCategory("Books");
+  const toys = getProductsByCategory("Toys & Games");
+  const beauty = getProductsByCategory("Beauty & Personal Care");
+  const allBrands = getVendorsList();
   const mostLoved = [...LOCAL_PRODUCTS].sort((a, b) => b.reviewCount - a.reviewCount);
   const topRated = [...LOCAL_PRODUCTS].sort((a, b) => b.rating - a.rating || b.reviewCount - a.reviewCount);
   const bestDeals = [...LOCAL_PRODUCTS].filter(p => p.originalPrice && p.originalPrice > p.price).sort((a, b) => {
