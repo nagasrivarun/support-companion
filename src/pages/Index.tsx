@@ -297,7 +297,8 @@ const Footer = () => (
             <h4 className="font-bold text-foreground mb-3">Let Us Help You</h4>
             <ul className="space-y-2 text-sm">
               <li><Link to="/account" className="text-muted-foreground hover:text-foreground transition-colors">Your Account</Link></li>
-              <li><Link to="/shipping" className="text-muted-foreground hover:text-foreground transition-colors">Shipping & Returns</Link></li>
+              <li><Link to="/shipping" className="text-muted-foreground hover:text-foreground transition-colors">Shipping Info</Link></li>
+              <li><Link to="/returns" className="text-muted-foreground hover:text-foreground transition-colors">Returns & Refunds</Link></li>
               <li><Link to="/wishlist" className="text-muted-foreground hover:text-foreground transition-colors">Your Wishlist</Link></li>
               <li><Link to="/" className="text-muted-foreground hover:text-foreground transition-colors">Help</Link></li>
             </ul>
