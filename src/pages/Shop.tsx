@@ -244,6 +244,7 @@ const Shop = () => {
         )}
       </div>
 
+      <QuickViewModal product={quickViewProduct} open={!!quickViewProduct} onOpenChange={(o) => { if (!o) setQuickViewProduct(null); }} />
       <ChatWidget />
     </div>
   );
