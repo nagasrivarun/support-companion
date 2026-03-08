@@ -77,23 +77,9 @@ export const ShopHeader = () => {
           </div>
         </div>
 
-        {/* Expandable Search Bar */}
+        {/* Expandable Search Bar with Autocomplete */}
         {searchOpen && (
-          <form onSubmit={handleSearchSubmit} className="pb-3 animate-fade-in">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                autoFocus
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-20"
-              />
-              <Button type="submit" size="sm" className="absolute right-1 top-1/2 -translate-y-1/2">
-                Search
-              </Button>
-            </div>
-          </form>
+          <SearchAutocomplete onClose={() => setSearchOpen(false)} />
         )}
       </div>
     </header>

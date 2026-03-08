@@ -368,6 +368,9 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Deal of the Day */}
+      <DealOfTheDay />
+
       {/* Deals Carousel */}
       <section className="bg-background mt-3">
         <div className="container mx-auto">
