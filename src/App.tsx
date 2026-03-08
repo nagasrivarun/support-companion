@@ -13,6 +13,7 @@ import Conversations from "./pages/Conversations";
 import LiveChat from "./pages/LiveChat";
 import Analytics from "./pages/Analytics";
 import Automations from "./pages/Automations";
+import Index from "./pages/Index";
 import Shop from "./pages/Shop";
 import ProductDetail from "./pages/ProductDetail";
 import Shipping from "./pages/Shipping";
