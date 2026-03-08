@@ -386,6 +386,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "True wireless earbuds with noise cancellation and 24h battery life. Crystal clear audio quality.",
     handle: "bluetooth-earbuds",
     productType: "Audio",
+    vendor: "SoundTech",
+    tags: ["earbuds", "bluetooth", "wireless", "electronics"],
     price: 1299,
     originalPrice: 2999,
     currencyCode: "INR",
