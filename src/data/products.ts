@@ -454,7 +454,7 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     title: "Smartphone 5G",
     description: "Latest 5G smartphone with 6.5\" AMOLED display, 128GB storage, and 48MP camera. Smooth performance for everyday use.",
     handle: "smartphone-5g",
-    productType: "Phones",
+    productType: "Phones & Tablets",
     vendor: "MobiTech",
     tags: ["smartphone", "5g", "phone", "electronics", "mobile"],
     price: 12999,
