@@ -8,22 +8,16 @@ import { useAuth } from "@/hooks/useAuth";
 
 export const ShopHeader = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      // Scroll to product grid and trigger search via URL hash
-      const searchInput = document.querySelector<HTMLInputElement>('[placeholder="Search products..."]');
-      if (searchInput) {
-        // Set value and dispatch input event to trigger React state update
-        const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
-        nativeInputValueSetter?.call(searchInput, searchQuery);
-        searchInput.dispatchEvent(new Event('input', { bubbles: true }));
-        searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
+      navigate(`/shop?search=${encodeURIComponent(searchQuery.trim())}`);
       setSearchOpen(false);
+      setSearchQuery("");
     }
   };
 
@@ -32,7 +26,7 @@ export const ShopHeader = () => {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo / Brand */}
-          <Link to="/shop" className="flex items-center gap-1">
+          <Link to="/" className="flex items-center gap-1">
             <span className="text-2xl font-extrabold tracking-tight text-gradient">SHOP</span>
             <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground ml-1 mt-1">India</span>
           </Link>
@@ -47,7 +41,7 @@ export const ShopHeader = () => {
             </Link>
             <Link 
               to="/shop" 
-              className="text-sm font-medium text-foreground"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               Products
             </Link>
