@@ -1,22 +1,29 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, X } from "lucide-react";
+import { Search, Mic, MicOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { searchLocalProducts, type LocalProduct } from "@/data/products";
+import { toast } from "sonner";
 
 interface SearchAutocompleteProps {
   onClose: () => void;
   alwaysVisible?: boolean;
 }
 
+const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
 export const SearchAutocomplete = ({ onClose, alwaysVisible }: SearchAutocompleteProps) => {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<LocalProduct[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [isListening, setIsListening] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const recognitionRef = useRef<any>(null);
+
+  const supportsVoice = !!SpeechRecognition;
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -33,7 +40,6 @@ export const SearchAutocomplete = ({ onClose, alwaysVisible }: SearchAutocomplet
     setSelectedIndex(-1);
   }, [query]);
 
-  // Close on outside click (skip if always visible)
   useEffect(() => {
     if (alwaysVisible) return;
     const handler = (e: MouseEvent) => {
@@ -44,6 +50,41 @@ export const SearchAutocomplete = ({ onClose, alwaysVisible }: SearchAutocomplet
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, [onClose, alwaysVisible]);
+
+  useEffect(() => {
+    return () => { recognitionRef.current?.abort(); };
+  }, []);
+
+  const toggleVoice = useCallback(() => {
+    if (!supportsVoice) {
+      toast.error("Voice search is not supported in this browser");
+      return;
+    }
+    if (isListening) {
+      recognitionRef.current?.stop();
+      setIsListening(false);
+      return;
+    }
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-IN";
+    recognition.interimResults = true;
+    recognition.maxAlternatives = 1;
+    recognitionRef.current = recognition;
+
+    recognition.onstart = () => setIsListening(true);
+    recognition.onresult = (event: any) => {
+      const transcript = Array.from(event.results)
+        .map((r: any) => r[0].transcript)
+        .join("");
+      setQuery(transcript);
+    };
+    recognition.onerror = (event: any) => {
+      if (event.error !== "aborted") toast.error("Voice search error. Please try again.");
+      setIsListening(false);
+    };
+    recognition.onend = () => setIsListening(false);
+    recognition.start();
+  }, [isListening, supportsVoice]);
 
   const goToProduct = (handle: string) => {
     navigate(`/product/${handle}`);
@@ -78,15 +119,29 @@ export const SearchAutocomplete = ({ onClose, alwaysVisible }: SearchAutocomplet
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
         <Input
           ref={inputRef}
-          placeholder="Search products..."
+          placeholder={isListening ? "Listening..." : "Search products..."}
           value={query}
           onChange={e => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
-          className="pl-10 pr-20"
+          className={`pl-10 pr-28 ${isListening ? "ring-2 ring-destructive/50" : ""}`}
         />
-        <Button type="submit" size="sm" className="absolute right-1 top-1/2 -translate-y-1/2">
-          Search
-        </Button>
+        <div className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center gap-1">
+          {supportsVoice && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className={`h-8 w-8 ${isListening ? "text-destructive animate-pulse" : "text-muted-foreground hover:text-foreground"}`}
+              onClick={toggleVoice}
+              title={isListening ? "Stop listening" : "Voice search"}
+            >
+              {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+            </Button>
+          )}
+          <Button type="submit" size="sm">
+            Search
+          </Button>
+        </div>
       </form>
 
       {/* Dropdown */}
@@ -106,30 +161,20 @@ export const SearchAutocomplete = ({ onClose, alwaysVisible }: SearchAutocomplet
                   i === selectedIndex ? "bg-accent" : "hover:bg-accent/50"
                 }`}
               >
-                {/* Thumbnail */}
                 <div className="w-10 h-10 rounded bg-muted overflow-hidden flex-shrink-0">
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="h-full w-full object-cover"
-                  />
+                  <img src={product.image} alt={product.title} className="h-full w-full object-cover" />
                 </div>
-                {/* Info */}
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-foreground truncate">{product.title}</p>
                   <p className="text-xs text-muted-foreground">{product.productType}</p>
                 </div>
-                {/* Price */}
                 <div className="text-right flex-shrink-0">
                   <p className="text-sm font-bold text-primary">₹{product.price.toLocaleString("en-IN")}</p>
-                  {discount > 0 && (
-                    <p className="text-xs text-destructive">-{discount}%</p>
-                  )}
+                  {discount > 0 && <p className="text-xs text-destructive">-{discount}%</p>}
                 </div>
               </button>
             );
           })}
-          {/* View all */}
           <button
             type="button"
             onClick={() => {
