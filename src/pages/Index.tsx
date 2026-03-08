@@ -355,6 +355,17 @@ const Index = () => {
       <div className="bg-background/60 backdrop-blur-sm border-b border-border py-3">
         <div className="container mx-auto px-4 max-w-3xl">
           <SearchAutocomplete onClose={() => {}} alwaysVisible />
+          <div className="flex flex-wrap gap-2 mt-2">
+            {["Sneakers", "Bluetooth Earbuds", "Watch", "Backpack", "Sunglasses", "Hoodie", "Power Bank"].map(term => (
+              <button
+                key={term}
+                onClick={() => navigate(`/shop?search=${encodeURIComponent(term)}`)}
+                className="px-3 py-1 text-xs font-medium rounded-full bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
+              >
+                {term}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
