@@ -197,6 +197,8 @@ const Shop = () => {
             setPriceRange={setPriceRange}
             minRating={minRating}
             setMinRating={setMinRating}
+            inStockOnly={inStockOnly}
+            setInStockOnly={setInStockOnly}
             onReset={resetFilters}
             activeCount={activeCount}
           />
