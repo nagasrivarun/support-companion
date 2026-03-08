@@ -36,6 +36,12 @@ import wallAdapterImg from "@/assets/products/wall-adapter.jpg";
 import lightningCableImg from "@/assets/products/lightning-cable.jpg";
 import usbHubImg from "@/assets/products/usb-hub.jpg";
 import microUsbCableImg from "@/assets/products/micro-usb-cable.jpg";
+import wirelessMouseImg from "@/assets/products/wireless-mouse.jpg";
+import wirelessKeyboardImg from "@/assets/products/wireless-keyboard.jpg";
+import screenProtectorImg from "@/assets/products/screen-protector.jpg";
+import earphoneCaseImg from "@/assets/products/earphone-case.jpg";
+import mousepadImg from "@/assets/products/mousepad.jpg";
+import phoneStandImg from "@/assets/products/phone-stand.jpg";
 
 export interface LocalProduct {
   id: string;
