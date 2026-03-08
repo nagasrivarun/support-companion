@@ -28,7 +28,7 @@ const StarRating = ({ rating, count }: { rating: number; count: number }) => (
   </div>
 );
 
-const ProductCard = ({ product }: { product: LocalProduct }) => {
+const ProductCard = ({ product, onQuickView }: { product: LocalProduct; onQuickView: (p: LocalProduct) => void }) => {
   const discount = product.originalPrice
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
@@ -38,6 +38,13 @@ const ProductCard = ({ product }: { product: LocalProduct }) => {
       <Link to={`/product/${product.handle}`}>
         <div className="aspect-square bg-muted overflow-hidden relative">
           <CompareToggle product={product} />
+          <button
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onQuickView(product); }}
+            className="absolute bottom-2 right-2 z-10 bg-background/80 backdrop-blur-sm p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background"
+            title="Quick View"
+          >
+            <Eye className="h-4 w-4 text-foreground" />
+          </button>
           <img src={product.image} alt={product.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform" />
           {discount > 0 && (
             <Badge className="absolute top-2 left-2 bg-destructive text-destructive-foreground text-xs font-bold">
