@@ -81,6 +81,8 @@ const App = () => (
             } />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <CompareFloatingBar />
+          <CompareModal />
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>

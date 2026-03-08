@@ -58,6 +58,10 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       <Card className="group h-full overflow-hidden transition-all hover:shadow-lg hover:border-primary/50">
         {/* Image */}
         <div className="aspect-square overflow-hidden bg-muted relative">
+          {(() => {
+            const localProduct = getProductByHandle(node.handle);
+            return localProduct ? <CompareToggle product={localProduct} /> : null;
+          })()}
           {!imageError && firstImage ? (
             <img
               src={firstImage.url}

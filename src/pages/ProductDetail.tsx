@@ -89,6 +89,9 @@ const ProductDetail = () => {
 
             <p className="text-muted-foreground">{product.description}</p>
 
+            {/* Compare Button */}
+            <CompareToggle product={product} variant="full" />
+
             {/* Options */}
             {product.sizes && (
               <div>
