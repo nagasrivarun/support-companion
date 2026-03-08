@@ -329,6 +329,7 @@ const Footer = () => (
 
 // ── Main Page ───────────────────────────────────────────────────
 const Index = () => {
+  const navigate = useNavigate();
   const viewedHandles = useBrowsingHistory(s => s.viewedHandles);
 
   const recentlyViewed = viewedHandles.map(h => getProductByHandle(h)).filter((p): p is LocalProduct => !!p);
