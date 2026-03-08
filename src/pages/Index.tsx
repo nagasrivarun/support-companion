@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ShopHeader } from "@/components/shop/ShopHeader";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { LOCAL_PRODUCTS, getCategories, getProductsByCategory, getProductByHandle, type LocalProduct } from "@/data/products";
@@ -329,6 +329,7 @@ const Footer = () => (
 
 // ── Main Page ───────────────────────────────────────────────────
 const Index = () => {
+  const navigate = useNavigate();
   const viewedHandles = useBrowsingHistory(s => s.viewedHandles);
 
   const recentlyViewed = viewedHandles.map(h => getProductByHandle(h)).filter((p): p is LocalProduct => !!p);
@@ -355,6 +356,17 @@ const Index = () => {
       <div className="bg-background/60 backdrop-blur-sm border-b border-border py-3">
         <div className="container mx-auto px-4 max-w-3xl">
           <SearchAutocomplete onClose={() => {}} alwaysVisible />
+          <div className="flex flex-wrap gap-2 mt-2">
+            {["Sneakers", "Bluetooth Earbuds", "Watch", "Backpack", "Sunglasses", "Hoodie", "Power Bank"].map(term => (
+              <button
+                key={term}
+                onClick={() => navigate(`/shop?search=${encodeURIComponent(term)}`)}
+                className="px-3 py-1 text-xs font-medium rounded-full bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
+              >
+                {term}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
