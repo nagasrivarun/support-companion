@@ -121,7 +121,7 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     title: "Pullover Hoodie",
     description: "Warm fleece-lined pullover hoodie with kangaroo pocket. Great for layering in cool weather.",
     handle: "pullover-hoodie",
-    productType: "Hoodies",
+    productType: "Clothing",
     vendor: "StyleCraft",
     tags: ["hoodie", "winter", "unisex", "casual"],
     price: 899,
