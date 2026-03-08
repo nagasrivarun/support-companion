@@ -663,6 +663,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "Crystal clear protective phone case with shock-absorbing bumper edges. Slim profile, shows off your phone.",
     handle: "phone-case",
     productType: "Phone Accessories",
+    vendor: "MobiTech",
+    tags: ["phone-case", "protective", "phone-accessories"],
     price: 199,
     originalPrice: 499,
     currencyCode: "INR",
