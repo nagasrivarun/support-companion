@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { CartDrawer } from "./CartDrawer";
+import { SearchAutocomplete } from "./SearchAutocomplete";
 import { Heart, LayoutDashboard, Truck, User, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/useAuth";
 
 export const ShopHeader = () => {
