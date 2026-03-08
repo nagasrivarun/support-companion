@@ -35,6 +35,8 @@ export const FilterSidebar = ({
   setPriceRange,
   minRating,
   setMinRating,
+  inStockOnly,
+  setInStockOnly,
   onReset,
   activeCount,
 }: FilterSidebarProps) => {
