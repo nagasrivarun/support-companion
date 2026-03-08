@@ -779,6 +779,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "Ergonomic wireless mouse with 2.4GHz connectivity. Silent clicks, adjustable DPI, and long battery life.",
     handle: "wireless-mouse",
     productType: "Computer Peripherals",
+    vendor: "ChargeTech",
+    tags: ["mouse", "wireless", "computer", "peripherals"],
     price: 499,
     originalPrice: 999,
     currencyCode: "INR",
