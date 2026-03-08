@@ -858,6 +858,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "Large extended mousepad with anti-slip rubber base. Smooth surface for precise mouse tracking.",
     handle: "gaming-mousepad",
     productType: "Computer Peripherals",
+    vendor: "ChargeTech",
+    tags: ["mousepad", "gaming", "computer", "peripherals"],
     price: 399,
     originalPrice: 799,
     currencyCode: "INR",
