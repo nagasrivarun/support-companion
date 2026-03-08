@@ -53,6 +53,20 @@ const HeroBanner = () => {
             className={`absolute inset-0 transition-opacity duration-700 ${i === current ? "opacity-100 z-10" : "opacity-0 z-0"}`}
           >
             <img src={b.image} alt={b.alt} className="w-full h-full object-cover" />
+            {/* Text Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent flex items-center">
+              <div className="pl-8 md:pl-16 lg:pl-24 max-w-lg">
+                <h2 className="text-2xl md:text-4xl lg:text-5xl font-extrabold text-white mb-2 drop-shadow-lg">
+                  {b.title}
+                </h2>
+                <p className="text-sm md:text-lg text-white/90 mb-4 drop-shadow-md">
+                  {b.subtitle}
+                </p>
+                <span className="inline-block bg-white text-foreground font-semibold px-5 py-2 rounded-lg text-sm md:text-base hover:bg-white/90 transition-colors shadow-lg">
+                  {b.cta} →
+                </span>
+              </div>
+            </div>
           </Link>
         ))}
       </div>
