@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Star, Search, X, SlidersHorizontal, ExternalLink } from "lucide-react";
+import { CompareToggle } from "@/components/compare/CompareToggle";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -35,6 +36,7 @@ const ProductCard = ({ product }: { product: LocalProduct }) => {
     <Card className="group h-full overflow-hidden border-border hover:border-primary/40 transition-all hover:shadow-lg">
       <Link to={`/product/${product.handle}`}>
         <div className="aspect-square bg-muted overflow-hidden relative">
+          <CompareToggle product={product} />
           <img src={product.image} alt={product.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform" />
           {discount > 0 && (
             <Badge className="absolute top-2 left-2 bg-destructive text-destructive-foreground text-xs font-bold">
