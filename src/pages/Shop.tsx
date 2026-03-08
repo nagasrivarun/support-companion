@@ -101,7 +101,7 @@ const Shop = () => {
   const [category, setCategory] = useState(initialCategory);
   const [vendor, setVendor] = useState("all");
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 5000]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 150000]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState<LocalProduct | null>(null);
 
