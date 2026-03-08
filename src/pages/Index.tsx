@@ -44,10 +44,6 @@ const HeroBanner = () => {
 
   return (
     <section className="relative w-full overflow-hidden bg-muted">
-      {/* Search bar overlay */}
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 w-[90%] max-w-2xl">
-        <SearchAutocomplete onClose={() => {}} alwaysVisible />
-      </div>
 
       <div className="relative aspect-[3.3/1] md:aspect-[3.5/1]">
         {banners.map((b, i) => (
@@ -354,6 +350,13 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-muted/30 flex flex-col">
       <ShopHeader />
+
+      {/* Search Bar Strip */}
+      <div className="bg-primary/10 border-b border-border py-2">
+        <div className="container mx-auto px-4 max-w-2xl">
+          <SearchAutocomplete onClose={() => {}} alwaysVisible />
+        </div>
+      </div>
 
       {/* Hero Banner */}
       <HeroBanner />
