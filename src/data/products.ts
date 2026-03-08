@@ -58,6 +58,10 @@ import desktopPcImg from "@/assets/products/desktop-pc.jpg";
 import samsungTabletImg from "@/assets/products/samsung-tablet.jpg";
 import ipadImg from "@/assets/products/ipad.jpg";
 import chromebookImg from "@/assets/products/chromebook.jpg";
+import webcamImg from "@/assets/products/webcam.jpg";
+import monitorImg from "@/assets/products/monitor.jpg";
+import printerImg from "@/assets/products/printer.jpg";
+import externalHddImg from "@/assets/products/external-hdd.jpg";
 
 export interface LocalProduct {
   id: string;
