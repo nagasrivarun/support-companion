@@ -543,6 +543,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "Premium wireless headphones with active noise cancellation, 30h battery, and deep bass for immersive audio.",
     handle: "wireless-headphones",
     productType: "Audio",
+    vendor: "SoundTech",
+    tags: ["headphones", "wireless", "noise-cancelling", "audio"],
     price: 2499,
     originalPrice: 4999,
     currencyCode: "INR",
