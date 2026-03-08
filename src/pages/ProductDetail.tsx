@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ShopHeader } from "@/components/shop/ShopHeader";
 import { Button } from "@/components/ui/button";
