@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ShopHeader } from "@/components/shop/ShopHeader";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { LOCAL_PRODUCTS, getCategories, getProductsByCategory, getProductByHandle, type LocalProduct } from "@/data/products";
