@@ -425,6 +425,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "Smart fitness tracker with heart rate monitor, sleep tracking, and step counter.",
     handle: "fitness-tracker",
     productType: "Wearable Tech",
+    vendor: "FitGear",
+    tags: ["fitness", "tracker", "smartwatch", "health"],
     price: 1499,
     originalPrice: 2999,
     currencyCode: "INR",
