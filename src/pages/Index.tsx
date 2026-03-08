@@ -85,6 +85,14 @@ const CategorySection = ({ category, products }: { category: string; products: L
 
 const Index = () => {
   const categories = getCategories();
+  const viewedHandles = useBrowsingHistory(s => s.viewedHandles);
+  const clearHistory = useBrowsingHistory(s => s.clearHistory);
+
+  // Recently viewed products
+  const recentlyViewed = viewedHandles
+    .map(h => getProductByHandle(h))
+    .filter((p): p is LocalProduct => !!p)
+    .slice(0, 6);
 
   // Trending: sorted by review count (popularity)
   const trending = [...LOCAL_PRODUCTS]
