@@ -181,88 +181,110 @@ const Shop = () => {
       </div>
 
       <div className="container mx-auto px-4 py-6">
-        {/* Search & Sort Bar */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-6">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search products..."
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-          <Select value={sortBy} onValueChange={(v: SortOption) => setSortBy(v)}>
-            <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder="Sort by" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="relevance">Relevance</SelectItem>
-              <SelectItem value="price-low">Price: Low to High</SelectItem>
-              <SelectItem value="price-high">Price: High to Low</SelectItem>
-              <SelectItem value="rating">Customer Rating</SelectItem>
-              <SelectItem value="name-asc">Name: A to Z</SelectItem>
-            </SelectContent>
-          </Select>
-          <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
-            <SheetTrigger asChild>
-              <Button variant="outline" className="relative">
-                <SlidersHorizontal className="h-4 w-4 mr-2" /> Filters
-                {activeCount > 0 && (
-                  <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs">
-                    {activeCount}
-                  </Badge>
-                )}
-              </Button>
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Filter Products</SheetTitle>
-              </SheetHeader>
-              <div className="space-y-6 py-6">
-                <div className="space-y-2">
-                  <Label>Brand</Label>
-                  <Select value={vendor} onValueChange={setVendor}>
-                    <SelectTrigger><SelectValue placeholder="All Brands" /></SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Brands</SelectItem>
-                      {vendors.map(v => <SelectItem key={v} value={v}>{v}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-4">
-                  <Label>Price Range</Label>
-                  <Slider value={priceRange} min={0} max={150000} step={1000} onValueChange={v => setPriceRange(v as [number, number])} />
-                  <div className="flex justify-between text-sm text-muted-foreground">
-                    <span>₹{priceRange[0].toLocaleString("en-IN")}</span>
-                    <span>₹{priceRange[1].toLocaleString("en-IN")}</span>
-                  </div>
-                </div>
-                <Button variant="outline" onClick={resetFilters} className="w-full">
-                  <X className="h-4 w-4 mr-2" /> Reset Filters
-                </Button>
+        <div className="flex gap-6">
+          {/* Desktop Filter Sidebar */}
+          <FilterSidebar
+            category={category}
+            setCategory={setCategory}
+            vendor={vendor}
+            setVendor={setVendor}
+            selectedBrands={selectedBrands}
+            setSelectedBrands={setSelectedBrands}
+            priceRange={priceRange}
+            setPriceRange={setPriceRange}
+            minRating={minRating}
+            setMinRating={setMinRating}
+            onReset={resetFilters}
+            activeCount={activeCount}
+          />
+
+          {/* Main Content */}
+          <div className="flex-1 min-w-0">
+            {/* Search & Sort Bar */}
+            <div className="flex flex-col sm:flex-row gap-3 mb-6">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search products..."
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  className="pl-10"
+                />
               </div>
-            </SheetContent>
-          </Sheet>
+              <Select value={sortBy} onValueChange={(v: SortOption) => setSortBy(v)}>
+                <SelectTrigger className="w-full sm:w-[180px]">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="relevance">Relevance</SelectItem>
+                  <SelectItem value="price-low">Price: Low to High</SelectItem>
+                  <SelectItem value="price-high">Price: High to Low</SelectItem>
+                  <SelectItem value="rating">Customer Rating</SelectItem>
+                  <SelectItem value="name-asc">Name: A to Z</SelectItem>
+                </SelectContent>
+              </Select>
+              {/* Mobile filter trigger */}
+              <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="outline" className="relative lg:hidden">
+                    <SlidersHorizontal className="h-4 w-4 mr-2" /> Filters
+                    {activeCount > 0 && (
+                      <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs">
+                        {activeCount}
+                      </Badge>
+                    )}
+                  </Button>
+                </SheetTrigger>
+                <SheetContent>
+                  <SheetHeader>
+                    <SheetTitle>Filter Products</SheetTitle>
+                  </SheetHeader>
+                  <div className="space-y-6 py-6">
+                    <div className="space-y-2">
+                      <Label>Brand</Label>
+                      <Select value={vendor} onValueChange={setVendor}>
+                        <SelectTrigger><SelectValue placeholder="All Brands" /></SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Brands</SelectItem>
+                          {vendors.map(v => <SelectItem key={v} value={v}>{v}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-4">
+                      <Label>Price Range</Label>
+                      <Slider value={priceRange} min={0} max={150000} step={1000} onValueChange={v => setPriceRange(v as [number, number])} />
+                      <div className="flex justify-between text-sm text-muted-foreground">
+                        <span>₹{priceRange[0].toLocaleString("en-IN")}</span>
+                        <span>₹{priceRange[1].toLocaleString("en-IN")}</span>
+                      </div>
+                    </div>
+                    <Button variant="outline" onClick={resetFilters} className="w-full">
+                      <X className="h-4 w-4 mr-2" /> Reset Filters
+                    </Button>
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
+
+            {/* Results */}
+            <p className="text-sm text-muted-foreground mb-4">
+              Showing {filtered.length} of {LOCAL_PRODUCTS.length} products
+            </p>
+
+            {filtered.length === 0 ? (
+              <div className="text-center py-16">
+                <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-semibold mb-2">No matching products</h3>
+                <p className="text-muted-foreground mb-4">Try adjusting your filters.</p>
+                <Button variant="outline" onClick={resetFilters}>Reset Filters</Button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {filtered.map(p => <ProductCard key={p.id} product={p} onQuickView={setQuickViewProduct} />)}
+              </div>
+            )}
+          </div>
         </div>
-
-        {/* Results */}
-        <p className="text-sm text-muted-foreground mb-4">
-          Showing {filtered.length} of {LOCAL_PRODUCTS.length} products
-        </p>
-
-        {filtered.length === 0 ? (
-          <div className="text-center py-16">
-            <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No matching products</h3>
-            <p className="text-muted-foreground mb-4">Try adjusting your filters.</p>
-            <Button variant="outline" onClick={resetFilters}>Reset Filters</Button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {filtered.map(p => <ProductCard key={p.id} product={p} onQuickView={setQuickViewProduct} />)}
-          </div>
-        )}
       </div>
 
       <QuickViewModal product={quickViewProduct} open={!!quickViewProduct} onOpenChange={(o) => { if (!o) setQuickViewProduct(null); }} />
