@@ -105,6 +105,7 @@ const Shop = () => {
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 150000]);
   const [minRating, setMinRating] = useState(0);
+  const [inStockOnly, setInStockOnly] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState<LocalProduct | null>(null);
 
@@ -127,6 +128,7 @@ const Shop = () => {
     if (selectedBrands.length > 0) result = result.filter(p => selectedBrands.includes(p.vendor));
     result = result.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1]);
     if (minRating > 0) result = result.filter(p => p.rating >= minRating);
+    if (inStockOnly) result = result.filter(p => p.inStock);
 
     switch (sortBy) {
       case "price-low": result.sort((a, b) => a.price - b.price); break;
@@ -135,7 +137,7 @@ const Shop = () => {
       case "name-asc": result.sort((a, b) => a.title.localeCompare(b.title)); break;
     }
     return result;
-  }, [search, category, vendor, selectedBrands, sortBy, priceRange, minRating]);
+  }, [search, category, vendor, selectedBrands, sortBy, priceRange, minRating, inStockOnly]);
 
   const resetFilters = () => {
     setSearch("");
@@ -145,9 +147,10 @@ const Shop = () => {
     setSortBy("relevance");
     setPriceRange([0, 150000]);
     setMinRating(0);
+    setInStockOnly(false);
   };
 
-  const activeCount = [search, category !== "all", vendor !== "all", selectedBrands.length > 0, priceRange[0] > 0 || priceRange[1] < 150000, minRating > 0].filter(Boolean).length;
+  const activeCount = [search, category !== "all", vendor !== "all", selectedBrands.length > 0, priceRange[0] > 0 || priceRange[1] < 150000, minRating > 0, inStockOnly].filter(Boolean).length;
 
   return (
     <div className="min-h-screen bg-background">
@@ -194,6 +197,8 @@ const Shop = () => {
             setPriceRange={setPriceRange}
             minRating={minRating}
             setMinRating={setMinRating}
+            inStockOnly={inStockOnly}
+            setInStockOnly={setInStockOnly}
             onReset={resetFilters}
             activeCount={activeCount}
           />

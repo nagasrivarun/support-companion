@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { getCategories, getVendorsList } from "@/data/products";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,8 @@ interface FilterSidebarProps {
   setPriceRange: (v: [number, number]) => void;
   minRating: number;
   setMinRating: (v: number) => void;
+  inStockOnly: boolean;
+  setInStockOnly: (v: boolean) => void;
   onReset: () => void;
   activeCount: number;
 }
@@ -32,6 +35,8 @@ export const FilterSidebar = ({
   setPriceRange,
   minRating,
   setMinRating,
+  inStockOnly,
+  setInStockOnly,
   onReset,
   activeCount,
 }: FilterSidebarProps) => {
@@ -194,6 +199,17 @@ export const FilterSidebar = ({
                   </button>
                 ))}
               </div>
+            </div>
+
+            {/* In Stock */}
+            <div className="space-y-2">
+              <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Availability
+              </Label>
+              <label className="flex items-center justify-between px-2 py-1.5 rounded-md hover:bg-muted cursor-pointer">
+                <span className="text-sm text-foreground">In Stock Only</span>
+                <Switch checked={inStockOnly} onCheckedChange={setInStockOnly} />
+              </label>
             </div>
           </div>
         </ScrollArea>
