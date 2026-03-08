@@ -96,6 +96,26 @@ import onionShampooImg from "@/assets/products/onion-shampoo.jpg";
 import zipHoodieImg from "@/assets/products/zip-hoodie.jpg";
 import oversizedHoodieImg from "@/assets/products/oversized-hoodie.jpg";
 import graphicHoodieImg from "@/assets/products/graphic-hoodie.jpg";
+import kurtaImg from "@/assets/products/kurta.jpg";
+import summerDressImg from "@/assets/products/summer-dress.jpg";
+import sportsSandalsImg from "@/assets/products/sports-sandals.jpg";
+import messengerBagImg from "@/assets/products/messenger-bag.jpg";
+import miniProjectorImg from "@/assets/products/mini-projector.jpg";
+import braceletImg from "@/assets/products/bracelet.jpg";
+import ncHeadphonesImg from "@/assets/products/nc-headphones.jpg";
+import nightLampImg from "@/assets/products/night-lamp.jpg";
+import pressureCookerImg from "@/assets/products/pressure-cooker.jpg";
+import badmintonRacketImg from "@/assets/products/badminton-racket.jpg";
+import puzzleSetImg from "@/assets/products/puzzle-set.jpg";
+import bodyLotionImg from "@/assets/products/body-lotion.jpg";
+import cookbookImg from "@/assets/products/cookbook.jpg";
+import tankTopImg from "@/assets/products/tank-top.jpg";
+import toteBagImg from "@/assets/products/tote-bag.jpg";
+import resistanceBandsImg from "@/assets/products/resistance-bands.jpg";
+import wallMirrorImg from "@/assets/products/wall-mirror.jpg";
+import airFryerImg from "@/assets/products/air-fryer.jpg";
+import actionFigureImg from "@/assets/products/action-figure.jpg";
+import laptopStandImg from "@/assets/products/laptop-stand.jpg";
 
 export interface LocalProduct {
   id: string;
