@@ -71,8 +71,9 @@ const ProductCard = ({ product }: { product: LocalProduct }) => {
 const Shop = () => {
   const [searchParams] = useSearchParams();
   const initialCategory = searchParams.get("category") || "all";
+  const initialSearch = searchParams.get("search") || "";
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(initialSearch);
   const [category, setCategory] = useState(initialCategory);
   const [vendor, setVendor] = useState("all");
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
