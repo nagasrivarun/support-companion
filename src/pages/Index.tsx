@@ -447,6 +447,18 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Card Grid 4 — New Categories */}
+      <section className="bg-background mt-3 py-4">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <CategoryCard title="Home Decor" products={homeDecor.slice(0, 4)} linkTo="/shop?category=Home Decor" />
+            <CategoryCard title="Kitchen Appliances" products={kitchen.slice(0, 4)} linkTo="/shop?category=Kitchen Appliances" />
+            <CategoryCard title="Sports & Fitness" products={sports.slice(0, 4)} linkTo="/shop?category=Sports %26 Fitness" />
+            <CategoryCard title="Computers & Laptops" products={computersLaptops.slice(0, 4)} linkTo="/shop?category=Computers %26 Laptops" />
+          </div>
+        </div>
+      </section>
+
       {/* Also Viewed Carousel */}
       <section className="bg-background mt-3">
         <div className="container mx-auto">
