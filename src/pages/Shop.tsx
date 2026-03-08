@@ -137,7 +137,7 @@ const Shop = () => {
       case "name-asc": result.sort((a, b) => a.title.localeCompare(b.title)); break;
     }
     return result;
-  }, [search, category, vendor, selectedBrands, sortBy, priceRange, minRating]);
+  }, [search, category, vendor, selectedBrands, sortBy, priceRange, minRating, inStockOnly]);
 
   const resetFilters = () => {
     setSearch("");
