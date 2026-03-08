@@ -351,6 +351,13 @@ const Index = () => {
     <div className="min-h-screen bg-muted/30 flex flex-col">
       <ShopHeader />
 
+      {/* Search Bar Strip */}
+      <div className="bg-primary/10 border-b border-border py-2">
+        <div className="container mx-auto px-4 max-w-2xl">
+          <SearchAutocomplete onClose={() => {}} alwaysVisible />
+        </div>
+      </div>
+
       {/* Hero Banner */}
       <HeroBanner />
 
