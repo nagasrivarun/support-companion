@@ -2,7 +2,7 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ShopHeader } from "@/components/shop/ShopHeader";
 import { ChatWidget } from "@/components/chat/ChatWidget";
-import { LOCAL_PRODUCTS, getCategories, getProductsByCategory, getProductByHandle, type LocalProduct } from "@/data/products";
+import { LOCAL_PRODUCTS, getCategories, getProductsByCategory, getProductByHandle, getVendorsList, type LocalProduct } from "@/data/products";
 import { Star, ChevronRight, ChevronLeft, Mail, Send, Loader2, CheckCircle } from "lucide-react";
 import { SearchAutocomplete } from "@/components/shop/SearchAutocomplete";
 import { Button } from "@/components/ui/button";
@@ -350,6 +350,10 @@ const Index = () => {
   const homeDecor = getProductsByCategory("Home Decor");
   const kitchen = getProductsByCategory("Kitchen Appliances");
   const sports = getProductsByCategory("Sports & Fitness");
+  const books = getProductsByCategory("Books");
+  const toys = getProductsByCategory("Toys & Games");
+  const beauty = getProductsByCategory("Beauty & Personal Care");
+  const allBrands = getVendorsList();
   const mostLoved = [...LOCAL_PRODUCTS].sort((a, b) => b.reviewCount - a.reviewCount);
   const topRated = [...LOCAL_PRODUCTS].sort((a, b) => b.rating - a.rating || b.reviewCount - a.reviewCount);
   const bestDeals = [...LOCAL_PRODUCTS].filter(p => p.originalPrice && p.originalPrice > p.price).sort((a, b) => {
@@ -455,6 +459,43 @@ const Index = () => {
             <CategoryCard title="Kitchen Appliances" products={kitchen.slice(0, 4)} linkTo="/shop?category=Kitchen Appliances" />
             <CategoryCard title="Sports & Fitness" products={sports.slice(0, 4)} linkTo="/shop?category=Sports %26 Fitness" />
             <CategoryCard title="Computers & Laptops" products={computersLaptops.slice(0, 4)} linkTo="/shop?category=Computers %26 Laptops" />
+          </div>
+        </div>
+      </section>
+
+      {/* Beauty & Books Carousel */}
+      <section className="bg-background mt-3">
+        <div className="container mx-auto">
+          <ProductCarousel title="Beauty & Personal Care" products={beauty} linkText="See all" />
+        </div>
+      </section>
+
+      {/* Card Grid 5 — Books, Toys, Beauty */}
+      <section className="bg-background mt-3 py-4">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <CategoryCard title="Books" products={books.slice(0, 4)} linkTo="/shop?category=Books" />
+            <CategoryCard title="Toys & Games" products={toys.slice(0, 4)} linkTo="/shop?category=Toys %26 Games" />
+            <CategoryCard title="Beauty & Personal Care" products={beauty.slice(0, 4)} linkTo="/shop?category=Beauty %26 Personal Care" />
+            <CategoryCard title="Best Deals — Up to 60% Off" products={bestDeals.slice(0, 4)} linkTo="/shop" />
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Brands */}
+      <section className="bg-background mt-3 py-6">
+        <div className="container mx-auto px-4">
+          <h2 className="text-xl font-bold text-foreground mb-4">Featured Brands</h2>
+          <div className="flex flex-wrap gap-3 justify-center">
+            {allBrands.map(brand => (
+              <button
+                key={brand}
+                onClick={() => navigate(`/shop?search=${encodeURIComponent(brand)}`)}
+                className="px-5 py-2.5 rounded-lg border border-border bg-card hover:bg-primary hover:text-primary-foreground text-sm font-medium text-foreground transition-colors shadow-sm"
+              >
+                {brand}
+              </button>
+            ))}
           </div>
         </div>
       </section>
