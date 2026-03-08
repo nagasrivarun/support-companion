@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ShopHeader } from "@/components/shop/ShopHeader";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { LOCAL_PRODUCTS, getCategories, getProductsByCategory, type LocalProduct } from "@/data/products";
-import { Star, ChevronRight, Zap, Truck, Shield, RotateCcw } from "lucide-react";
+import { Star, ChevronRight, Zap, Truck, Shield, RotateCcw, TrendingUp, Flame } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -21,7 +21,7 @@ const StarRating = ({ rating, count }: { rating: number; count: number }) => (
   </div>
 );
 
-const DealCard = ({ product }: { product: LocalProduct }) => {
+const DealCard = ({ product, rank }: { product: LocalProduct; rank?: number }) => {
   const discount = product.originalPrice
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
@@ -35,6 +35,11 @@ const DealCard = ({ product }: { product: LocalProduct }) => {
             <Badge className="absolute top-2 left-2 bg-destructive text-destructive-foreground text-xs font-bold">
               {discount}% OFF
             </Badge>
+          )}
+          {rank && (
+            <div className="absolute bottom-2 left-2 bg-background/90 text-foreground text-xs font-bold px-2 py-1 rounded-full">
+              #{rank} Best Seller
+            </div>
           )}
         </div>
         <div className="p-3">
@@ -72,7 +77,26 @@ const CategorySection = ({ category, products }: { category: string; products: L
 
 const Index = () => {
   const categories = getCategories();
-  const dealProducts = LOCAL_PRODUCTS.filter(p => p.originalPrice && p.originalPrice > p.price).slice(0, 6);
+
+  // Trending: sorted by review count (popularity)
+  const trending = [...LOCAL_PRODUCTS]
+    .sort((a, b) => b.reviewCount - a.reviewCount)
+    .slice(0, 6);
+
+  // Top rated: sorted by rating
+  const topRated = [...LOCAL_PRODUCTS]
+    .sort((a, b) => b.rating - a.rating || b.reviewCount - a.reviewCount)
+    .slice(0, 6);
+
+  // Best deals: highest discount percentage
+  const bestDeals = [...LOCAL_PRODUCTS]
+    .filter(p => p.originalPrice && p.originalPrice > p.price)
+    .sort((a, b) => {
+      const discA = a.originalPrice ? (a.originalPrice - a.price) / a.originalPrice : 0;
+      const discB = b.originalPrice ? (b.originalPrice - b.price) / b.originalPrice : 0;
+      return discB - discA;
+    })
+    .slice(0, 6);
 
   return (
     <div className="min-h-screen bg-background">
@@ -87,7 +111,7 @@ const Index = () => {
                 Fashion & Lifestyle Store
               </h1>
               <p className="text-muted-foreground text-lg mb-6">
-                Discover amazing deals on clothing, footwear, accessories & electronics. Buy directly on Amazon with fast delivery.
+                Discover trending products loved by thousands. Buy directly on Amazon with fast delivery across India.
               </p>
               <div className="flex gap-3">
                 <Link to="/shop">
@@ -98,7 +122,7 @@ const Index = () => {
               </div>
             </div>
             <div className="grid grid-cols-3 gap-2">
-              {dealProducts.slice(0, 3).map(p => (
+              {trending.slice(0, 3).map(p => (
                 <Link key={p.id} to={`/product/${p.handle}`} className="aspect-square rounded-lg overflow-hidden bg-muted hover:opacity-90 transition-opacity">
                   <img src={p.image} alt={p.title} className="h-full w-full object-cover" />
                 </Link>
@@ -127,12 +151,12 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Today's Deals */}
-      <section className="py-6">
-        <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4">
+        {/* Trending Now */}
+        <section className="py-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
-              <Zap className="h-5 w-5 text-warning" /> Today's Deals
+              <TrendingUp className="h-5 w-5 text-primary" /> Trending Now
             </h2>
             <Link to="/shop">
               <Button variant="link" className="text-primary gap-1 p-0">
@@ -141,15 +165,51 @@ const Index = () => {
             </Link>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            {dealProducts.map(p => (
+            {trending.map((p, i) => (
+              <DealCard key={p.id} product={p} rank={i + 1} />
+            ))}
+          </div>
+        </section>
+
+        {/* Best Deals */}
+        <section className="py-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
+              <Zap className="h-5 w-5 text-warning" /> Best Deals
+            </h2>
+            <Link to="/shop">
+              <Button variant="link" className="text-primary gap-1 p-0">
+                View all <ChevronRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {bestDeals.map(p => (
               <DealCard key={p.id} product={p} />
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Category Sections */}
-      <div className="container mx-auto px-4">
+        {/* Top Rated */}
+        <section className="py-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
+              <Flame className="h-5 w-5 text-destructive" /> Top Rated
+            </h2>
+            <Link to="/shop">
+              <Button variant="link" className="text-primary gap-1 p-0">
+                View all <ChevronRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {topRated.map(p => (
+              <DealCard key={p.id} product={p} />
+            ))}
+          </div>
+        </section>
+
+        {/* Category Sections */}
         {categories.map(cat => {
           const products = getProductsByCategory(cat);
           if (products.length === 0) return null;
