@@ -10,7 +10,7 @@ import { getProductByHandle, getProductsByCategory, LOCAL_PRODUCTS, type LocalPr
 import { useBrowsingHistory } from "@/stores/browsingHistory";
 import { ArrowLeft, Star, ExternalLink, Truck, Shield, RotateCcw, Check, ChevronLeft, ChevronRight } from "lucide-react";
 
-// Color name to CSS color mapping
+// Color name to CSS color mapping (hex + rgba for overlay)
 const colorMap: Record<string, string> = {
   Black: "#1a1a1a", White: "#ffffff", Grey: "#9ca3af", Navy: "#1e3a5f",
   Red: "#ef4444", Blue: "#3b82f6", Green: "#22c55e", Yellow: "#eab308",
@@ -19,6 +19,21 @@ const colorMap: Record<string, string> = {
   "Dusty Pink": "#D4A5A5", Lavender: "#E6E6FA", Peach: "#FFDAB9", Maroon: "#800000",
   Teal: "#008080", Charcoal: "#36454F", Silver: "#C0C0C0", Gold: "#FFD700",
   "White Floral": "#fff5f5", "Blue Floral": "#dbeafe", "Pink Floral": "#fce7f3",
+  "Black/White": "#1a1a1a", "Red/White": "#ef4444", "Blue/Yellow": "#3b82f6",
+  "White/Black": "#ffffff", "Grey/Black": "#6b7280",
+};
+
+// Get the overlay color for a selected color (returns rgba string)
+const getColorOverlay = (colorName: string | null, defaultColor?: string): string | undefined => {
+  if (!colorName || !defaultColor) return undefined;
+  if (colorName === defaultColor) return undefined; // No overlay for default color
+  const hex = colorMap[colorName];
+  if (!hex) return undefined;
+  // Convert hex to rgba with low opacity for tinting
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, 0.25)`;
 };
 
 const ProductDetail = () => {
@@ -66,13 +81,36 @@ const ProductDetail = () => {
         </Link>
 
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-          {/* Image */}
+          {/* Image with Color Tint */}
           <div className="aspect-square overflow-hidden rounded-lg bg-muted relative">
             <img src={product.image} alt={product.title} className="h-full w-full object-cover" />
+            {/* Color overlay tint */}
+            {selectedColor && product.colors && selectedColor !== product.colors[0] && (
+              <div
+                className="absolute inset-0 transition-all duration-500 mix-blend-multiply pointer-events-none"
+                style={{ backgroundColor: getColorOverlay(selectedColor, product.colors[0]) || 'transparent' }}
+              />
+            )}
             {discount > 0 && (
-              <Badge className="absolute top-4 left-4 bg-destructive text-destructive-foreground text-sm font-bold px-3 py-1">
+              <Badge className="absolute top-4 left-4 bg-destructive text-destructive-foreground text-sm font-bold px-3 py-1 z-10">
                 {discount}% OFF
               </Badge>
+            )}
+            {/* Selected color/size indicator */}
+            {(selectedColor || selectedSize) && (
+              <div className="absolute bottom-4 left-4 right-4 z-10 flex gap-2 flex-wrap">
+                {selectedColor && (
+                  <span className="bg-card/90 backdrop-blur-sm border border-border text-foreground text-xs font-medium px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                    <span className="w-3 h-3 rounded-full border border-border" style={{ backgroundColor: colorMap[selectedColor] || '#9ca3af' }} />
+                    {selectedColor}
+                  </span>
+                )}
+                {selectedSize && (
+                  <span className="bg-card/90 backdrop-blur-sm border border-border text-foreground text-xs font-medium px-3 py-1.5 rounded-full">
+                    Size: {selectedSize}
+                  </span>
+                )}
+              </div>
             )}
           </div>
 
