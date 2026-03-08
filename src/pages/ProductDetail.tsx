@@ -10,14 +10,32 @@ import { getProductByHandle, getProductsByCategory, LOCAL_PRODUCTS, type LocalPr
 import { useBrowsingHistory } from "@/stores/browsingHistory";
 import { ArrowLeft, Star, ExternalLink, Truck, Shield, RotateCcw, Check, ChevronLeft, ChevronRight } from "lucide-react";
 
+// Color name to CSS color mapping
+const colorMap: Record<string, string> = {
+  Black: "#1a1a1a", White: "#ffffff", Grey: "#9ca3af", Navy: "#1e3a5f",
+  Red: "#ef4444", Blue: "#3b82f6", Green: "#22c55e", Yellow: "#eab308",
+  Pink: "#ec4899", Purple: "#a855f7", Orange: "#f97316", Brown: "#92400e",
+  Beige: "#d4b896", Cream: "#fffdd0", "Sky Blue": "#87CEEB", "Sage Green": "#9DC183",
+  "Dusty Pink": "#D4A5A5", Lavender: "#E6E6FA", Peach: "#FFDAB9", Maroon: "#800000",
+  Teal: "#008080", Charcoal: "#36454F", Silver: "#C0C0C0", Gold: "#FFD700",
+  "White Floral": "#fff5f5", "Blue Floral": "#dbeafe", "Pink Floral": "#fce7f3",
+};
+
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
   const product = handle ? getProductByHandle(handle) : undefined;
   const addViewed = useBrowsingHistory(s => s.addViewed);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
   useEffect(() => {
     if (handle && product) {
       addViewed(handle);
+      // Set defaults
+      if (product.colors?.length) setSelectedColor(product.colors[0]);
+      else setSelectedColor(null);
+      if (product.sizes?.length) setSelectedSize(product.sizes[0]);
+      else setSelectedSize(null);
     }
   }, [handle, product, addViewed]);
 
