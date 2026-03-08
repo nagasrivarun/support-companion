@@ -140,7 +140,7 @@ const Shop = () => {
     setPriceRange([0, 150000]);
   };
 
-  const activeCount = [search, category !== "all", vendor !== "all", priceRange[0] > 0 || priceRange[1] < 5000].filter(Boolean).length;
+  const activeCount = [search, category !== "all", vendor !== "all", priceRange[0] > 0 || priceRange[1] < 150000].filter(Boolean).length;
 
   return (
     <div className="min-h-screen bg-background">
