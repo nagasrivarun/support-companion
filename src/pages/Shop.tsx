@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Star, Search, X, SlidersHorizontal, ExternalLink } from "lucide-react";
+import { Star, Search, X, SlidersHorizontal, ExternalLink, Eye } from "lucide-react";
+import { QuickViewModal } from "@/components/shop/QuickViewModal";
 import { CompareToggle } from "@/components/compare/CompareToggle";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Label } from "@/components/ui/label";
@@ -27,7 +28,7 @@ const StarRating = ({ rating, count }: { rating: number; count: number }) => (
   </div>
 );
 
-const ProductCard = ({ product }: { product: LocalProduct }) => {
+const ProductCard = ({ product, onQuickView }: { product: LocalProduct; onQuickView: (p: LocalProduct) => void }) => {
   const discount = product.originalPrice
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
@@ -37,6 +38,13 @@ const ProductCard = ({ product }: { product: LocalProduct }) => {
       <Link to={`/product/${product.handle}`}>
         <div className="aspect-square bg-muted overflow-hidden relative">
           <CompareToggle product={product} />
+          <button
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onQuickView(product); }}
+            className="absolute bottom-2 right-2 z-10 bg-background/80 backdrop-blur-sm p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background"
+            title="Quick View"
+          >
+            <Eye className="h-4 w-4 text-foreground" />
+          </button>
           <img src={product.image} alt={product.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform" />
           {discount > 0 && (
             <Badge className="absolute top-2 left-2 bg-destructive text-destructive-foreground text-xs font-bold">
@@ -81,6 +89,7 @@ const Shop = () => {
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 5000]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [quickViewProduct, setQuickViewProduct] = useState<LocalProduct | null>(null);
 
   const categories = getCategories();
   const vendors = getVendorsList();
@@ -230,11 +239,12 @@ const Shop = () => {
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {filtered.map(p => <ProductCard key={p.id} product={p} />)}
+            {filtered.map(p => <ProductCard key={p.id} product={p} onQuickView={setQuickViewProduct} />)}
           </div>
         )}
       </div>
 
+      <QuickViewModal product={quickViewProduct} open={!!quickViewProduct} onOpenChange={(o) => { if (!o) setQuickViewProduct(null); }} />
       <ChatWidget />
     </div>
   );
