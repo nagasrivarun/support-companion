@@ -89,6 +89,7 @@ const Shop = () => {
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 5000]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [quickViewProduct, setQuickViewProduct] = useState<LocalProduct | null>(null);
 
   const categories = getCategories();
   const vendors = getVendorsList();
