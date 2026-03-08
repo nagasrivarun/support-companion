@@ -444,6 +444,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "High-capacity power bank with fast charging. Charge multiple devices simultaneously.",
     handle: "power-bank",
     productType: "Cables & Chargers",
+    vendor: "ChargeTech",
+    tags: ["power-bank", "charger", "portable", "cables-chargers"],
     price: 999,
     originalPrice: 1999,
     currencyCode: "INR",
