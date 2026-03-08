@@ -7,9 +7,10 @@ import { searchLocalProducts, type LocalProduct } from "@/data/products";
 
 interface SearchAutocompleteProps {
   onClose: () => void;
+  alwaysVisible?: boolean;
 }
 
-export const SearchAutocomplete = ({ onClose }: SearchAutocompleteProps) => {
+export const SearchAutocomplete = ({ onClose, alwaysVisible }: SearchAutocompleteProps) => {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<LocalProduct[]>([]);
