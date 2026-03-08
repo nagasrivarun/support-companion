@@ -503,6 +503,8 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     description: "Versatile 10-inch tablet with 64GB storage, perfect for entertainment, browsing, and light productivity.",
     handle: "android-tablet",
     productType: "Phones & Tablets",
+    vendor: "MobiTech",
+    tags: ["tablet", "android", "electronics", "entertainment"],
     price: 8999,
     originalPrice: 14999,
     currencyCode: "INR",
