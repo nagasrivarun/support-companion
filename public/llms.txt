@@ -1,0 +1,19 @@
+# Shop India
+
+> Online shop offering quality products across fashion, electronics, footwear, accessories and more, with fast delivery across India.
+
+Shop India is an e-commerce storefront with secure UPI, card and COD payments, easy 30-day returns, and a curated catalog of products from popular brands.
+
+## Pages
+
+- [Home](/): Featured deals, banners, and curated product carousels.
+- [Shop](/shop): Full catalog with filters for category, brand, price, and rating.
+- [Product Detail](/product/): Individual product pages with images, ratings, variants and reviews.
+- [Wishlist](/wishlist): Saved products for signed-in customers.
+- [Shipping & Delivery](/shipping): Delivery times, rates, and free shipping thresholds.
+- [Returns & Refunds](/returns): 30-day return window with 7 flexible return options.
+
+## Optional
+
+- [Sign In](/auth): Customer account access.
+- [My Account](/account): Order history and profile.

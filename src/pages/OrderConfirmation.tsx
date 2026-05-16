@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { ShopHeader } from "@/components/shop/ShopHeader";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, Package, ArrowRight, ShoppingBag, Home } from "lucide-react";
@@ -18,6 +19,11 @@ export default function OrderConfirmation() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Order Confirmed — Shop India"
+        description="Thanks for your order! Your purchase is confirmed and being prepared for shipment."
+        path="/order-confirmation"
+      />
       <ShopHeader />
       
       <div className="container mx-auto px-4 py-12">

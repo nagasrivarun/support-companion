@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ShopHeader } from "@/components/shop/ShopHeader";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ChatWidget } from "@/components/chat/ChatWidget";
@@ -73,6 +74,35 @@ const ProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={`${product.title} — Shop India`}
+        description={product.description?.slice(0, 155) || `Buy ${product.title} by ${product.vendor} on Shop India.`}
+        path={`/product/${product.handle}`}
+        type="product"
+        image={product.image}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: product.title,
+          image: [product.image],
+          description: product.description,
+          brand: { "@type": "Brand", name: product.vendor },
+          aggregateRating: product.reviewCount > 0 ? {
+            "@type": "AggregateRating",
+            ratingValue: product.rating,
+            reviewCount: product.reviewCount,
+          } : undefined,
+          offers: {
+            "@type": "Offer",
+            url: `/product/${product.handle}`,
+            priceCurrency: "INR",
+            price: product.price,
+            availability: product.inStock !== false
+              ? "https://schema.org/InStock"
+              : "https://schema.org/OutOfStock",
+          },
+        }}
+      />
       <ShopHeader />
 
       <div className="container mx-auto px-4 py-8">

@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { ShopHeader } from "@/components/shop/ShopHeader";
+import { SEO } from "@/components/SEO";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { LOCAL_PRODUCTS, getCategories, getVendorsList, type LocalProduct } from "@/data/products";
 import { Input } from "@/components/ui/input";
@@ -154,6 +155,13 @@ const Shop = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={category !== "all" ? `${category} — Shop India` : "Shop All Products — Shop India"}
+        description={category !== "all"
+          ? `Browse ${category} products on Shop India. Filter by brand, price, and rating with fast delivery across India.`
+          : "Browse our full catalog of fashion, electronics, footwear, accessories and more. Filter by brand, price & rating."}
+        path={category !== "all" ? `/shop?category=${encodeURIComponent(category)}` : "/shop"}
+      />
       <ShopHeader />
 
       {/* Category Tabs */}

@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ShopHeader } from "@/components/shop/ShopHeader";
+import { SEO } from "@/components/SEO";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { LOCAL_PRODUCTS, getCategories, getProductsByCategory, getProductByHandle, getVendorsList, type LocalProduct } from "@/data/products";
 import { Star, ChevronRight, ChevronLeft, Mail, Send, Loader2, CheckCircle } from "lucide-react";
@@ -379,6 +380,21 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-muted/30 flex flex-col">
+      <SEO
+        title="Shop India — Quality Products Online"
+        description="Discover quality products across fashion, electronics, footwear & more with fast delivery across India. Secure UPI, card & COD payments."
+        path="/"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Store",
+          name: "Shop India",
+          description: "Quality products with fast delivery across India",
+          url: "/",
+          areaServed: "IN",
+          currenciesAccepted: "INR",
+          paymentAccepted: "UPI, Credit Card, Debit Card, COD",
+        }}
+      />
       <ShopHeader />
 
       {/* Search Bar Strip */}
