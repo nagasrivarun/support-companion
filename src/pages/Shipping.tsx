@@ -22,8 +22,13 @@ const shippingRegions = [
 const Shipping = () => {
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Shipping & Delivery — Shop India"
+        description="Fast delivery across India in 2–7 business days. Free shipping on orders over ₹4,000. Track every order end to end."
+        path="/shipping"
+      />
       <ShopHeader />
-      
+
       {/* Hero Section */}
       <section className="border-b border-border bg-muted/30">
         <div className="container mx-auto px-4 py-12 md:py-16">
