@@ -380,6 +380,21 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-muted/30 flex flex-col">
+      <SEO
+        title="Shop India — Quality Products Online"
+        description="Discover quality products across fashion, electronics, footwear & more with fast delivery across India. Secure UPI, card & COD payments."
+        path="/"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Store",
+          name: "Shop India",
+          description: "Quality products with fast delivery across India",
+          url: "/",
+          areaServed: "IN",
+          currenciesAccepted: "INR",
+          paymentAccepted: "UPI, Credit Card, Debit Card, COD",
+        }}
+      />
       <ShopHeader />
 
       {/* Search Bar Strip */}
