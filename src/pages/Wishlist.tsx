@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ShopHeader } from "@/components/shop/ShopHeader";
+import { SEO } from "@/components/SEO";
 import { useWishlist } from "@/hooks/useWishlist";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
