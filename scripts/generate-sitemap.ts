@@ -3,8 +3,7 @@
 import { writeFileSync, readFileSync } from "fs";
 import { resolve } from "path";
 
-// TODO: replace with your project URL once a project name or custom domain is set.
-const BASE_URL = "";
+const BASE_URL = "https://fastship.vercel.app";
 
 interface SitemapEntry {
   path: string;
