@@ -1,4 +1,5 @@
 import { ShopHeader } from "@/components/shop/ShopHeader";
+import { SEO } from "@/components/SEO";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { Truck, Globe, Clock, Package, CreditCard, AlertCircle } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
