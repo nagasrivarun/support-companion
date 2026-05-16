@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ShopHeader } from "@/components/shop/ShopHeader";
+import { SEO } from "@/components/SEO";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
