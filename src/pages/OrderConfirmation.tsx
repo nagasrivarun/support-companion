@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { ShopHeader } from "@/components/shop/ShopHeader";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, Package, ArrowRight, ShoppingBag, Home } from "lucide-react";
