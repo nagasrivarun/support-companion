@@ -28,6 +28,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Database } from '@/integrations/supabase/types';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
+import { SEO } from '@/components/SEO';
 import { useNotifications } from '@/hooks/useNotifications';
 import { exportToCSV, exportToPDF } from '@/utils/exportTranscript';
 import { CannedResponses } from '@/components/chat/CannedResponses';
@@ -234,6 +235,7 @@ export default function LiveChat() {
 
   return (
     <DashboardLayout>
+      <SEO title="Live Chat · Shop India Admin" description="Internal live chat console for Shop India agents." path="/live-chat" noIndex />
       <div className="flex h-[calc(100vh-7rem)] gap-4">
         {/* Conversations List */}
         <div className="w-80 flex flex-col glass rounded-xl overflow-hidden shrink-0">

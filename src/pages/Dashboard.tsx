@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { supabase } from '@/integrations/supabase/client';
+import { SEO } from '@/components/SEO';
 
 interface StatCardProps {
   title: string;
@@ -72,6 +73,7 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
+      <SEO title="Admin Dashboard · Shop India" description="Internal admin dashboard for Shop India staff." path="/dashboard" noIndex />
       <div className="space-y-6">
         {/* Header */}
         <div>

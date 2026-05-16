@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { Database } from '@/integrations/supabase/types';
 import { cn } from '@/lib/utils';
+import { SEO } from '@/components/SEO';
 
 type Conversation = Database['public']['Tables']['conversations']['Row'];
 type ConversationStatus = Database['public']['Enums']['conversation_status'];
@@ -92,6 +93,7 @@ export default function Conversations() {
 
   return (
     <DashboardLayout>
+      <SEO title="Conversations · Shop India Admin" description="Internal conversations inbox for Shop India support staff." path="/conversations" noIndex />
       <div className="space-y-6">
         {/* Header */}
         <div>
