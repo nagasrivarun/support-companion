@@ -155,6 +155,13 @@ const Shop = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={category !== "all" ? `${category} — Shop India` : "Shop All Products — Shop India"}
+        description={category !== "all"
+          ? `Browse ${category} products on Shop India. Filter by brand, price, and rating with fast delivery across India.`
+          : "Browse our full catalog of fashion, electronics, footwear, accessories and more. Filter by brand, price & rating."}
+        path={category !== "all" ? `/shop?category=${encodeURIComponent(category)}` : "/shop"}
+      />
       <ShopHeader />
 
       {/* Category Tabs */}
