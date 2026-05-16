@@ -47,6 +47,11 @@ export default function Wishlist() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="My Wishlist — Shop India"
+        description="Your saved products on Shop India. Review favorites and move them to your cart when you're ready to buy."
+        path="/wishlist"
+      />
       <ShopHeader />
       
       <div className="container mx-auto px-4 py-8">
