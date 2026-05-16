@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ShopHeader } from "@/components/shop/ShopHeader";
+import { SEO } from "@/components/SEO";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { LOCAL_PRODUCTS, getCategories, getProductsByCategory, getProductByHandle, getVendorsList, type LocalProduct } from "@/data/products";
 import { Star, ChevronRight, ChevronLeft, Mail, Send, Loader2, CheckCircle } from "lucide-react";
