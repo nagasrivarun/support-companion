@@ -15,6 +15,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
+import { SEO } from "@/components/SEO";
 import {
   Select,
   SelectContent,
@@ -283,6 +284,7 @@ const Account = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="My Account · Shop India" description="Manage your Shop India profile, addresses, and order history." path="/account" noIndex />
       <ShopHeader />
       
       <div className="container mx-auto px-4 py-8">

@@ -8,6 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import { GoogleLoginButton } from '@/components/auth/GoogleLoginButton';
 import { Separator } from '@/components/ui/separator';
 import { z } from 'zod';
+import { SEO } from '@/components/SEO';
 
 // Strong password validation to compensate for lack of Leaked Password Protection
 const strongPasswordSchema = z.string()
@@ -116,6 +117,7 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <SEO title="Sign In · Shop India" description="Sign in or create an account to manage orders, wishlist, and addresses on Shop India." path="/auth" noIndex />
       {/* Background effects */}
       <div className="fixed inset-0 bg-gradient-glow opacity-40" />
       <div className="fixed top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />

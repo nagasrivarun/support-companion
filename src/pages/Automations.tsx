@@ -25,6 +25,7 @@ import {
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useAutomation } from '@/hooks/useAutomation';
+import { SEO } from '@/components/SEO';
 
 interface Webhook {
   id: string;
@@ -315,6 +316,7 @@ export default function Automations() {
 
   return (
     <DashboardLayout>
+      <SEO title="Automations · Shop India Admin" description="Internal automations and webhooks configuration for Shop India." path="/automations" noIndex />
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">

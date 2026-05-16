@@ -26,6 +26,8 @@ import {
   Cell
 } from 'recharts';
 
+import { SEO } from '@/components/SEO';
+
 const COLORS = ['hsl(174, 72%, 50%)', 'hsl(142, 72%, 45%)', 'hsl(38, 92%, 50%)', 'hsl(0, 72%, 51%)', 'hsl(262, 72%, 55%)'];
 
 interface AnalyticsData {
@@ -247,6 +249,7 @@ export default function Analytics() {
 
   return (
     <DashboardLayout>
+      <SEO title="Analytics · Shop India Admin" description="Internal analytics dashboard for Shop India staff." path="/analytics" noIndex />
       <div className="space-y-6">
         {/* Header */}
         <div>

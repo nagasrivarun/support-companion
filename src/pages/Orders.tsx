@@ -38,6 +38,7 @@ import {
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Database } from '@/integrations/supabase/types';
+import { SEO } from '@/components/SEO';
 
 type Order = Database['public']['Tables']['orders']['Row'];
 type OrderStatus = Database['public']['Enums']['order_status'];
@@ -176,6 +177,7 @@ export default function Orders() {
 
   return (
     <DashboardLayout>
+      <SEO title="Orders · Shop India Admin" description="Internal order management for Shop India staff." path="/orders" noIndex />
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
