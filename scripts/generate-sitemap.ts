@@ -1,8 +1,7 @@
 // Runs before `vite dev` and `vite build` (predev/prebuild hooks); writes public/sitemap.xml.
 
-import { writeFileSync } from "fs";
+import { writeFileSync, readFileSync } from "fs";
 import { resolve } from "path";
-import { LOCAL_PRODUCTS } from "../src/data/products";
 
 // TODO: replace with your project URL once a project name or custom domain is set.
 const BASE_URL = "";
@@ -14,6 +13,13 @@ interface SitemapEntry {
   priority?: string;
 }
 
+// Extract product handles from src/data/products.ts without importing it
+// (the data file imports image assets which only Vite can resolve).
+const productsSrc = readFileSync(resolve("src/data/products.ts"), "utf-8");
+const handles = Array.from(
+  new Set(Array.from(productsSrc.matchAll(/handle:\s*"([^"]+)"/g)).map((m) => m[1]))
+);
+
 const today = new Date().toISOString().split("T")[0];
 
 const entries: SitemapEntry[] = [
@@ -21,8 +27,8 @@ const entries: SitemapEntry[] = [
   { path: "/shop", changefreq: "daily", priority: "0.9", lastmod: today },
   { path: "/shipping", changefreq: "monthly", priority: "0.5" },
   { path: "/returns", changefreq: "monthly", priority: "0.5" },
-  ...LOCAL_PRODUCTS.map((p) => ({
-    path: `/product/${p.handle}`,
+  ...handles.map((h) => ({
+    path: `/product/${h}`,
     changefreq: "weekly" as const,
     priority: "0.7",
   })),
