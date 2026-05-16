@@ -133,6 +133,37 @@ const Returns = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Returns & Refunds — Shop India"
+        description="Easy 30-day returns with 7 flexible options including refund, replacement, store credit, exchange and more. Hassle-free."
+        path="/returns"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: [
+            {
+              "@type": "Question",
+              name: "What is the return window?",
+              acceptedAnswer: { "@type": "Answer", text: "You can return eligible items within 30 days of delivery." },
+            },
+            {
+              "@type": "Question",
+              name: "What return options do I have?",
+              acceptedAnswer: { "@type": "Answer", text: "We offer 7 flexible return options including full refund, replacement, store credit, exchange, repair, partial refund, and pickup." },
+            },
+            {
+              "@type": "Question",
+              name: "How long do refunds take?",
+              acceptedAnswer: { "@type": "Answer", text: "Refunds are typically processed within 5–7 business days after we receive the returned item." },
+            },
+            {
+              "@type": "Question",
+              name: "Do I need to pay for return shipping?",
+              acceptedAnswer: { "@type": "Answer", text: "Return shipping is free for defective or incorrect items. For change-of-mind returns, standard return shipping fees may apply." },
+            },
+          ],
+        }}
+      />
       <ShopHeader />
 
       {/* Hero */}
