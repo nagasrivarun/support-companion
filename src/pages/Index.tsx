@@ -384,7 +384,7 @@ const Index = () => {
   });
 
   return (
-    <div className="min-h-screen bg-muted/30 flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       <SEO
         title="Shop India — Quality Products Online"
         description="Discover quality products across fashion, electronics, footwear & more with fast delivery across India. Secure UPI, card & COD payments."
