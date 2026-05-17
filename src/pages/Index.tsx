@@ -11,6 +11,11 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { useBrowsingHistory } from "@/stores/browsingHistory";
 import { DealOfTheDay } from "@/components/home/DealOfTheDay";
+import { PremiumHero } from "@/components/home/PremiumHero";
+import { LiveStats } from "@/components/home/LiveStats";
+import { Testimonials } from "@/components/home/Testimonials";
+import { TrustedLogos } from "@/components/home/TrustedLogos";
+import { FAQ } from "@/components/home/FAQ";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -379,7 +384,7 @@ const Index = () => {
   });
 
   return (
-    <div className="min-h-screen bg-muted/30 flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       <SEO
         title="Shop India — Quality Products Online"
         description="Discover quality products across fashion, electronics, footwear & more with fast delivery across India. Secure UPI, card & COD payments."
@@ -397,8 +402,17 @@ const Index = () => {
       />
       <ShopHeader />
 
+      {/* Premium Hero */}
+      <PremiumHero />
+
+      {/* Live Delivery Stats */}
+      <LiveStats />
+
+      {/* Trusted logistics partners */}
+      <TrustedLogos />
+
       {/* Search Bar Strip */}
-      <div className="bg-background/60 backdrop-blur-sm border-b border-border py-3">
+      <div className="bg-card/30 backdrop-blur-sm border-b border-border py-4">
         <div className="container mx-auto px-4 max-w-3xl">
           <SearchAutocomplete onClose={() => {}} alwaysVisible />
           <div className="flex flex-wrap gap-2 mt-2">
@@ -415,7 +429,7 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Hero Banner */}
+      {/* Promo Banner Carousel */}
       <HeroBanner />
 
       {/* Card Grid 1 */}
@@ -544,6 +558,10 @@ const Index = () => {
           <BrowsingHistoryStrip products={recentlyViewed} />
         </div>
       </section>
+
+      {/* Trust + Help */}
+      <Testimonials />
+      <FAQ />
 
       <div className="flex-1" />
       <Footer />
