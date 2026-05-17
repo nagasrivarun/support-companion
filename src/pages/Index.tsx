@@ -559,6 +559,10 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Trust + Help */}
+      <Testimonials />
+      <FAQ />
+
       <div className="flex-1" />
       <Footer />
       <ChatWidget />
