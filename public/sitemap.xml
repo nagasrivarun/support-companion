@@ -1,599 +1,599 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/</loc>
-    <lastmod>2026-05-16</lastmod>
+    <loc>https://fastship.vercel.app/</loc>
+    <lastmod>2026-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>/shop</loc>
-    <lastmod>2026-05-16</lastmod>
+    <loc>https://fastship.vercel.app/shop</loc>
+    <lastmod>2026-05-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>/shipping</loc>
+    <loc>https://fastship.vercel.app/shipping</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>/returns</loc>
+    <loc>https://fastship.vercel.app/returns</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>/product/basic-cotton-tshirt</loc>
+    <loc>https://fastship.vercel.app/product/basic-cotton-tshirt</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/slim-fit-denim-jeans</loc>
+    <loc>https://fastship.vercel.app/product/slim-fit-denim-jeans</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/pullover-hoodie</loc>
+    <loc>https://fastship.vercel.app/product/pullover-hoodie</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/classic-sneakers</loc>
+    <loc>https://fastship.vercel.app/product/classic-sneakers</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/running-sneakers</loc>
+    <loc>https://fastship.vercel.app/product/running-sneakers</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/canvas-sneakers</loc>
+    <loc>https://fastship.vercel.app/product/canvas-sneakers</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/classic-loafers</loc>
+    <loc>https://fastship.vercel.app/product/classic-loafers</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/polarized-sunglasses</loc>
+    <loc>https://fastship.vercel.app/product/polarized-sunglasses</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/aviator-sunglasses</loc>
+    <loc>https://fastship.vercel.app/product/aviator-sunglasses</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/digital-sports-watch</loc>
+    <loc>https://fastship.vercel.app/product/digital-sports-watch</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/analog-dress-watch</loc>
+    <loc>https://fastship.vercel.app/product/analog-dress-watch</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/genuine-leather-belt</loc>
+    <loc>https://fastship.vercel.app/product/genuine-leather-belt</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/travel-backpack</loc>
+    <loc>https://fastship.vercel.app/product/travel-backpack</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/crossbody-sling-bag</loc>
+    <loc>https://fastship.vercel.app/product/crossbody-sling-bag</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/cargo-shorts</loc>
+    <loc>https://fastship.vercel.app/product/cargo-shorts</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/bluetooth-earbuds</loc>
+    <loc>https://fastship.vercel.app/product/bluetooth-earbuds</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/bluetooth-speaker</loc>
+    <loc>https://fastship.vercel.app/product/bluetooth-speaker</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/fitness-tracker</loc>
+    <loc>https://fastship.vercel.app/product/fitness-tracker</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/power-bank</loc>
+    <loc>https://fastship.vercel.app/product/power-bank</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/smartphone-5g</loc>
+    <loc>https://fastship.vercel.app/product/smartphone-5g</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/wired-earphones</loc>
+    <loc>https://fastship.vercel.app/product/wired-earphones</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/android-tablet</loc>
+    <loc>https://fastship.vercel.app/product/android-tablet</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/leather-wallet</loc>
+    <loc>https://fastship.vercel.app/product/leather-wallet</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/wireless-headphones</loc>
+    <loc>https://fastship.vercel.app/product/wireless-headphones</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/smart-watch-pro</loc>
+    <loc>https://fastship.vercel.app/product/smart-watch-pro</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/usb-c-charging-cable</loc>
+    <loc>https://fastship.vercel.app/product/usb-c-charging-cable</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/laptop-sleeve</loc>
+    <loc>https://fastship.vercel.app/product/laptop-sleeve</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/sports-cap</loc>
+    <loc>https://fastship.vercel.app/product/sports-cap</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/polo-tshirt</loc>
+    <loc>https://fastship.vercel.app/product/polo-tshirt</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/phone-case</loc>
+    <loc>https://fastship.vercel.app/product/phone-case</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/track-pants</loc>
+    <loc>https://fastship.vercel.app/product/track-pants</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/dual-usb-wall-adapter</loc>
+    <loc>https://fastship.vercel.app/product/dual-usb-wall-adapter</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/lightning-cable</loc>
+    <loc>https://fastship.vercel.app/product/lightning-cable</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/usb-c-hub</loc>
+    <loc>https://fastship.vercel.app/product/usb-c-hub</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/micro-usb-cable</loc>
+    <loc>https://fastship.vercel.app/product/micro-usb-cable</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/wireless-mouse</loc>
+    <loc>https://fastship.vercel.app/product/wireless-mouse</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/wireless-keyboard</loc>
+    <loc>https://fastship.vercel.app/product/wireless-keyboard</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/screen-protector</loc>
+    <loc>https://fastship.vercel.app/product/screen-protector</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/earphone-case</loc>
+    <loc>https://fastship.vercel.app/product/earphone-case</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/gaming-mousepad</loc>
+    <loc>https://fastship.vercel.app/product/gaming-mousepad</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/phone-stand</loc>
+    <loc>https://fastship.vercel.app/product/phone-stand</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/samsung-galaxy-s24</loc>
+    <loc>https://fastship.vercel.app/product/samsung-galaxy-s24</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/iphone-15-pro</loc>
+    <loc>https://fastship.vercel.app/product/iphone-15-pro</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/oneplus-12</loc>
+    <loc>https://fastship.vercel.app/product/oneplus-12</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/redmi-note-13-pro</loc>
+    <loc>https://fastship.vercel.app/product/redmi-note-13-pro</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/realme-gt5-pro</loc>
+    <loc>https://fastship.vercel.app/product/realme-gt5-pro</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/oppo-reno-11-pro</loc>
+    <loc>https://fastship.vercel.app/product/oppo-reno-11-pro</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/vivo-v30-pro</loc>
+    <loc>https://fastship.vercel.app/product/vivo-v30-pro</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/nothing-phone-2</loc>
+    <loc>https://fastship.vercel.app/product/nothing-phone-2</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/google-pixel-8-pro</loc>
+    <loc>https://fastship.vercel.app/product/google-pixel-8-pro</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/motorola-edge-50-pro</loc>
+    <loc>https://fastship.vercel.app/product/motorola-edge-50-pro</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/slim-laptop-i5</loc>
+    <loc>https://fastship.vercel.app/product/slim-laptop-i5</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/gaming-laptop-rtx4060</loc>
+    <loc>https://fastship.vercel.app/product/gaming-laptop-rtx4060</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/all-in-one-desktop</loc>
+    <loc>https://fastship.vercel.app/product/all-in-one-desktop</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/samsung-galaxy-tab-s9</loc>
+    <loc>https://fastship.vercel.app/product/samsung-galaxy-tab-s9</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/apple-ipad-10th-gen</loc>
+    <loc>https://fastship.vercel.app/product/apple-ipad-10th-gen</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/chromebook-14</loc>
+    <loc>https://fastship.vercel.app/product/chromebook-14</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/hd-webcam-ring-light</loc>
+    <loc>https://fastship.vercel.app/product/hd-webcam-ring-light</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/24-fhd-led-monitor</loc>
+    <loc>https://fastship.vercel.app/product/24-fhd-led-monitor</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/wireless-inkjet-printer</loc>
+    <loc>https://fastship.vercel.app/product/wireless-inkjet-printer</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/external-hdd-1tb</loc>
+    <loc>https://fastship.vercel.app/product/external-hdd-1tb</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/modern-table-lamp</loc>
+    <loc>https://fastship.vercel.app/product/modern-table-lamp</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/geometric-wall-clock</loc>
+    <loc>https://fastship.vercel.app/product/geometric-wall-clock</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/decorative-cushion-covers</loc>
+    <loc>https://fastship.vercel.app/product/decorative-cushion-covers</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/ceramic-flower-vase</loc>
+    <loc>https://fastship.vercel.app/product/ceramic-flower-vase</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/mixer-grinder-750w</loc>
+    <loc>https://fastship.vercel.app/product/mixer-grinder-750w</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/electric-kettle-1-5l</loc>
+    <loc>https://fastship.vercel.app/product/electric-kettle-1-5l</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/non-stick-frying-pan</loc>
+    <loc>https://fastship.vercel.app/product/non-stick-frying-pan</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/hand-blender-400w</loc>
+    <loc>https://fastship.vercel.app/product/hand-blender-400w</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/premium-yoga-mat</loc>
+    <loc>https://fastship.vercel.app/product/premium-yoga-mat</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/rubber-dumbbells-pair</loc>
+    <loc>https://fastship.vercel.app/product/rubber-dumbbells-pair</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/english-willow-cricket-bat</loc>
+    <loc>https://fastship.vercel.app/product/english-willow-cricket-bat</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/match-football-size-5</loc>
+    <loc>https://fastship.vercel.app/product/match-football-size-5</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/bestselling-fiction-novel</loc>
+    <loc>https://fastship.vercel.app/product/bestselling-fiction-novel</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/self-help-motivational-book</loc>
+    <loc>https://fastship.vercel.app/product/self-help-motivational-book</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/building-blocks-100</loc>
+    <loc>https://fastship.vercel.app/product/building-blocks-100</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/rc-sports-car</loc>
+    <loc>https://fastship.vercel.app/product/rc-sports-car</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/strategy-board-game</loc>
+    <loc>https://fastship.vercel.app/product/strategy-board-game</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/soft-teddy-bear</loc>
+    <loc>https://fastship.vercel.app/product/soft-teddy-bear</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/gentle-face-wash</loc>
+    <loc>https://fastship.vercel.app/product/gentle-face-wash</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/professional-hair-dryer</loc>
+    <loc>https://fastship.vercel.app/product/professional-hair-dryer</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/mens-eau-de-parfum</loc>
+    <loc>https://fastship.vercel.app/product/mens-eau-de-parfum</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/cordless-beard-trimmer</loc>
+    <loc>https://fastship.vercel.app/product/cordless-beard-trimmer</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/sunscreen-spf-50</loc>
+    <loc>https://fastship.vercel.app/product/sunscreen-spf-50</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/classic-denim-jacket</loc>
+    <loc>https://fastship.vercel.app/product/classic-denim-jacket</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/formal-white-shirt</loc>
+    <loc>https://fastship.vercel.app/product/formal-white-shirt</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/trekking-hiking-boots</loc>
+    <loc>https://fastship.vercel.app/product/trekking-hiking-boots</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/insulated-water-bottle</loc>
+    <loc>https://fastship.vercel.app/product/insulated-water-bottle</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/herbal-anti-hairfall-shampoo</loc>
+    <loc>https://fastship.vercel.app/product/herbal-anti-hairfall-shampoo</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/anti-dandruff-shampoo</loc>
+    <loc>https://fastship.vercel.app/product/anti-dandruff-shampoo</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/keratin-smooth-shampoo</loc>
+    <loc>https://fastship.vercel.app/product/keratin-smooth-shampoo</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/onion-hairfall-shampoo</loc>
+    <loc>https://fastship.vercel.app/product/onion-hairfall-shampoo</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/zip-up-fleece-hoodie</loc>
+    <loc>https://fastship.vercel.app/product/zip-up-fleece-hoodie</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/oversized-streetwear-hoodie</loc>
+    <loc>https://fastship.vercel.app/product/oversized-streetwear-hoodie</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/graphic-print-hoodie</loc>
+    <loc>https://fastship.vercel.app/product/graphic-print-hoodie</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/cotton-kurta-mens</loc>
+    <loc>https://fastship.vercel.app/product/cotton-kurta-mens</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/floral-summer-dress</loc>
+    <loc>https://fastship.vercel.app/product/floral-summer-dress</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/gym-tank-top</loc>
+    <loc>https://fastship.vercel.app/product/gym-tank-top</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/sports-sandals</loc>
+    <loc>https://fastship.vercel.app/product/sports-sandals</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/gold-chain-bracelet</loc>
+    <loc>https://fastship.vercel.app/product/gold-chain-bracelet</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/leather-messenger-bag</loc>
+    <loc>https://fastship.vercel.app/product/leather-messenger-bag</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/canvas-tote-bag</loc>
+    <loc>https://fastship.vercel.app/product/canvas-tote-bag</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/noise-cancelling-headphones</loc>
+    <loc>https://fastship.vercel.app/product/noise-cancelling-headphones</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/mini-portable-projector</loc>
+    <loc>https://fastship.vercel.app/product/mini-portable-projector</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/adjustable-laptop-stand</loc>
+    <loc>https://fastship.vercel.app/product/adjustable-laptop-stand</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/led-night-lamp</loc>
+    <loc>https://fastship.vercel.app/product/led-night-lamp</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/decorative-wall-mirror</loc>
+    <loc>https://fastship.vercel.app/product/decorative-wall-mirror</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/pressure-cooker-5l</loc>
+    <loc>https://fastship.vercel.app/product/pressure-cooker-5l</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/digital-air-fryer</loc>
+    <loc>https://fastship.vercel.app/product/digital-air-fryer</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/badminton-racket-pro</loc>
+    <loc>https://fastship.vercel.app/product/badminton-racket-pro</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/resistance-bands-set</loc>
+    <loc>https://fastship.vercel.app/product/resistance-bands-set</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/indian-cookbook-100-recipes</loc>
+    <loc>https://fastship.vercel.app/product/indian-cookbook-100-recipes</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/jigsaw-puzzle-1000</loc>
+    <loc>https://fastship.vercel.app/product/jigsaw-puzzle-1000</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/action-figure-hero</loc>
+    <loc>https://fastship.vercel.app/product/action-figure-hero</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/product/moisturising-body-lotion</loc>
+    <loc>https://fastship.vercel.app/product/moisturising-body-lotion</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
