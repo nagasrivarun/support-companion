@@ -402,8 +402,17 @@ const Index = () => {
       />
       <ShopHeader />
 
+      {/* Premium Hero */}
+      <PremiumHero />
+
+      {/* Live Delivery Stats */}
+      <LiveStats />
+
+      {/* Trusted logistics partners */}
+      <TrustedLogos />
+
       {/* Search Bar Strip */}
-      <div className="bg-background/60 backdrop-blur-sm border-b border-border py-3">
+      <div className="bg-card/30 backdrop-blur-sm border-b border-border py-4">
         <div className="container mx-auto px-4 max-w-3xl">
           <SearchAutocomplete onClose={() => {}} alwaysVisible />
           <div className="flex flex-wrap gap-2 mt-2">
@@ -420,7 +429,7 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Hero Banner */}
+      {/* Promo Banner Carousel */}
       <HeroBanner />
 
       {/* Card Grid 1 */}
