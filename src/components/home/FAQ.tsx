@@ -8,33 +8,33 @@ import { HelpCircle, Package, CreditCard, Truck, RotateCcw, Globe } from "lucide
 
 const faqItems = [
   {
-    question: "What payment methods do you accept?",
-    answer: "We accept all major credit/debit cards (Visa, Mastercard, American Express), PayPal, and various local payment methods depending on your region. All transactions are secured with industry-standard encryption.",
+    question: "What payment methods are supported?",
+    answer: "We support UPI, RuPay, all major credit/debit cards (Visa, Mastercard), net banking, popular wallets, and Cash on Delivery (COD) across most pincodes in India.",
     icon: CreditCard,
   },
   {
-    question: "What is your return policy?",
-    answer: "We offer a 30-day return policy on all items. Products must be unused, unworn, and in their original packaging with tags attached. Refunds are processed within 5-7 business days after we receive your return. Note: Sale items and personalized products are final sale.",
+    question: "What is the return & refund policy?",
+    answer: "We offer a 7-day return window on eligible items. Products must be unused with original packaging. Refunds are credited within 3-5 business days to your original payment method or as instant UPI credit.",
     icon: RotateCcw,
   },
   {
-    question: "How long does shipping take?",
-    answer: "Standard shipping takes 5-7 business days, while Express shipping delivers in 2-3 business days. International shipping typically takes 7-14 business days depending on your location. Free shipping is available on orders over $50.",
+    question: "How fast is delivery in India?",
+    answer: "Metro cities receive deliveries in 1-2 days, tier-2 cities in 2-4 days, and remote pincodes in 5-7 days. Same-day delivery is available in select Mumbai, Delhi, Bengaluru, Hyderabad and Pune areas.",
     icon: Truck,
   },
   {
-    question: "Which countries do you ship to?",
-    answer: "We currently ship to India, United States, United Kingdom, Canada, Australia, Germany, France, and UAE. We're actively expanding to more regions - stay tuned for updates!",
+    question: "Do you deliver to my pincode?",
+    answer: "We ship to over 28,000+ pincodes across India through Bluedart, Delhivery, DTDC, Ekart and India Post. Enter your pincode on the product page to confirm serviceability and ETA.",
     icon: Globe,
   },
   {
-    question: "How can I track my order?",
-    answer: "Once your order ships, you'll receive an email with your tracking number. You can also use our support chat and provide your order number (format: ORD-YYYYMMDD-XXXX) to get real-time updates on your delivery.",
+    question: "How do I track my shipment?",
+    answer: "Every order gets a tracking ID (format: ORD-YYYYMMDD-XXXX) sent via SMS, WhatsApp and email. Visit the Track page or your account to see a live timeline with the delivery partner's updates.",
     icon: Package,
   },
   {
-    question: "Do you offer discount codes?",
-    answer: "Yes! We regularly offer promotional discount codes. New customers can use code WELCOME10 for 10% off their first order. Subscribe to our newsletter or follow us on social media for exclusive deals.",
+    question: "Are there discount codes for new buyers?",
+    answer: "Yes — use WELCOME10 for 10% off your first order. Subscribe to our newsletter for exclusive festive offers, lightning deals and early access to sales.",
     icon: HelpCircle,
   },
 ];
