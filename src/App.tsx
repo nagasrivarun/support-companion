@@ -9,6 +9,7 @@ import { ChatWidget } from "@/components/chat/ChatWidget";
 import { CompareFloatingBar } from "@/components/compare/CompareFloatingBar";
 import { CompareModal } from "@/components/compare/CompareModal";
 import { RecentlyViewedWidget } from "@/components/shop/RecentlyViewedWidget";
+import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Orders from "./pages/Orders";
@@ -87,6 +88,7 @@ const App = () => (
           <CompareFloatingBar />
           <CompareModal />
           <RecentlyViewedWidget />
+          <MobileBottomNav />
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
