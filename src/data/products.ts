@@ -117,6 +117,28 @@ import airFryerImg from "@/assets/products/air-fryer.jpg";
 import actionFigureImg from "@/assets/products/action-figure.jpg";
 import laptopStandImg from "@/assets/products/laptop-stand.jpg";
 
+// Per-color variant override. Image is optional — when absent the base
+// product image is reused (NO css tinting). Price/stock overrides drive
+// dynamic PDP updates like Apple/Amazon product pages.
+export interface ColorVariantData {
+  image?: string;
+  price?: number;
+  originalPrice?: number;
+  stock?: number;
+  sku?: string;
+}
+
+// Storage / capacity tier (e.g. 128GB, 256GB) adds an INR price delta.
+export interface StorageVariantData {
+  priceDelta?: number;
+  stock?: number;
+}
+
+export interface ProductVariants {
+  colors?: Record<string, ColorVariantData>;
+  storage?: Record<string, StorageVariantData>;
+}
+
 export interface LocalProduct {
   id: string;
   title: string;
@@ -136,6 +158,9 @@ export interface LocalProduct {
   inStock: boolean;
   sizes?: string[];
   colors?: string[];
+  storageOptions?: string[];
+  variants?: ProductVariants;
+  sku?: string;
   features?: string[];
 }
 
