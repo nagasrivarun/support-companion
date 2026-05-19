@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Check, ImageOff } from "lucide-react";
-import { ShopifyProduct, formatPrice } from "@/lib/shopify";
+import { ShopifyProduct } from "@/lib/shopify";
 import { useCartStore, CartItem } from "@/stores/cartStore";
 import { CompareToggle } from "@/components/compare/CompareToggle";
 import { getProductByHandle } from "@/data/products";
+import { normalizePricing, formatINR } from "@/lib/pricing";
 import { toast } from "sonner";
 
 interface ProductCardProps {
