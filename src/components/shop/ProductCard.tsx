@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Check, ImageOff } from "lucide-react";
-import { ShopifyProduct, formatPrice } from "@/lib/shopify";
+import { ShopifyProduct } from "@/lib/shopify";
 import { useCartStore, CartItem } from "@/stores/cartStore";
 import { CompareToggle } from "@/components/compare/CompareToggle";
 import { getProductByHandle } from "@/data/products";
+import { normalizePricing, formatINR } from "@/lib/pricing";
 import { toast } from "sonner";
 
 interface ProductCardProps {
@@ -22,8 +23,19 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const { node } = product;
   const firstImage = node.images.edges[0]?.node;
   const firstVariant = node.variants.edges[0]?.node;
-  const price = node.priceRange.minVariantPrice;
+  const fallbackPrice = node.priceRange.minVariantPrice;
   const isAvailable = firstVariant?.availableForSale ?? true;
+
+  // Use canonical normalized pricing from the local catalog so cards match the PDP.
+  const pricing = useMemo(() => {
+    const local = getProductByHandle(node.handle);
+    if (local) return normalizePricing(local);
+    return {
+      price: parseFloat(fallbackPrice.amount) || 0,
+      originalPrice: null as number | null,
+      discountPercent: 0,
+    };
+  }, [node.handle, fallbackPrice.amount]);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -92,9 +104,19 @@ export const ProductCard = ({ product }: ProductCardProps) => {
               {node.description}
             </p>
           )}
-          <p className="text-lg font-bold text-primary mt-2">
-            {formatPrice(price.amount, price.currencyCode)}
-          </p>
+          <div className="mt-2 flex items-baseline gap-2 flex-wrap">
+            <span className="text-lg font-bold text-foreground">{formatINR(pricing.price)}</span>
+            {pricing.originalPrice && (
+              <>
+                <span className="text-xs text-muted-foreground line-through">
+                  {formatINR(pricing.originalPrice)}
+                </span>
+                <span className="text-xs font-semibold text-success">
+                  {pricing.discountPercent}% OFF
+                </span>
+              </>
+            )}
+          </div>
         </CardContent>
 
         {/* Footer */}
