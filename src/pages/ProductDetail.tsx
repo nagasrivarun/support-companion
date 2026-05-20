@@ -11,6 +11,8 @@ import { VariantSelector } from "@/components/product/VariantSelector";
 import { PriceBlock } from "@/components/product/PriceBlock";
 import { DeliveryInfo } from "@/components/product/DeliveryInfo";
 import { StockBadge } from "@/components/product/StockBadge";
+import { RatingBlock } from "@/components/product/RatingBlock";
+import { WishlistButton } from "@/components/shop/WishlistButton";
 import {
   getProductByHandle,
   getProductsByCategory,
@@ -21,7 +23,7 @@ import { useBrowsingHistory } from "@/stores/browsingHistory";
 import { normalizePricing } from "@/lib/pricing";
 import {
   ArrowLeft,
-  Star,
+  
   ExternalLink,
   Check,
   ChevronLeft,
@@ -149,6 +151,13 @@ const ProductDetail = () => {
           <ProductGallery
             activeImage={resolved.image}
             thumbnails={product.images}
+            variantImages={
+              product.variants?.colors
+                ? Object.values(product.variants.colors)
+                    .map((v) => v.image)
+                    .filter((s): s is string => !!s)
+                : []
+            }
             alt={product.title}
             discountPercent={resolved.discountPercent}
           />
@@ -164,24 +173,8 @@ const ProductDetail = () => {
             </div>
 
             {/* Rating */}
-            <div className="flex items-center gap-2">
-              <div className="flex">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <Star
-                    key={i}
-                    className={`h-5 w-5 ${
-                      i <= Math.floor(product.rating)
-                        ? "fill-warning text-warning"
-                        : "text-muted-foreground/30"
-                    }`}
-                  />
-                ))}
-              </div>
-              <span className="text-sm text-primary font-medium">{product.rating}</span>
-              <span className="text-sm text-muted-foreground">
-                ({product.reviewCount.toLocaleString("en-IN")} ratings)
-              </span>
-            </div>
+            <RatingBlock rating={product.rating} reviewCount={product.reviewCount} size="md" />
+
 
             {/* Price */}
             <div className="border-b border-border pb-5">
@@ -222,15 +215,29 @@ const ProductDetail = () => {
             <DeliveryInfo price={resolved.price} />
 
             {/* Buy Button */}
-            <a href={product.amazonUrl} target="_blank" rel="noopener noreferrer">
-              <Button
-                size="lg"
-                className="w-full gap-2 bg-warning text-warning-foreground hover:bg-warning/90 text-lg py-6 shadow-lg"
-                disabled={resolved.stock <= 0}
-              >
-                <ExternalLink className="h-5 w-5" /> Buy Now on Amazon
-              </Button>
-            </a>
+            <div className="flex gap-3">
+              <a href={product.amazonUrl} target="_blank" rel="noopener noreferrer" className="flex-1">
+                <Button
+                  size="lg"
+                  className="w-full gap-2 bg-warning text-warning-foreground hover:bg-warning/90 text-lg py-6 shadow-lg"
+                  disabled={resolved.stock <= 0}
+                >
+                  <ExternalLink className="h-5 w-5" /> Buy Now on Amazon
+                </Button>
+              </a>
+              <WishlistButton
+                variant="icon"
+                className="h-[60px] w-[60px] rounded-xl border border-border"
+                product={{
+                  id: product.id,
+                  handle: product.handle,
+                  title: product.title,
+                  image: resolved.image,
+                  price: resolved.price,
+                  currencyCode: product.currencyCode,
+                }}
+              />
+            </div>
 
             {/* Features */}
             {product.features && (
@@ -323,22 +330,8 @@ const CustomersAlsoBought = ({ product }: { product: LocalProduct }) => {
                 <p className="text-sm text-primary hover:text-primary/80 line-clamp-2 mb-1">
                   {p.title}
                 </p>
-                <div className="flex items-center gap-1 mb-1">
-                  <div className="flex">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <Star
-                        key={i}
-                        className={`h-3 w-3 ${
-                          i <= Math.floor(p.rating)
-                            ? "fill-warning text-warning"
-                            : "text-muted-foreground/30"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <span className="text-xs text-primary">
-                    {p.reviewCount.toLocaleString("en-IN")}
-                  </span>
+                <div className="mb-1">
+                  <RatingBlock rating={p.rating} reviewCount={p.reviewCount} size="xs" showValue={false} />
                 </div>
                 <div className="flex items-baseline gap-1">
                   {np.discountPercent > 0 && (
