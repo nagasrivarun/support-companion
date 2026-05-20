@@ -76,10 +76,25 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             const localProduct = getProductByHandle(node.handle);
             return localProduct ? <CompareToggle product={localProduct} /> : null;
           })()}
+          <div className="absolute top-2 right-2 z-10">
+            <WishlistButton
+              variant="icon"
+              product={{
+                id: node.id,
+                handle: node.handle,
+                title: node.title,
+                image: firstImage?.url,
+                price: pricing.price,
+                currencyCode: fallbackPrice.currencyCode,
+              }}
+            />
+          </div>
           {!imageError && firstImage ? (
             <img
               src={firstImage.url}
               alt={firstImage.altText || node.title}
+              loading="lazy"
+              decoding="async"
               className="h-full w-full object-cover transition-transform group-hover:scale-105"
               onError={() => setImageError(true)}
             />
@@ -90,7 +105,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           )}
           
           {!isAvailable && (
-            <Badge variant="secondary" className="absolute top-2 right-2">
+            <Badge variant="secondary" className="absolute top-2 left-2">
               Out of Stock
             </Badge>
           )}
@@ -101,6 +116,13 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           <h3 className="font-semibold text-foreground line-clamp-2 min-h-[2.5rem]">
             {node.title}
           </h3>
+          <div className="mt-1.5">
+            <RatingBlock
+              rating={getProductByHandle(node.handle)?.rating ?? 4.2}
+              reviewCount={getProductByHandle(node.handle)?.reviewCount ?? 0}
+              size="xs"
+            />
+          </div>
           {node.description && (
             <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
               {node.description}
