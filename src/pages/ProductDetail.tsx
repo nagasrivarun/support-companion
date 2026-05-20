@@ -23,7 +23,7 @@ import { useBrowsingHistory } from "@/stores/browsingHistory";
 import { normalizePricing } from "@/lib/pricing";
 import {
   ArrowLeft,
-  Star,
+  
   ExternalLink,
   Check,
   ChevronLeft,
