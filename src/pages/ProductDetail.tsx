@@ -149,6 +149,13 @@ const ProductDetail = () => {
           <ProductGallery
             activeImage={resolved.image}
             thumbnails={product.images}
+            variantImages={
+              product.variants?.colors
+                ? Object.values(product.variants.colors)
+                    .map((v) => v.image)
+                    .filter((s): s is string => !!s)
+                : []
+            }
             alt={product.title}
             discountPercent={resolved.discountPercent}
           />
