@@ -173,24 +173,8 @@ const ProductDetail = () => {
             </div>
 
             {/* Rating */}
-            <div className="flex items-center gap-2">
-              <div className="flex">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <Star
-                    key={i}
-                    className={`h-5 w-5 ${
-                      i <= Math.floor(product.rating)
-                        ? "fill-warning text-warning"
-                        : "text-muted-foreground/30"
-                    }`}
-                  />
-                ))}
-              </div>
-              <span className="text-sm text-primary font-medium">{product.rating}</span>
-              <span className="text-sm text-muted-foreground">
-                ({product.reviewCount.toLocaleString("en-IN")} ratings)
-              </span>
-            </div>
+            <RatingBlock rating={product.rating} reviewCount={product.reviewCount} size="md" />
+
 
             {/* Price */}
             <div className="border-b border-border pb-5">
