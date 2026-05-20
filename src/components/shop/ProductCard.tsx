@@ -105,7 +105,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           )}
           
           {!isAvailable && (
-            <Badge variant="secondary" className="absolute top-2 left-2">
+            <Badge variant="secondary" className="absolute bottom-2 left-2">
               Out of Stock
             </Badge>
           )}
