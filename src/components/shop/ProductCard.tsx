@@ -7,6 +7,8 @@ import { ShoppingCart, Check, ImageOff } from "lucide-react";
 import { ShopifyProduct } from "@/lib/shopify";
 import { useCartStore, CartItem } from "@/stores/cartStore";
 import { CompareToggle } from "@/components/compare/CompareToggle";
+import { WishlistButton } from "@/components/shop/WishlistButton";
+import { RatingBlock } from "@/components/product/RatingBlock";
 import { getProductByHandle } from "@/data/products";
 import { normalizePricing, formatINR } from "@/lib/pricing";
 import { toast } from "sonner";
