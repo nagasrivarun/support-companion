@@ -11,6 +11,8 @@ import { VariantSelector } from "@/components/product/VariantSelector";
 import { PriceBlock } from "@/components/product/PriceBlock";
 import { DeliveryInfo } from "@/components/product/DeliveryInfo";
 import { StockBadge } from "@/components/product/StockBadge";
+import { RatingBlock } from "@/components/product/RatingBlock";
+import { WishlistButton } from "@/components/shop/WishlistButton";
 import {
   getProductByHandle,
   getProductsByCategory,
