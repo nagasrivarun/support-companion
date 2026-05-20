@@ -330,22 +330,8 @@ const CustomersAlsoBought = ({ product }: { product: LocalProduct }) => {
                 <p className="text-sm text-primary hover:text-primary/80 line-clamp-2 mb-1">
                   {p.title}
                 </p>
-                <div className="flex items-center gap-1 mb-1">
-                  <div className="flex">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <Star
-                        key={i}
-                        className={`h-3 w-3 ${
-                          i <= Math.floor(p.rating)
-                            ? "fill-warning text-warning"
-                            : "text-muted-foreground/30"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <span className="text-xs text-primary">
-                    {p.reviewCount.toLocaleString("en-IN")}
-                  </span>
+                <div className="mb-1">
+                  <RatingBlock rating={p.rating} reviewCount={p.reviewCount} size="xs" showValue={false} />
                 </div>
                 <div className="flex items-baseline gap-1">
                   {np.discountPercent > 0 && (
