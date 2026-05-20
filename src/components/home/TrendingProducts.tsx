@@ -1,9 +1,12 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { Star, ChevronLeft, ChevronRight, ShoppingCart, Heart, Truck, Flame, TrendingUp } from "lucide-react";
+import { ChevronLeft, ChevronRight, ShoppingCart, Truck, Flame, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toShopifyProduct, type LocalProduct } from "@/data/products";
 import { useCartStore, type CartItem } from "@/stores/cartStore";
+import { normalizePricing, formatINR } from "@/lib/pricing";
+import { RatingBlock } from "@/components/product/RatingBlock";
+import { WishlistButton } from "@/components/shop/WishlistButton";
 import { toast } from "sonner";
 
 interface Props {
