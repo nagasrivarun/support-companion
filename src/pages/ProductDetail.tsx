@@ -215,15 +215,29 @@ const ProductDetail = () => {
             <DeliveryInfo price={resolved.price} />
 
             {/* Buy Button */}
-            <a href={product.amazonUrl} target="_blank" rel="noopener noreferrer">
-              <Button
-                size="lg"
-                className="w-full gap-2 bg-warning text-warning-foreground hover:bg-warning/90 text-lg py-6 shadow-lg"
-                disabled={resolved.stock <= 0}
-              >
-                <ExternalLink className="h-5 w-5" /> Buy Now on Amazon
-              </Button>
-            </a>
+            <div className="flex gap-3">
+              <a href={product.amazonUrl} target="_blank" rel="noopener noreferrer" className="flex-1">
+                <Button
+                  size="lg"
+                  className="w-full gap-2 bg-warning text-warning-foreground hover:bg-warning/90 text-lg py-6 shadow-lg"
+                  disabled={resolved.stock <= 0}
+                >
+                  <ExternalLink className="h-5 w-5" /> Buy Now on Amazon
+                </Button>
+              </a>
+              <WishlistButton
+                variant="icon"
+                className="h-[60px] w-[60px] rounded-xl border border-border"
+                product={{
+                  id: product.id,
+                  handle: product.handle,
+                  title: product.title,
+                  image: resolved.image,
+                  price: resolved.price,
+                  currencyCode: product.currencyCode,
+                }}
+              />
+            </div>
 
             {/* Features */}
             {product.features && (
