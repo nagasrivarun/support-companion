@@ -85,7 +85,7 @@ export const TrendingProducts = ({ title, eyebrow, products, linkTo = "/shop", b
 
       <div ref={scrollRef} className="flex gap-4 md:gap-5 overflow-x-auto scrollbar-hide scroll-smooth -mx-4 px-4 pb-2 snap-x snap-mandatory">
         {products.map((p, idx) => {
-          const discount = p.originalPrice ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100) : 0;
+          const np = normalizePricing(p);
           const isBestSeller = idx < 3;
           return (
             <Link
@@ -100,14 +100,15 @@ export const TrendingProducts = ({ title, eyebrow, products, linkTo = "/shop", b
                     src={p.image}
                     alt={p.title}
                     loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
 
                   {/* Top-left badges */}
                   <div className="absolute top-2 left-2 flex flex-col gap-1">
-                    {discount > 0 && (
+                    {np.discountPercent > 0 && (
                       <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-destructive text-destructive-foreground">
-                        -{discount}%
+                        -{np.discountPercent}%
                       </span>
                     )}
                     {isBestSeller && (
@@ -118,13 +119,19 @@ export const TrendingProducts = ({ title, eyebrow, products, linkTo = "/shop", b
                   </div>
 
                   {/* Wishlist */}
-                  <button
-                    onClick={e => { e.preventDefault(); e.stopPropagation(); toast.success("Added to wishlist"); }}
-                    aria-label="Add to wishlist"
-                    className="absolute top-2 right-2 w-8 h-8 rounded-full glass-strong flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-primary/20 transition-all"
-                  >
-                    <Heart className="h-4 w-4 text-foreground" />
-                  </button>
+                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all">
+                    <WishlistButton
+                      variant="icon"
+                      product={{
+                        id: p.id,
+                        handle: p.handle,
+                        title: p.title,
+                        image: p.image,
+                        price: np.price,
+                        currencyCode: p.currencyCode,
+                      }}
+                    />
+                  </div>
 
                   {/* Quick add */}
                   <div className="absolute inset-x-2 bottom-2 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
@@ -144,19 +151,17 @@ export const TrendingProducts = ({ title, eyebrow, products, linkTo = "/shop", b
                     {p.title}
                   </h3>
 
-                  <div className="flex items-center gap-1 mt-1.5">
-                    <Star className="h-3 w-3 fill-warning text-warning" />
-                    <span className="text-xs font-semibold text-foreground">{p.rating}</span>
-                    <span className="text-[11px] text-muted-foreground">({p.reviewCount.toLocaleString("en-IN")})</span>
+                  <div className="mt-1.5">
+                    <RatingBlock rating={p.rating} reviewCount={p.reviewCount} size="xs" />
                   </div>
 
                   <div className="flex items-baseline gap-2 mt-2">
                     <span className="text-base md:text-lg font-extrabold text-foreground tracking-tight">
-                      ₹{p.price.toLocaleString("en-IN")}
+                      {formatINR(np.price)}
                     </span>
-                    {p.originalPrice && (
+                    {np.originalPrice && (
                       <span className="text-xs text-muted-foreground line-through">
-                        ₹{p.originalPrice.toLocaleString("en-IN")}
+                        {formatINR(np.originalPrice)}
                       </span>
                     )}
                   </div>
