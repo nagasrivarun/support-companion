@@ -1,6 +1,7 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { Home, Search, Heart, User, ShoppingBag } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
+import { useWishlist } from "@/hooks/useWishlist";
 
 const items = [
   { to: "/", icon: Home, label: "Home" },
@@ -12,15 +13,16 @@ const items = [
 export const MobileBottomNav = () => {
   const { pathname } = useLocation();
   const count = useCartStore(s => s.getTotalItems());
+  const { items: wishItems } = useWishlist();
+  const wishCount = wishItems.length;
 
-  // Hide on admin/dashboard routes
   if (/^\/(dashboard|orders|conversations|live-chat|analytics|automations)/.test(pathname)) return null;
 
   return (
     <>
       {/* Spacer */}
-      <div className="h-16 md:hidden" aria-hidden />
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 glass-strong border-t border-border">
+      <div className="h-20 md:hidden" aria-hidden />
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 glass-strong border-t border-border pb-[env(safe-area-inset-bottom)]">
         <div className="grid grid-cols-5 h-16">
           {items.slice(0, 2).map(i => (
             <NavItem key={i.to} {...i} />
@@ -43,7 +45,7 @@ export const MobileBottomNav = () => {
           </div>
 
           {items.slice(2).map(i => (
-            <NavItem key={i.to} {...i} />
+            <NavItem key={i.to} {...i} badge={i.to === "/wishlist" ? wishCount : 0} />
           ))}
         </div>
       </nav>
@@ -51,17 +53,24 @@ export const MobileBottomNav = () => {
   );
 };
 
-const NavItem = ({ to, icon: Icon, label }: { to: string; icon: typeof Home; label: string }) => (
+const NavItem = ({ to, icon: Icon, label, badge = 0 }: { to: string; icon: typeof Home; label: string; badge?: number }) => (
   <NavLink
     to={to}
     end={to === "/"}
     className={({ isActive }) =>
-      `flex flex-col items-center justify-center gap-0.5 text-[10px] font-medium transition-colors ${
+      `relative flex flex-col items-center justify-center gap-0.5 text-[10px] font-medium transition-colors min-h-[44px] ${
         isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
       }`
     }
   >
-    <Icon className="h-5 w-5" />
+    <span className="relative">
+      <Icon className="h-5 w-5" />
+      {badge > 0 && (
+        <span className="absolute -top-1.5 -right-2 min-w-[16px] h-[16px] px-1 rounded-full bg-destructive text-destructive-foreground text-[9px] font-bold flex items-center justify-center">
+          {badge > 9 ? "9+" : badge}
+        </span>
+      )}
+    </span>
     {label}
   </NavLink>
 );
