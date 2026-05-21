@@ -98,7 +98,7 @@ const ProductDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-24 md:pb-0">
       <SEO
         title={`${product.title} — Shop India`}
         description={
@@ -263,6 +263,43 @@ const ProductDetail = () => {
         <div className="mt-16 border-t border-border pt-12">
           <h2 className="text-2xl font-bold text-foreground mb-8">Customer Reviews</h2>
           <ProductReviews productHandle={handle || ""} productTitle={product.title} />
+        </div>
+      </div>
+
+      {/* Sticky mobile purchase bar */}
+      <div className="md:hidden fixed bottom-16 inset-x-0 z-40 glass-strong border-t border-border/60 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
+        <div className="flex items-center gap-3">
+          <div className="flex-1 min-w-0">
+            <div className="text-lg font-bold text-foreground leading-tight">
+              ₹{resolved.price.toLocaleString("en-IN")}
+            </div>
+            {resolved.originalPrice && (
+              <div className="text-[11px] text-success font-medium">
+                {resolved.discountPercent}% OFF · Incl. GST
+              </div>
+            )}
+          </div>
+          <WishlistButton
+            variant="icon"
+            className="h-11 w-11"
+            product={{
+              id: product.id,
+              handle: product.handle,
+              title: product.title,
+              image: resolved.image,
+              price: resolved.price,
+              currencyCode: product.currencyCode,
+            }}
+          />
+          <a href={product.amazonUrl} target="_blank" rel="noopener noreferrer" className="flex-[1.4]">
+            <Button
+              size="lg"
+              className="w-full gap-2 bg-warning text-warning-foreground hover:bg-warning/90 h-11"
+              disabled={resolved.stock <= 0}
+            >
+              <ExternalLink className="h-4 w-4" /> Buy on Amazon
+            </Button>
+          </a>
         </div>
       </div>
 

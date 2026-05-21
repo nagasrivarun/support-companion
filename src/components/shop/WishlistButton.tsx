@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useWishlist } from "@/hooks/useWishlist";
@@ -19,11 +20,13 @@ interface WishlistButtonProps {
 export function WishlistButton({ product, variant = "icon", className }: WishlistButtonProps) {
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const isWishlisted = isInWishlist(product.id);
+  const [pop, setPop] = useState(false);
 
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-
+    setPop(true);
+    setTimeout(() => setPop(false), 450);
     if (isWishlisted) {
       await removeFromWishlist(product.id);
     } else {
@@ -36,16 +39,18 @@ export function WishlistButton({ product, variant = "icon", className }: Wishlis
       <Button
         variant="ghost"
         size="icon"
+        aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
         className={cn(
-          "h-9 w-9 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background",
+          "h-9 w-9 rounded-full bg-background/70 backdrop-blur-md hover:bg-background border border-border/60 shadow-sm",
           className
         )}
         onClick={handleClick}
       >
         <Heart
           className={cn(
-            "h-5 w-5 transition-colors",
-            isWishlisted ? "fill-destructive text-destructive" : "text-muted-foreground"
+            "h-[18px] w-[18px] transition-colors",
+            isWishlisted ? "fill-destructive text-destructive" : "text-muted-foreground",
+            pop && "animate-heart-pop"
           )}
         />
       </Button>

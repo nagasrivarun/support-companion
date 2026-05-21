@@ -5,6 +5,7 @@ import { SearchAutocomplete } from "./SearchAutocomplete";
 import { Heart, LayoutDashboard, Truck, User, Search, X, Menu, Package, LogOut, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
+import { useWishlist } from "@/hooks/useWishlist";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,6 +29,8 @@ const navLinks = [
 
 export const ShopHeader = () => {
   const { user, signOut } = useAuth();
+  const { items: wishlistItems } = useWishlist();
+  const wishCount = wishlistItems.length;
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -95,7 +98,14 @@ export const ShopHeader = () => {
               {searchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
             </Button>
             <Link to="/wishlist" className="hidden sm:inline-flex">
-              <Button variant="ghost" size="icon" title="Wishlist"><Heart className="h-5 w-5" /></Button>
+              <Button variant="ghost" size="icon" title="Wishlist" className="relative">
+                <Heart className="h-5 w-5" />
+                {wishCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold flex items-center justify-center">
+                    {wishCount > 99 ? "99+" : wishCount}
+                  </span>
+                )}
+              </Button>
             </Link>
 
             {/* Profile dropdown */}

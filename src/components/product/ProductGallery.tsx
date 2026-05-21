@@ -1,27 +1,23 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
+import { ZoomIn } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ProductGalleryProps {
-  /** Primary image — switches when color variant changes */
   activeImage: string;
-  /** Static thumbnails (e.g. product.images) */
   thumbnails?: string[];
-  /** Additional images for nearby variants to preload */
   variantImages?: string[];
   alt: string;
   discountPercent?: number;
 }
 
 /**
- * Apple-style product gallery:
- * - Real image swap (NO CSS tinting / hue-rotate / blend modes)
- * - Smooth crossfade + subtle scale on variant change
- * - Lazy loading thumbnails, eager LCP main image
- * - Skeleton placeholder until first paint, fade-in on load
- * - Preloads nearby variant images for instant swap
- * - Fixed aspect ratio = no CLS
+ * Premium product gallery:
+ * - Real image swap (NO CSS tinting)
+ * - Hover-zoom on desktop, touch-swipe on mobile
+ * - Shimmer skeleton placeholder, fade-in on load
+ * - Idle-preload of nearby variants for instant swap
+ * - Fixed aspect-square = zero CLS
  */
 export function ProductGallery({
   activeImage,
@@ -38,9 +34,15 @@ export function ProductGallery({
   const [displayed, setDisplayed] = useState(activeImage);
   const [fading, setFading] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [zoom, setZoom] = useState<{ x: number; y: number; on: boolean }>({
+    x: 50,
+    y: 50,
+    on: false,
+  });
   const prev = useRef(activeImage);
+  const touchStartX = useRef<number | null>(null);
 
-  // Preload nearby variant images (idle) so swaps are instant + flicker-free
+  // Preload nearby variant images
   useEffect(() => {
     const idle = (cb: () => void) =>
       "requestIdleCallback" in window
@@ -56,7 +58,7 @@ export function ProductGallery({
     });
   }, [allThumbs, variantImages]);
 
-  // Crossfade when activeImage changes — preload then swap
+  // Crossfade when activeImage changes
   useEffect(() => {
     if (prev.current === activeImage) return;
     setFading(true);
@@ -71,12 +73,37 @@ export function ProductGallery({
     else pre.onload = swap;
   }, [activeImage]);
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    setZoom({
+      x: ((e.clientX - r.left) / r.width) * 100,
+      y: ((e.clientY - r.top) / r.height) * 100,
+      on: true,
+    });
+  };
+
+  const swipeTo = (dir: 1 | -1) => {
+    if (allThumbs.length < 2) return;
+    const idx = allThumbs.indexOf(displayed);
+    const next = (idx + dir + allThumbs.length) % allThumbs.length;
+    setDisplayed(allThumbs[next]);
+  };
+
   return (
     <div className="space-y-4">
-      <div className="relative aspect-square overflow-hidden rounded-2xl bg-gradient-to-br from-muted/40 to-muted/10 border border-border/60">
-        {!loaded && (
-          <Skeleton className="absolute inset-0 h-full w-full rounded-2xl" />
-        )}
+      <div
+        className="relative aspect-square overflow-hidden rounded-2xl bg-gradient-to-br from-muted/40 to-muted/10 border border-border/60 cursor-zoom-in group/zoom"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={() => setZoom((z) => ({ ...z, on: false }))}
+        onTouchStart={(e) => (touchStartX.current = e.touches[0].clientX)}
+        onTouchEnd={(e) => {
+          if (touchStartX.current === null) return;
+          const dx = e.changedTouches[0].clientX - touchStartX.current;
+          if (Math.abs(dx) > 50) swipeTo(dx < 0 ? 1 : -1);
+          touchStartX.current = null;
+        }}
+      >
+        {!loaded && <div className="absolute inset-0 shimmer rounded-2xl" />}
         <img
           src={displayed}
           alt={alt}
@@ -84,9 +111,18 @@ export function ProductGallery({
           fetchPriority="high"
           decoding="async"
           onLoad={() => setLoaded(true)}
+          style={
+            zoom.on
+              ? {
+                  transformOrigin: `${zoom.x}% ${zoom.y}%`,
+                  transform: "scale(1.8)",
+                }
+              : undefined
+          }
           className={cn(
             "absolute inset-0 h-full w-full object-cover transition-all duration-500 ease-out will-change-transform",
-            fading || !loaded ? "opacity-0 scale-[1.02]" : "opacity-100 scale-100"
+            fading || !loaded ? "opacity-0 scale-[1.02]" : "opacity-100",
+            !zoom.on && "group-hover/zoom:scale-[1.03]"
           )}
         />
         {discountPercent > 0 && loaded && (
@@ -94,10 +130,13 @@ export function ProductGallery({
             {discountPercent}% OFF
           </Badge>
         )}
+        <div className="absolute bottom-3 right-3 z-10 flex items-center gap-1.5 rounded-full bg-background/70 backdrop-blur-md border border-border/60 px-2.5 py-1 text-[11px] text-muted-foreground opacity-0 group-hover/zoom:opacity-100 transition-opacity pointer-events-none">
+          <ZoomIn className="h-3 w-3" /> Hover to zoom
+        </div>
       </div>
 
       {allThumbs.length > 1 && (
-        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+        <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
           {allThumbs.map((src) => {
             const active = src === displayed;
             return (
