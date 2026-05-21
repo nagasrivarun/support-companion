@@ -142,6 +142,34 @@
   0% { background-position: 0 0; }
   100% { background-position: 60px 60px; }
 }
+@keyframes heartPop {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.35); }
+  60% { transform: scale(0.92); }
+  100% { transform: scale(1); }
+}
+.animate-heart-pop { animation: heartPop 0.45s ease-out; }
+
+/* Shimmer skeleton */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+  background: hsl(220 14% 10%);
+}
+.shimmer::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(110deg, transparent 30%, hsl(220 14% 18% / 0.7) 50%, transparent 70%);
+  animation: shimmerSweep 1.6s linear infinite;
+}
+@keyframes shimmerSweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Hide scrollbar but keep scrollable */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
