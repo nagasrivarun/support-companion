@@ -68,9 +68,8 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   return (
-    <Link to={`/product/${node.handle}`}>
-      <Card className="group h-full overflow-hidden transition-all hover:shadow-lg hover:border-primary/50">
-        {/* Image */}
+    <Link to={`/product/${node.handle}`} className="block h-full">
+      <Card className="group relative h-full overflow-hidden border-border/60 bg-card/60 transition-all duration-300 hover:border-primary/50 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_-12px_hsl(217_100%_60%/0.35)]">
         <div className="aspect-square overflow-hidden bg-muted relative">
           {(() => {
             const localProduct = getProductByHandle(node.handle);
@@ -95,7 +94,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
               alt={firstImage.altText || node.title}
               loading="lazy"
               decoding="async"
-              className="h-full w-full object-cover transition-transform group-hover:scale-105"
+              className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.06]"
               onError={() => setImageError(true)}
             />
           ) : (
@@ -103,7 +102,13 @@ export const ProductCard = ({ product }: ProductCardProps) => {
               <ImageOff className="h-12 w-12 text-muted-foreground" />
             </div>
           )}
-          
+
+          {pricing.discountPercent > 0 && (
+            <Badge className="absolute top-2 left-2 bg-destructive text-destructive-foreground text-[11px] font-bold px-2 py-0.5 shadow">
+              {pricing.discountPercent}% OFF
+            </Badge>
+          )}
+
           {!isAvailable && (
             <Badge variant="secondary" className="absolute bottom-2 left-2">
               Out of Stock
@@ -111,55 +116,44 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           )}
         </div>
 
-        {/* Content */}
-        <CardContent className="p-4">
-          <h3 className="font-semibold text-foreground line-clamp-2 min-h-[2.5rem]">
+        <CardContent className="p-3.5 space-y-1.5">
+          <h3 className="font-medium text-foreground text-sm leading-snug line-clamp-2 min-h-[2.5rem] group-hover:text-primary transition-colors">
             {node.title}
           </h3>
-          <div className="mt-1.5">
-            <RatingBlock
-              rating={getProductByHandle(node.handle)?.rating ?? 4.2}
-              reviewCount={getProductByHandle(node.handle)?.reviewCount ?? 0}
-              size="xs"
-            />
-          </div>
-          {node.description && (
-            <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
-              {node.description}
-            </p>
-          )}
-          <div className="mt-2 flex items-baseline gap-2 flex-wrap">
-            <span className="text-lg font-bold text-foreground">{formatINR(pricing.price)}</span>
+          <RatingBlock
+            rating={getProductByHandle(node.handle)?.rating ?? 4.2}
+            reviewCount={getProductByHandle(node.handle)?.reviewCount ?? 0}
+            size="xs"
+          />
+          <div className="flex items-baseline gap-2 flex-wrap pt-0.5">
+            <span className="text-lg font-bold text-foreground tracking-tight">
+              {formatINR(pricing.price)}
+            </span>
             {pricing.originalPrice && (
               <>
                 <span className="text-xs text-muted-foreground line-through">
                   {formatINR(pricing.originalPrice)}
                 </span>
-                <span className="text-xs font-semibold text-success">
-                  {pricing.discountPercent}% OFF
+                <span className="text-[11px] font-semibold text-success">
+                  Save {pricing.discountPercent}%
                 </span>
               </>
             )}
           </div>
+          <p className="text-[11px] text-muted-foreground">Incl. GST · FREE delivery</p>
         </CardContent>
 
-        {/* Footer */}
-        <CardFooter className="p-4 pt-0">
+        <CardFooter className="p-3.5 pt-0">
           <Button
-            className="w-full"
+            className="w-full h-9 gap-2"
+            size="sm"
             onClick={handleAddToCart}
             disabled={!isAvailable || isAdding}
           >
             {isAdding ? (
-              <>
-                <Check className="h-4 w-4 mr-2" />
-                Added!
-              </>
+              <><Check className="h-4 w-4" />Added</>
             ) : (
-              <>
-                <ShoppingCart className="h-4 w-4 mr-2" />
-                Add to Cart
-              </>
+              <><ShoppingCart className="h-4 w-4" />Add to Cart</>
             )}
           </Button>
         </CardFooter>
