@@ -279,6 +279,45 @@ const Shop = () => {
               </Sheet>
             </div>
 
+            {/* Active filter chips */}
+            {activeCount > 0 && (
+              <div className="flex flex-wrap items-center gap-2 mb-4 animate-fade-in">
+                {search && (
+                  <Badge variant="secondary" className="gap-1 cursor-pointer hover:bg-destructive/15" onClick={() => setSearch("")}>
+                    Search: "{search}" <X className="h-3 w-3" />
+                  </Badge>
+                )}
+                {category !== "all" && (
+                  <Badge variant="secondary" className="gap-1 cursor-pointer hover:bg-destructive/15" onClick={() => setCategory("all")}>
+                    {category} <X className="h-3 w-3" />
+                  </Badge>
+                )}
+                {selectedBrands.map(b => (
+                  <Badge key={b} variant="secondary" className="gap-1 cursor-pointer hover:bg-destructive/15" onClick={() => setSelectedBrands(selectedBrands.filter(x => x !== b))}>
+                    {b} <X className="h-3 w-3" />
+                  </Badge>
+                ))}
+                {(priceRange[0] > 0 || priceRange[1] < 150000) && (
+                  <Badge variant="secondary" className="gap-1 cursor-pointer hover:bg-destructive/15" onClick={() => setPriceRange([0, 150000])}>
+                    ₹{priceRange[0].toLocaleString("en-IN")} – ₹{priceRange[1].toLocaleString("en-IN")} <X className="h-3 w-3" />
+                  </Badge>
+                )}
+                {minRating > 0 && (
+                  <Badge variant="secondary" className="gap-1 cursor-pointer hover:bg-destructive/15" onClick={() => setMinRating(0)}>
+                    {minRating}★ & up <X className="h-3 w-3" />
+                  </Badge>
+                )}
+                {inStockOnly && (
+                  <Badge variant="secondary" className="gap-1 cursor-pointer hover:bg-destructive/15" onClick={() => setInStockOnly(false)}>
+                    In stock <X className="h-3 w-3" />
+                  </Badge>
+                )}
+                <Button variant="ghost" size="sm" onClick={resetFilters} className="h-6 text-xs text-muted-foreground hover:text-foreground">
+                  Clear all
+                </Button>
+              </div>
+            )}
+
             {/* Results */}
             <p className="text-sm text-muted-foreground mb-4">
               Showing {filtered.length} of {LOCAL_PRODUCTS.length} products
