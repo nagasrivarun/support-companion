@@ -148,21 +148,23 @@ const ProductDetail = () => {
           <ArrowLeft className="h-4 w-4 mr-1" /> Back to Shop
         </Link>
 
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-          {/* Gallery — real image switching, no tinting */}
-          <ProductGallery
-            activeImage={resolved.image}
-            thumbnails={product.images}
-            variantImages={
-              product.variants?.colors
-                ? Object.values(product.variants.colors)
-                    .map((v) => v.image)
-                    .filter((s): s is string => !!s)
-                : []
-            }
-            alt={product.title}
-            discountPercent={resolved.discountPercent}
-          />
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
+          {/* Gallery — sticky on desktop, real image switching, no tinting */}
+          <div className="md:sticky md:top-20 md:self-start">
+            <ProductGallery
+              activeImage={resolved.image}
+              thumbnails={product.images}
+              variantImages={
+                product.variants?.colors
+                  ? Object.values(product.variants.colors)
+                      .map((v) => v.image)
+                      .filter((s): s is string => !!s)
+                  : []
+              }
+              alt={product.title}
+              discountPercent={resolved.discountPercent}
+            />
+          </div>
 
           {/* Info */}
           <div className="space-y-6">
