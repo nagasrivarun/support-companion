@@ -10,6 +10,8 @@ import { ProductGallery } from "@/components/product/ProductGallery";
 import { VariantSelector } from "@/components/product/VariantSelector";
 import { PriceBlock } from "@/components/product/PriceBlock";
 import { DeliveryInfo } from "@/components/product/DeliveryInfo";
+import { DeliveryChecker } from "@/components/product/DeliveryChecker";
+import { ProductDetailsAccordion } from "@/components/product/ProductDetailsAccordion";
 import { StockBadge } from "@/components/product/StockBadge";
 import { RatingBlock } from "@/components/product/RatingBlock";
 import { WishlistButton } from "@/components/shop/WishlistButton";
