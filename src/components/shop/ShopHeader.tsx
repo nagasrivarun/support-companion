@@ -94,12 +94,19 @@ export const ShopHeader = () => {
 
           {/* Actions */}
           <div className="flex items-center gap-1">
-            <Button variant="ghost" size="icon" title="Search" onClick={() => setSearchOpen(!searchOpen)}>
-              {searchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
+            <Button
+              variant="ghost"
+              size="icon"
+              title="Search"
+              aria-label={searchOpen ? "Close search" : "Open search"}
+              aria-expanded={searchOpen}
+              onClick={() => setSearchOpen(!searchOpen)}
+            >
+              {searchOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Search className="h-5 w-5" aria-hidden="true" />}
             </Button>
             <Link to="/wishlist" className="hidden sm:inline-flex">
-              <Button variant="ghost" size="icon" title="Wishlist" className="relative">
-                <Heart className="h-5 w-5" />
+              <Button variant="ghost" size="icon" title="Wishlist" aria-label={`Wishlist${wishCount > 0 ? `, ${wishCount} items` : ""}`} className="relative">
+                <Heart className="h-5 w-5" aria-hidden="true" />
                 {wishCount > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold flex items-center justify-center">
                     {wishCount > 99 ? "99+" : wishCount}
@@ -111,8 +118,8 @@ export const ShopHeader = () => {
             {/* Profile dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" title={user ? "Account" : "Sign in"}>
-                  <User className="h-5 w-5" />
+                <Button variant="ghost" size="icon" title={user ? "Account" : "Sign in"} aria-label={user ? "Account menu" : "Sign in"}>
+                  <User className="h-5 w-5" aria-hidden="true" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 glass-strong border-border/60">
@@ -151,7 +158,7 @@ export const ShopHeader = () => {
             </DropdownMenu>
 
             <Link to="/dashboard" className="hidden lg:inline-flex">
-              <Button variant="ghost" size="icon" title="Dashboard"><LayoutDashboard className="h-5 w-5" /></Button>
+              <Button variant="ghost" size="icon" title="Dashboard" aria-label="Dashboard"><LayoutDashboard className="h-5 w-5" aria-hidden="true" /></Button>
             </Link>
             <CartDrawer />
           </div>

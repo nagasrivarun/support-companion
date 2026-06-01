@@ -10,6 +10,8 @@ import { ProductGallery } from "@/components/product/ProductGallery";
 import { VariantSelector } from "@/components/product/VariantSelector";
 import { PriceBlock } from "@/components/product/PriceBlock";
 import { DeliveryInfo } from "@/components/product/DeliveryInfo";
+import { DeliveryChecker } from "@/components/product/DeliveryChecker";
+import { ProductDetailsAccordion } from "@/components/product/ProductDetailsAccordion";
 import { StockBadge } from "@/components/product/StockBadge";
 import { RatingBlock } from "@/components/product/RatingBlock";
 import { WishlistButton } from "@/components/shop/WishlistButton";
@@ -23,9 +25,7 @@ import { useBrowsingHistory } from "@/stores/browsingHistory";
 import { normalizePricing } from "@/lib/pricing";
 import {
   ArrowLeft,
-  
   ExternalLink,
-  Check,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
@@ -138,7 +138,7 @@ const ProductDetail = () => {
       />
       <ShopHeader />
 
-      <div className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8">
         <Link
           to="/shop"
           className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-6"
@@ -146,21 +146,23 @@ const ProductDetail = () => {
           <ArrowLeft className="h-4 w-4 mr-1" /> Back to Shop
         </Link>
 
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-          {/* Gallery — real image switching, no tinting */}
-          <ProductGallery
-            activeImage={resolved.image}
-            thumbnails={product.images}
-            variantImages={
-              product.variants?.colors
-                ? Object.values(product.variants.colors)
-                    .map((v) => v.image)
-                    .filter((s): s is string => !!s)
-                : []
-            }
-            alt={product.title}
-            discountPercent={resolved.discountPercent}
-          />
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
+          {/* Gallery — sticky on desktop, real image switching, no tinting */}
+          <div className="md:sticky md:top-20 md:self-start">
+            <ProductGallery
+              activeImage={resolved.image}
+              thumbnails={product.images}
+              variantImages={
+                product.variants?.colors
+                  ? Object.values(product.variants.colors)
+                      .map((v) => v.image)
+                      .filter((s): s is string => !!s)
+                  : []
+              }
+              alt={product.title}
+              discountPercent={resolved.discountPercent}
+            />
+          </div>
 
           {/* Info */}
           <div className="space-y-6">
@@ -214,15 +216,18 @@ const ProductDetail = () => {
             {/* Delivery */}
             <DeliveryInfo price={resolved.price} />
 
+            {/* Pincode delivery checker */}
+            <DeliveryChecker />
+
             {/* Buy Button */}
             <div className="flex gap-3">
               <a href={product.amazonUrl} target="_blank" rel="noopener noreferrer" className="flex-1">
                 <Button
                   size="lg"
-                  className="w-full gap-2 bg-warning text-warning-foreground hover:bg-warning/90 text-lg py-6 shadow-lg"
+                  className="w-full gap-2 cta-magnetic bg-warning text-warning-foreground hover:bg-warning/90 text-lg py-6 shadow-lg"
                   disabled={resolved.stock <= 0}
                 >
-                  <ExternalLink className="h-5 w-5" /> Buy Now on Amazon
+                  <ExternalLink className="h-5 w-5" aria-hidden="true" /> Buy Now on Amazon
                 </Button>
               </a>
               <WishlistButton
@@ -239,22 +244,8 @@ const ProductDetail = () => {
               />
             </div>
 
-            {/* Features */}
-            {product.features && (
-              <div className="space-y-2">
-                <h3 className="text-sm font-semibold text-foreground">Key Features</h3>
-                <ul className="space-y-1">
-                  {product.features.map((f) => (
-                    <li
-                      key={f}
-                      className="flex items-center gap-2 text-sm text-muted-foreground"
-                    >
-                      <Check className="h-4 w-4 text-primary flex-shrink-0" /> {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            {/* Premium details accordion: highlights, specs, shipping */}
+            <ProductDetailsAccordion product={product} sku={resolved.sku} />
           </div>
         </div>
 
@@ -264,7 +255,8 @@ const ProductDetail = () => {
           <h2 className="text-2xl font-bold text-foreground mb-8">Customer Reviews</h2>
           <ProductReviews productHandle={handle || ""} productTitle={product.title} />
         </div>
-      </div>
+      </main>
+
 
       {/* Sticky mobile purchase bar */}
       <div className="md:hidden fixed bottom-16 inset-x-0 z-40 glass-strong border-t border-border/60 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
