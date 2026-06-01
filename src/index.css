@@ -179,3 +179,55 @@
 
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Production hardening: premium micro-interactions ── */
+
+/* Premium easing curves */
+:root {
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-snappy: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Tactile button press feedback — applied to all buttons & links acting as buttons */
+button:not(:disabled), [role="button"] {
+  transition: transform 0.12s var(--ease-snappy), box-shadow 0.2s var(--ease-premium), background-color 0.2s ease;
+}
+button:not(:disabled):active, [role="button"]:active {
+  transform: scale(0.97);
+}
+
+/* Consistent, visible focus ring for keyboard users */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+  border-radius: var(--radius);
+}
+
+/* Low-stock urgency pulse */
+@keyframes urgencyPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+.animate-urgency { animation: urgencyPulse 1.6s ease-in-out infinite; }
+
+/* Count-up bump for quantity / subtotal changes */
+@keyframes valueBump {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.18); color: hsl(var(--primary)); }
+  100% { transform: scale(1); }
+}
+.animate-value-bump { animation: valueBump 0.32s var(--ease-premium); }
+
+/* Magnetic CTA hover feel */
+.cta-magnetic { transition: transform 0.25s var(--ease-premium), box-shadow 0.25s var(--ease-premium); }
+.cta-magnetic:hover { transform: translateY(-2px); box-shadow: var(--shadow-glow); }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
