@@ -138,7 +138,7 @@ const ProductDetail = () => {
       />
       <ShopHeader />
 
-      <div className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8">
         <Link
           to="/shop"
           className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-6"
