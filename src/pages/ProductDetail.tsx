@@ -25,9 +25,7 @@ import { useBrowsingHistory } from "@/stores/browsingHistory";
 import { normalizePricing } from "@/lib/pricing";
 import {
   ArrowLeft,
-  
   ExternalLink,
-  Check,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
