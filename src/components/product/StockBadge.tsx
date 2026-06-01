@@ -15,14 +15,18 @@ export function StockBadge({ stock, inStock }: StockBadgeProps) {
   }
   if (stock <= 5) {
     return (
-      <div className="inline-flex items-center gap-1.5 text-sm font-medium text-warning">
-        <AlertCircle className="h-4 w-4" /> Only {stock} left in stock
+      <div
+        className="inline-flex items-center gap-1.5 text-sm font-medium text-warning"
+        role="status"
+        aria-live="polite"
+      >
+        <AlertCircle className="h-4 w-4 animate-urgency" aria-hidden="true" /> Only {stock} left in stock
       </div>
     );
   }
   return (
-    <div className="inline-flex items-center gap-1.5 text-sm font-medium text-success">
-      <Check className="h-4 w-4" /> In stock
+    <div className="inline-flex items-center gap-1.5 text-sm font-medium text-success" role="status">
+      <Check className="h-4 w-4" aria-hidden="true" /> In stock
     </div>
   );
 }
