@@ -255,7 +255,8 @@ const ProductDetail = () => {
           <h2 className="text-2xl font-bold text-foreground mb-8">Customer Reviews</h2>
           <ProductReviews productHandle={handle || ""} productTitle={product.title} />
         </div>
-      </div>
+      </main>
+
 
       {/* Sticky mobile purchase bar */}
       <div className="md:hidden fixed bottom-16 inset-x-0 z-40 glass-strong border-t border-border/60 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
