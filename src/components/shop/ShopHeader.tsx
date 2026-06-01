@@ -158,7 +158,7 @@ export const ShopHeader = () => {
             </DropdownMenu>
 
             <Link to="/dashboard" className="hidden lg:inline-flex">
-              <Button variant="ghost" size="icon" title="Dashboard"><LayoutDashboard className="h-5 w-5" /></Button>
+              <Button variant="ghost" size="icon" title="Dashboard" aria-label="Dashboard"><LayoutDashboard className="h-5 w-5" aria-hidden="true" /></Button>
             </Link>
             <CartDrawer />
           </div>
