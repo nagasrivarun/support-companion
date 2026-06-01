@@ -118,8 +118,8 @@ export const ShopHeader = () => {
             {/* Profile dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" title={user ? "Account" : "Sign in"}>
-                  <User className="h-5 w-5" />
+                <Button variant="ghost" size="icon" title={user ? "Account" : "Sign in"} aria-label={user ? "Account menu" : "Sign in"}>
+                  <User className="h-5 w-5" aria-hidden="true" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 glass-strong border-border/60">
