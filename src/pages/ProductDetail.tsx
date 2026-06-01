@@ -218,15 +218,18 @@ const ProductDetail = () => {
             {/* Delivery */}
             <DeliveryInfo price={resolved.price} />
 
+            {/* Pincode delivery checker */}
+            <DeliveryChecker />
+
             {/* Buy Button */}
             <div className="flex gap-3">
               <a href={product.amazonUrl} target="_blank" rel="noopener noreferrer" className="flex-1">
                 <Button
                   size="lg"
-                  className="w-full gap-2 bg-warning text-warning-foreground hover:bg-warning/90 text-lg py-6 shadow-lg"
+                  className="w-full gap-2 cta-magnetic bg-warning text-warning-foreground hover:bg-warning/90 text-lg py-6 shadow-lg"
                   disabled={resolved.stock <= 0}
                 >
-                  <ExternalLink className="h-5 w-5" /> Buy Now on Amazon
+                  <ExternalLink className="h-5 w-5" aria-hidden="true" /> Buy Now on Amazon
                 </Button>
               </a>
               <WishlistButton
@@ -243,22 +246,8 @@ const ProductDetail = () => {
               />
             </div>
 
-            {/* Features */}
-            {product.features && (
-              <div className="space-y-2">
-                <h3 className="text-sm font-semibold text-foreground">Key Features</h3>
-                <ul className="space-y-1">
-                  {product.features.map((f) => (
-                    <li
-                      key={f}
-                      className="flex items-center gap-2 text-sm text-muted-foreground"
-                    >
-                      <Check className="h-4 w-4 text-primary flex-shrink-0" /> {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            {/* Premium details accordion: highlights, specs, shipping */}
+            <ProductDetailsAccordion product={product} sku={resolved.sku} />
           </div>
         </div>
 
