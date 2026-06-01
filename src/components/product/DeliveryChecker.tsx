@@ -29,7 +29,6 @@ export function DeliveryChecker() {
           maxLength={6}
           aria-label="Enter 6-digit pincode"
           placeholder="Enter pincode"
-          value-mode="numeric"
           onChange={(e) => {
             setPin(e.target.value.replace(/\D/g, "").slice(0, 6));
             setState("idle");
