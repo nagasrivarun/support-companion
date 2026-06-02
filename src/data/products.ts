@@ -2511,6 +2511,35 @@ LOCAL_PRODUCTS.forEach(p => {
 });
 
 // Helper functions
+
+/**
+ * Variant Image Data Audit helper.
+ * Returns the resolved image for each color of a product.
+ * A color uses its own `variants.colors[color].image` when present,
+ * otherwise it falls back to the base product image.
+ */
+export function getVariantImageMap(p: LocalProduct): Record<string, string> {
+  const map: Record<string, string> = {};
+  (p.colors ?? []).forEach((c) => {
+    map[c] = p.variants?.colors?.[c]?.image ?? p.image;
+  });
+  return map;
+}
+
+/**
+ * True only when a product ships REAL per-color variant images
+ * (at least two distinct image sources across its colors).
+ *
+ * When false, every color resolves to the same base image — so image
+ * switching MUST be disabled and color swatches kept informational only.
+ * No CSS tinting / hue-rotate / overlays / blend modes are ever used to
+ * simulate recoloring.
+ */
+export function hasVariantImages(p: LocalProduct): boolean {
+  if (!p.colors || p.colors.length < 2) return false;
+  const sources = new Set(Object.values(getVariantImageMap(p)));
+  return sources.size > 1;
+}
 export function getProductByHandle(handle: string): LocalProduct | undefined {
   return LOCAL_PRODUCTS.find(p => p.handle === handle);
 }

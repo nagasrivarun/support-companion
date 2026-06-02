@@ -18,6 +18,7 @@ import { WishlistButton } from "@/components/shop/WishlistButton";
 import {
   getProductByHandle,
   getProductsByCategory,
+  hasVariantImages,
   LOCAL_PRODUCTS,
   type LocalProduct,
 } from "@/data/products";
@@ -201,6 +202,7 @@ const ProductDetail = () => {
               colors={product.colors}
               selectedColor={selectedColor}
               onColorChange={setSelectedColor}
+              colorImagesAvailable={hasVariantImages(product)}
               sizes={product.sizes}
               selectedSize={selectedSize}
               onSizeChange={setSelectedSize}
