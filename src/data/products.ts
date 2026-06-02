@@ -1017,13 +1017,20 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     price: 74999,
     originalPrice: 84999,
     currencyCode: "INR",
-    image: samsungPhoneImg,
-    images: [samsungPhoneImg],
+    image: samsungS24BlackImg,
+    images: [samsungS24BlackImg, samsungS24CreamImg, samsungS24VioletImg],
     rating: 4.5,
     reviewCount: 12456,
     amazonUrl: amazonProductUrl("samsung galaxy s24"),
     inStock: true,
     colors: ["Phantom Black", "Cream", "Violet"],
+    variants: {
+      colors: {
+        "Phantom Black": { image: samsungS24BlackImg },
+        Cream: { image: samsungS24CreamImg },
+        Violet: { image: samsungS24VioletImg },
+      },
+    },
     features: ["6.2\" Dynamic AMOLED 2X", "Snapdragon 8 Gen 3", "50MP camera", "Galaxy AI", "5000mAh battery"],
   },
   {
