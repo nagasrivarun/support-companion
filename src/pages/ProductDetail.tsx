@@ -18,6 +18,7 @@ import { WishlistButton } from "@/components/shop/WishlistButton";
 import {
   getProductByHandle,
   getProductsByCategory,
+  hasVariantImages,
   LOCAL_PRODUCTS,
   type LocalProduct,
 } from "@/data/products";
