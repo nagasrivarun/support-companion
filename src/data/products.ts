@@ -117,6 +117,22 @@ import airFryerImg from "@/assets/products/air-fryer.jpg";
 import actionFigureImg from "@/assets/products/action-figure.jpg";
 import laptopStandImg from "@/assets/products/laptop-stand.jpg";
 
+// ===== Flagship per-color variant images (real images, NO css tinting) =====
+import iphoneNaturalImg from "@/assets/products/variants/iphone-natural.jpg";
+import iphoneBlueImg from "@/assets/products/variants/iphone-blue.jpg";
+import iphoneWhiteImg from "@/assets/products/variants/iphone-white.jpg";
+import iphoneBlackImg from "@/assets/products/variants/iphone-black.jpg";
+import samsungS24BlackImg from "@/assets/products/variants/samsung-s24-black.jpg";
+import samsungS24CreamImg from "@/assets/products/variants/samsung-s24-cream.jpg";
+import samsungS24VioletImg from "@/assets/products/variants/samsung-s24-violet.jpg";
+import ipadSilverImg from "@/assets/products/variants/ipad-silver.jpg";
+import ipadBlueImg from "@/assets/products/variants/ipad-blue.jpg";
+import ipadPinkImg from "@/assets/products/variants/ipad-pink.jpg";
+import ipadYellowImg from "@/assets/products/variants/ipad-yellow.jpg";
+import tabS9GraphiteImg from "@/assets/products/variants/tab-s9-graphite.jpg";
+import tabS9BeigeImg from "@/assets/products/variants/tab-s9-beige.jpg";
+
+
 // Per-color variant override. Image is optional — when absent the base
 // product image is reused (NO css tinting). Price/stock overrides drive
 // dynamic PDP updates like Apple/Amazon product pages.
