@@ -1318,13 +1318,21 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     price: 33999,
     originalPrice: 44900,
     currencyCode: "INR",
-    image: ipadImg,
-    images: [ipadImg],
+    image: ipadSilverImg,
+    images: [ipadSilverImg, ipadBlueImg, ipadPinkImg, ipadYellowImg],
     rating: 4.7,
     reviewCount: 8765,
     amazonUrl: amazonProductUrl("apple ipad 10th gen 64gb"),
     inStock: true,
     colors: ["Silver", "Blue", "Pink", "Yellow"],
+    variants: {
+      colors: {
+        Silver: { image: ipadSilverImg },
+        Blue: { image: ipadBlueImg },
+        Pink: { image: ipadPinkImg },
+        Yellow: { image: ipadYellowImg },
+      },
+    },
     features: ["10.9\" Liquid Retina", "A14 Bionic chip", "64GB storage", "USB-C", "12MP camera", "Touch ID"],
   },
   {
