@@ -74,6 +74,11 @@ export function VariantSelector({
         <div>
           <label className="text-sm font-medium text-foreground mb-2 block">
             Color: <span className="text-primary">{selectedColor}</span>
+            {!colorImagesAvailable && (
+              <span className="ml-2 text-xs font-normal text-muted-foreground">
+                (swatch reference only)
+              </span>
+            )}
           </label>
           <div className="flex flex-wrap gap-3">
             {colors.map((c) => {
