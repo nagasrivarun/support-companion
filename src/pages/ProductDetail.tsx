@@ -202,6 +202,7 @@ const ProductDetail = () => {
               colors={product.colors}
               selectedColor={selectedColor}
               onColorChange={setSelectedColor}
+              colorImagesAvailable={hasVariantImages(product)}
               sizes={product.sizes}
               selectedSize={selectedSize}
               onSizeChange={setSelectedSize}
