@@ -1044,13 +1044,21 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     price: 134900,
     originalPrice: 149900,
     currencyCode: "INR",
-    image: iphoneImg,
-    images: [iphoneImg],
+    image: iphoneNaturalImg,
+    images: [iphoneNaturalImg, iphoneBlueImg, iphoneWhiteImg, iphoneBlackImg],
     rating: 4.7,
     reviewCount: 18976,
     amazonUrl: amazonProductUrl("iphone 15 pro"),
     inStock: true,
     colors: ["Natural Titanium", "Blue Titanium", "White Titanium", "Black Titanium"],
+    variants: {
+      colors: {
+        "Natural Titanium": { image: iphoneNaturalImg },
+        "Blue Titanium": { image: iphoneBlueImg },
+        "White Titanium": { image: iphoneWhiteImg },
+        "Black Titanium": { image: iphoneBlackImg },
+      },
+    },
     features: ["A17 Pro chip", "Titanium design", "48MP camera", "USB-C", "Action button"],
   },
   {
