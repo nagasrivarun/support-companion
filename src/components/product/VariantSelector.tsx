@@ -28,6 +28,7 @@ export function VariantSelector({
   colors,
   selectedColor,
   onColorChange,
+  colorImagesAvailable = false,
   sizes,
   selectedSize,
   onSizeChange,
