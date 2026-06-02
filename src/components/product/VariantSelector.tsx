@@ -76,7 +76,7 @@ export function VariantSelector({
             Color: <span className="text-primary">{selectedColor}</span>
             {!colorImagesAvailable && (
               <span className="ml-2 text-xs font-normal text-muted-foreground">
-                (swatch reference only)
+                (Color reference only)
               </span>
             )}
           </label>

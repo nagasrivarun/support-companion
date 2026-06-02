@@ -117,6 +117,22 @@ import airFryerImg from "@/assets/products/air-fryer.jpg";
 import actionFigureImg from "@/assets/products/action-figure.jpg";
 import laptopStandImg from "@/assets/products/laptop-stand.jpg";
 
+// ===== Flagship per-color variant images (real images, NO css tinting) =====
+import iphoneNaturalImg from "@/assets/products/variants/iphone-natural.jpg";
+import iphoneBlueImg from "@/assets/products/variants/iphone-blue.jpg";
+import iphoneWhiteImg from "@/assets/products/variants/iphone-white.jpg";
+import iphoneBlackImg from "@/assets/products/variants/iphone-black.jpg";
+import samsungS24BlackImg from "@/assets/products/variants/samsung-s24-black.jpg";
+import samsungS24CreamImg from "@/assets/products/variants/samsung-s24-cream.jpg";
+import samsungS24VioletImg from "@/assets/products/variants/samsung-s24-violet.jpg";
+import ipadSilverImg from "@/assets/products/variants/ipad-silver.jpg";
+import ipadBlueImg from "@/assets/products/variants/ipad-blue.jpg";
+import ipadPinkImg from "@/assets/products/variants/ipad-pink.jpg";
+import ipadYellowImg from "@/assets/products/variants/ipad-yellow.jpg";
+import tabS9GraphiteImg from "@/assets/products/variants/tab-s9-graphite.jpg";
+import tabS9BeigeImg from "@/assets/products/variants/tab-s9-beige.jpg";
+
+
 // Per-color variant override. Image is optional — when absent the base
 // product image is reused (NO css tinting). Price/stock overrides drive
 // dynamic PDP updates like Apple/Amazon product pages.
@@ -1001,13 +1017,20 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     price: 74999,
     originalPrice: 84999,
     currencyCode: "INR",
-    image: samsungPhoneImg,
-    images: [samsungPhoneImg],
+    image: samsungS24BlackImg,
+    images: [samsungS24BlackImg, samsungS24CreamImg, samsungS24VioletImg],
     rating: 4.5,
     reviewCount: 12456,
     amazonUrl: amazonProductUrl("samsung galaxy s24"),
     inStock: true,
     colors: ["Phantom Black", "Cream", "Violet"],
+    variants: {
+      colors: {
+        "Phantom Black": { image: samsungS24BlackImg },
+        Cream: { image: samsungS24CreamImg },
+        Violet: { image: samsungS24VioletImg },
+      },
+    },
     features: ["6.2\" Dynamic AMOLED 2X", "Snapdragon 8 Gen 3", "50MP camera", "Galaxy AI", "5000mAh battery"],
   },
   {
@@ -1021,13 +1044,21 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     price: 134900,
     originalPrice: 149900,
     currencyCode: "INR",
-    image: iphoneImg,
-    images: [iphoneImg],
+    image: iphoneNaturalImg,
+    images: [iphoneNaturalImg, iphoneBlueImg, iphoneWhiteImg, iphoneBlackImg],
     rating: 4.7,
     reviewCount: 18976,
     amazonUrl: amazonProductUrl("iphone 15 pro"),
     inStock: true,
     colors: ["Natural Titanium", "Blue Titanium", "White Titanium", "Black Titanium"],
+    variants: {
+      colors: {
+        "Natural Titanium": { image: iphoneNaturalImg },
+        "Blue Titanium": { image: iphoneBlueImg },
+        "White Titanium": { image: iphoneWhiteImg },
+        "Black Titanium": { image: iphoneBlackImg },
+      },
+    },
     features: ["A17 Pro chip", "Titanium design", "48MP camera", "USB-C", "Action button"],
   },
   {
@@ -1261,13 +1292,19 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     price: 44999,
     originalPrice: 59999,
     currencyCode: "INR",
-    image: samsungTabletImg,
-    images: [samsungTabletImg],
+    image: tabS9GraphiteImg,
+    images: [tabS9GraphiteImg, tabS9BeigeImg],
     rating: 4.5,
     reviewCount: 3210,
     amazonUrl: amazonProductUrl("samsung galaxy tab s9 128gb"),
     inStock: true,
     colors: ["Graphite", "Beige"],
+    variants: {
+      colors: {
+        Graphite: { image: tabS9GraphiteImg },
+        Beige: { image: tabS9BeigeImg },
+      },
+    },
     features: ["11\" AMOLED display", "Snapdragon 8 Gen 2", "128GB storage", "S Pen included", "IP68 waterproof"],
   },
   {
@@ -1281,13 +1318,21 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     price: 33999,
     originalPrice: 44900,
     currencyCode: "INR",
-    image: ipadImg,
-    images: [ipadImg],
+    image: ipadSilverImg,
+    images: [ipadSilverImg, ipadBlueImg, ipadPinkImg, ipadYellowImg],
     rating: 4.7,
     reviewCount: 8765,
     amazonUrl: amazonProductUrl("apple ipad 10th gen 64gb"),
     inStock: true,
     colors: ["Silver", "Blue", "Pink", "Yellow"],
+    variants: {
+      colors: {
+        Silver: { image: ipadSilverImg },
+        Blue: { image: ipadBlueImg },
+        Pink: { image: ipadPinkImg },
+        Yellow: { image: ipadYellowImg },
+      },
+    },
     features: ["10.9\" Liquid Retina", "A14 Bionic chip", "64GB storage", "USB-C", "12MP camera", "Touch ID"],
   },
   {
