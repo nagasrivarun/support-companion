@@ -6,6 +6,12 @@ interface VariantSelectorProps {
   colors?: string[];
   selectedColor?: string | null;
   onColorChange?: (color: string) => void;
+  /**
+   * When false the product has no real per-color images (all colors share the
+   * base image). Swatches stay selectable for reference but we surface a hint
+   * that the preview image won't change — no CSS tinting is ever applied.
+   */
+  colorImagesAvailable?: boolean;
 
   sizes?: string[];
   selectedSize?: string | null;
