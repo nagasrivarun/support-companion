@@ -1292,13 +1292,19 @@ export const LOCAL_PRODUCTS: LocalProduct[] = [
     price: 44999,
     originalPrice: 59999,
     currencyCode: "INR",
-    image: samsungTabletImg,
-    images: [samsungTabletImg],
+    image: tabS9GraphiteImg,
+    images: [tabS9GraphiteImg, tabS9BeigeImg],
     rating: 4.5,
     reviewCount: 3210,
     amazonUrl: amazonProductUrl("samsung galaxy tab s9 128gb"),
     inStock: true,
     colors: ["Graphite", "Beige"],
+    variants: {
+      colors: {
+        Graphite: { image: tabS9GraphiteImg },
+        Beige: { image: tabS9BeigeImg },
+      },
+    },
     features: ["11\" AMOLED display", "Snapdragon 8 Gen 2", "128GB storage", "S Pen included", "IP68 waterproof"],
   },
   {
