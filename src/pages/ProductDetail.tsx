@@ -255,7 +255,13 @@ const ProductDetail = () => {
 
         <div className="mt-16 border-t border-border pt-12">
           <h2 className="text-2xl font-bold text-foreground mb-8">Customer Reviews</h2>
-          <ProductReviews productHandle={handle || ""} productTitle={product.title} />
+          <ProductReviews
+            productHandle={handle || ""}
+            productTitle={product.title}
+            baseRating={product.rating}
+            baseReviewCount={product.reviewCount}
+            productImages={product.images}
+          />
         </div>
       </main>
 
