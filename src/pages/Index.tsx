@@ -12,6 +12,9 @@ import { Testimonials } from "@/components/home/Testimonials";
 import { TrustedLogos } from "@/components/home/TrustedLogos";
 import { FAQ } from "@/components/home/FAQ";
 import { PremiumFooter } from "@/components/home/PremiumFooter";
+import { RecentlyViewed } from "@/components/product/RecentlyViewed";
+import { LazySection } from "@/components/product/LazySection";
+import { Skeleton } from "@/components/ui/skeleton";
 import { LOCAL_PRODUCTS, getVendorsList } from "@/data/products";
 
 const Index = () => {
@@ -93,6 +96,14 @@ const Index = () => {
 
       {/* 8. FAQ */}
       <FAQ />
+
+      {/* Recently viewed — lazy-loaded, persisted history with mock fallback */}
+      <div className="container mx-auto px-4">
+        <LazySection placeholder={<Skeleton className="mt-16 h-64 w-full rounded-xl" />}>
+          <RecentlyViewed title="Recently Viewed" />
+        </LazySection>
+      </div>
+
 
       {/* 9. Footer */}
       <PremiumFooter />

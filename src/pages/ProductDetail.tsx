@@ -17,6 +17,7 @@ import { RatingBlock } from "@/components/product/RatingBlock";
 import { WishlistButton } from "@/components/shop/WishlistButton";
 import { FrequentlyBoughtTogether } from "@/components/product/FrequentlyBoughtTogether";
 import { RelatedProducts } from "@/components/product/RelatedProducts";
+import { RecentlyViewed } from "@/components/product/RecentlyViewed";
 import { LazySection } from "@/components/product/LazySection";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -269,6 +270,10 @@ const ProductDetail = () => {
 
         <LazySection>
           <CustomersAlsoBought product={product} />
+        </LazySection>
+
+        <LazySection placeholder={<Skeleton className="mt-16 h-64 w-full rounded-xl" />}>
+          <RecentlyViewed excludeHandle={product.handle} />
         </LazySection>
 
         <div className="mt-16 border-t border-border pt-12">
