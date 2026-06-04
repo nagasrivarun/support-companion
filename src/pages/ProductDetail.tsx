@@ -15,6 +15,10 @@ import { ProductDetailsAccordion } from "@/components/product/ProductDetailsAcco
 import { StockBadge } from "@/components/product/StockBadge";
 import { RatingBlock } from "@/components/product/RatingBlock";
 import { WishlistButton } from "@/components/shop/WishlistButton";
+import { FrequentlyBoughtTogether } from "@/components/product/FrequentlyBoughtTogether";
+import { RelatedProducts } from "@/components/product/RelatedProducts";
+import { LazySection } from "@/components/product/LazySection";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   getProductByHandle,
   getProductsByCategory,
@@ -251,7 +255,21 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        <CustomersAlsoBought product={product} />
+        <LazySection
+          placeholder={<Skeleton className="mt-16 h-48 w-full rounded-2xl" />}
+        >
+          <FrequentlyBoughtTogether product={product} />
+        </LazySection>
+
+        <LazySection
+          placeholder={<Skeleton className="mt-16 h-64 w-full rounded-xl" />}
+        >
+          <RelatedProducts product={product} />
+        </LazySection>
+
+        <LazySection>
+          <CustomersAlsoBought product={product} />
+        </LazySection>
 
         <div className="mt-16 border-t border-border pt-12">
           <h2 className="text-2xl font-bold text-foreground mb-8">Customer Reviews</h2>
