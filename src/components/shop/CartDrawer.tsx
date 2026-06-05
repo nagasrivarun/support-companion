@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -26,6 +27,7 @@ import { useCartStore } from "@/stores/cartStore";
 import { formatPrice } from "@/lib/shopify";
 import { getProductByHandle } from "@/data/products";
 import { FREE_DELIVERY_THRESHOLD, formatINR } from "@/lib/pricing";
+import { calculateCart } from "@/lib/cart";
 import { toast } from "@/hooks/use-toast";
 
 export const CartDrawer = () => {
@@ -38,16 +40,15 @@ export const CartDrawer = () => {
     removeItem,
   } = useCartStore();
 
-  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
-  const totalPrice = items.reduce(
-    (sum, item) => sum + parseFloat(item.price.amount) * item.quantity,
-    0
-  );
-  const currency = items[0]?.price.currencyCode || "INR";
+  const totals = useMemo(() => calculateCart(items), [items]);
+  const totalItems = totals.totalItems;
+  const totalPrice = totals.subtotal;
+  const currency = totals.currency;
 
-  const remainingForFree = Math.max(0, FREE_DELIVERY_THRESHOLD - totalPrice);
+  const remainingForFree = totals.remainingForFreeShipping;
   const freeProgress = Math.min(100, (totalPrice / FREE_DELIVERY_THRESHOLD) * 100);
-  const qualifiesFree = totalPrice >= FREE_DELIVERY_THRESHOLD;
+  const qualifiesFree = totals.qualifiesFreeShipping;
+
 
   const applyCoupon = () => {
     const code = coupon.trim().toUpperCase();
