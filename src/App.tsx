@@ -28,6 +28,9 @@ import OrderConfirmation from "./pages/OrderConfirmation";
 import Returns from "./pages/Returns";
 import NotFound from "./pages/NotFound";
 
+// Lazy-loaded cart page (code-split for performance)
+const Cart = lazy(() => import("./pages/Cart"));
+
 const queryClient = new QueryClient();
 
 const App = () => (
