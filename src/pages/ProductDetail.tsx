@@ -259,14 +259,7 @@ const ProductDetail = () => {
               <WishlistButton
                 variant="icon"
                 className="h-[60px] w-[60px] rounded-xl border border-border"
-                product={{
-                  id: product.id,
-                  handle: product.handle,
-                  title: product.title,
-                  image: resolved.image,
-                  price: resolved.price,
-                  currencyCode: product.currencyCode,
-                }}
+                product={wishlistInput}
               />
             </div>
 
