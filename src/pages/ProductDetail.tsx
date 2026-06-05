@@ -84,7 +84,26 @@ const ProductDetail = () => {
     return { ...finalNormalized, image, stock, sku };
   }, [product, selectedColor, selectedStorage]);
 
-  if (!product || !resolved) {
+  // Variant-aware wishlist payload (storage / color / size selections).
+  const wishlistInput = useMemo(() => {
+    if (!product || !resolved) return null;
+    const selectedOptions: Record<string, string> = {};
+    if (selectedStorage) selectedOptions.Storage = selectedStorage;
+    if (selectedColor) selectedOptions.Color = selectedColor;
+    if (selectedSize) selectedOptions.Size = selectedSize;
+    const variantLabel = Object.values(selectedOptions).join(" · ") || undefined;
+    return {
+      id: product.id,
+      handle: product.handle,
+      title: product.title,
+      image: resolved.image,
+      price: resolved.price,
+      currencyCode: product.currencyCode,
+      ...(variantLabel ? { variantLabel, selectedOptions } : {}),
+    };
+  }, [product, resolved, selectedColor, selectedSize, selectedStorage]);
+
+  if (!product || !resolved || !wishlistInput) {
     return (
       <div className="min-h-screen bg-background">
         <ShopHeader />
