@@ -23,13 +23,13 @@ import Shop from "./pages/Shop";
 import ProductDetail from "./pages/ProductDetail";
 import Shipping from "./pages/Shipping";
 import Account from "./pages/Account";
-import Wishlist from "./pages/Wishlist";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import Returns from "./pages/Returns";
 import NotFound from "./pages/NotFound";
 
-// Lazy-loaded cart page (code-split for performance)
+// Lazy-loaded pages (code-split for performance)
 const Cart = lazy(() => import("./pages/Cart"));
+const Wishlist = lazy(() => import("./pages/Wishlist"));
 
 const queryClient = new QueryClient();
 

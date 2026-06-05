@@ -84,7 +84,26 @@ const ProductDetail = () => {
     return { ...finalNormalized, image, stock, sku };
   }, [product, selectedColor, selectedStorage]);
 
-  if (!product || !resolved) {
+  // Variant-aware wishlist payload (storage / color / size selections).
+  const wishlistInput = useMemo(() => {
+    if (!product || !resolved) return null;
+    const selectedOptions: Record<string, string> = {};
+    if (selectedStorage) selectedOptions.Storage = selectedStorage;
+    if (selectedColor) selectedOptions.Color = selectedColor;
+    if (selectedSize) selectedOptions.Size = selectedSize;
+    const variantLabel = Object.values(selectedOptions).join(" · ") || undefined;
+    return {
+      id: product.id,
+      handle: product.handle,
+      title: product.title,
+      image: resolved.image,
+      price: resolved.price,
+      currencyCode: product.currencyCode,
+      ...(variantLabel ? { variantLabel, selectedOptions } : {}),
+    };
+  }, [product, resolved, selectedColor, selectedSize, selectedStorage]);
+
+  if (!product || !resolved || !wishlistInput) {
     return (
       <div className="min-h-screen bg-background">
         <ShopHeader />
@@ -240,14 +259,7 @@ const ProductDetail = () => {
               <WishlistButton
                 variant="icon"
                 className="h-[60px] w-[60px] rounded-xl border border-border"
-                product={{
-                  id: product.id,
-                  handle: product.handle,
-                  title: product.title,
-                  image: resolved.image,
-                  price: resolved.price,
-                  currencyCode: product.currencyCode,
-                }}
+                product={wishlistInput}
               />
             </div>
 
@@ -305,14 +317,7 @@ const ProductDetail = () => {
           <WishlistButton
             variant="icon"
             className="h-11 w-11"
-            product={{
-              id: product.id,
-              handle: product.handle,
-              title: product.title,
-              image: resolved.image,
-              price: resolved.price,
-              currencyCode: product.currencyCode,
-            }}
+            product={wishlistInput}
           />
           <a href={product.amazonUrl} target="_blank" rel="noopener noreferrer" className="flex-[1.4]">
             <Button
