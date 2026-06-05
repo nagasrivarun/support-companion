@@ -317,14 +317,7 @@ const ProductDetail = () => {
           <WishlistButton
             variant="icon"
             className="h-11 w-11"
-            product={{
-              id: product.id,
-              handle: product.handle,
-              title: product.title,
-              image: resolved.image,
-              price: resolved.price,
-              currencyCode: product.currencyCode,
-            }}
+            product={wishlistInput}
           />
           <a href={product.amazonUrl} target="_blank" rel="noopener noreferrer" className="flex-[1.4]">
             <Button
