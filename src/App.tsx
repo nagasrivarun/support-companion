@@ -1,3 +1,4 @@
+import { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -27,6 +28,9 @@ import OrderConfirmation from "./pages/OrderConfirmation";
 import Returns from "./pages/Returns";
 import NotFound from "./pages/NotFound";
 
+// Lazy-loaded cart page (code-split for performance)
+const Cart = lazy(() => import("./pages/Cart"));
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -36,11 +40,13 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <Suspense fallback={<div className="min-h-screen bg-background" aria-busy="true" />}>
           <Routes>
             {/* Public Shop Routes */}
             <Route path="/" element={<Index />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/product/:handle" element={<ProductDetail />} />
+            <Route path="/cart" element={<Cart />} />
             <Route path="/shipping" element={<Shipping />} />
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/order-confirmation" element={<OrderConfirmation />} />
@@ -85,6 +91,7 @@ const App = () => (
             } />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          </Suspense>
           <CompareFloatingBar />
           <CompareModal />
           <RecentlyViewedWidget />

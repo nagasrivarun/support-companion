@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -26,6 +27,7 @@ import { useCartStore } from "@/stores/cartStore";
 import { formatPrice } from "@/lib/shopify";
 import { getProductByHandle } from "@/data/products";
 import { FREE_DELIVERY_THRESHOLD, formatINR } from "@/lib/pricing";
+import { calculateCart } from "@/lib/cart";
 import { toast } from "@/hooks/use-toast";
 
 export const CartDrawer = () => {
@@ -38,16 +40,15 @@ export const CartDrawer = () => {
     removeItem,
   } = useCartStore();
 
-  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
-  const totalPrice = items.reduce(
-    (sum, item) => sum + parseFloat(item.price.amount) * item.quantity,
-    0
-  );
-  const currency = items[0]?.price.currencyCode || "INR";
+  const totals = useMemo(() => calculateCart(items), [items]);
+  const totalItems = totals.totalItems;
+  const totalPrice = totals.subtotal;
+  const currency = totals.currency;
 
-  const remainingForFree = Math.max(0, FREE_DELIVERY_THRESHOLD - totalPrice);
+  const remainingForFree = totals.remainingForFreeShipping;
   const freeProgress = Math.min(100, (totalPrice / FREE_DELIVERY_THRESHOLD) * 100);
-  const qualifiesFree = totalPrice >= FREE_DELIVERY_THRESHOLD;
+  const qualifiesFree = totals.qualifiesFreeShipping;
+
 
   const applyCoupon = () => {
     const code = coupon.trim().toUpperCase();
@@ -238,6 +239,15 @@ export const CartDrawer = () => {
                   </p>
                 )}
 
+                {totals.discountTotal > 0 && (
+                  <div className="flex justify-between items-center text-sm text-success">
+                    <span className="inline-flex items-center gap-1">
+                      <Tag className="h-3.5 w-3.5" aria-hidden="true" /> Discount
+                    </span>
+                    <span className="font-medium">−{formatINR(totals.discountTotal)}</span>
+                  </div>
+                )}
+
                 <div className="flex justify-between items-center text-sm text-muted-foreground">
                   <span>Delivery</span>
                   <span className={qualifiesFree ? "text-success font-medium" : ""}>
@@ -248,16 +258,23 @@ export const CartDrawer = () => {
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-semibold">Total</span>
                   <span
-                    key={totalPrice}
+                    key={totals.grandTotal}
                     className="text-xl font-bold text-primary tabular-nums animate-value-bump"
                   >
-                    {formatPrice((qualifiesFree ? totalPrice : totalPrice + 99).toString(), currency)}
+                    {formatPrice(totals.grandTotal.toString(), currency)}
                   </span>
                 </div>
+
+                <Button asChild className="w-full" size="lg">
+                  <Link to="/cart" onClick={() => setIsOpen(false)}>
+                    View Cart &amp; Checkout
+                  </Link>
+                </Button>
 
                 <p className="text-xs text-muted-foreground text-center">
                   Click "Buy on Amazon" on each item to purchase
                 </p>
+
               </div>
             </>
           )}
