@@ -239,6 +239,15 @@ export const CartDrawer = () => {
                   </p>
                 )}
 
+                {totals.discountTotal > 0 && (
+                  <div className="flex justify-between items-center text-sm text-success">
+                    <span className="inline-flex items-center gap-1">
+                      <Tag className="h-3.5 w-3.5" aria-hidden="true" /> Discount
+                    </span>
+                    <span className="font-medium">−{formatINR(totals.discountTotal)}</span>
+                  </div>
+                )}
+
                 <div className="flex justify-between items-center text-sm text-muted-foreground">
                   <span>Delivery</span>
                   <span className={qualifiesFree ? "text-success font-medium" : ""}>
@@ -249,16 +258,23 @@ export const CartDrawer = () => {
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-semibold">Total</span>
                   <span
-                    key={totalPrice}
+                    key={totals.grandTotal}
                     className="text-xl font-bold text-primary tabular-nums animate-value-bump"
                   >
-                    {formatPrice((qualifiesFree ? totalPrice : totalPrice + 99).toString(), currency)}
+                    {formatPrice(totals.grandTotal.toString(), currency)}
                   </span>
                 </div>
+
+                <Button asChild className="w-full" size="lg">
+                  <Link to="/cart" onClick={() => setIsOpen(false)}>
+                    View Cart &amp; Checkout
+                  </Link>
+                </Button>
 
                 <p className="text-xs text-muted-foreground text-center">
                   Click "Buy on Amazon" on each item to purchase
                 </p>
+
               </div>
             </>
           )}
