@@ -30,6 +30,7 @@ import NotFound from "./pages/NotFound";
 // Lazy-loaded pages (code-split for performance)
 const Cart = lazy(() => import("./pages/Cart"));
 const Wishlist = lazy(() => import("./pages/Wishlist"));
+const Checkout = lazy(() => import("./pages/Checkout"));
 
 const queryClient = new QueryClient();
 
