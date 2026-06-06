@@ -291,14 +291,14 @@ export default function Cart() {
                   )}
 
                   <Button size="lg" className="w-full gap-2" asChild>
-                    <Link to="/shop">
-                      <ExternalLink className="h-4 w-4" aria-hidden="true" /> Checkout on Amazon
+                    <Link to="/checkout">
+                      Proceed to Checkout
                     </Link>
                   </Button>
 
                   <p className="text-xs text-muted-foreground text-center inline-flex items-center justify-center gap-1.5 w-full">
                     <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-                    Secure checkout via Amazon.in
+                    Secure multi-step checkout
                   </p>
                 </div>
               </aside>

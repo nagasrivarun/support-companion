@@ -30,6 +30,7 @@ import NotFound from "./pages/NotFound";
 // Lazy-loaded pages (code-split for performance)
 const Cart = lazy(() => import("./pages/Cart"));
 const Wishlist = lazy(() => import("./pages/Wishlist"));
+const Checkout = lazy(() => import("./pages/Checkout"));
 
 const queryClient = new QueryClient();
 
@@ -47,6 +48,7 @@ const App = () => (
             <Route path="/shop" element={<Shop />} />
             <Route path="/product/:handle" element={<ProductDetail />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
             <Route path="/shipping" element={<Shipping />} />
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/order-confirmation" element={<OrderConfirmation />} />
