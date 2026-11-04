@@ -101,6 +101,8 @@ export default function Auth() {
             title: 'Sign in failed',
             description: error.message === 'Invalid login credentials'
               ? 'Invalid email or password. Please try again.'
+              : error.message === 'Email not confirmed'
+              ? 'Please confirm your email first — check your inbox for the confirmation link.'
               : error.message,
           });
         } else {
@@ -111,7 +113,7 @@ export default function Auth() {
           navigate('/account');
         }
       } else {
-        const { error } = await signUp(email.trim(), password, fullName.trim());
+        const { error, confirmed } = await signUp(email.trim(), password, fullName.trim());
         if (error) {
           toast({
             variant: 'destructive',
@@ -120,6 +122,13 @@ export default function Auth() {
               ? 'This email is already registered. Please sign in instead.'
               : error.message,
           });
+        } else if (confirmed) {
+          // Account active immediately (no email confirmation required).
+          toast({
+            title: 'Welcome to SHOP India!',
+            description: "Your account has been created. You're signed in.",
+          });
+          navigate('/account');
         } else {
           // With email confirmation enabled, signUp returns no session until
           // the user clicks the confirmation link — never treat as signed in.
