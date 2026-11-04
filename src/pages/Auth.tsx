@@ -101,6 +101,8 @@ export default function Auth() {
             title: 'Sign in failed',
             description: error.message === 'Invalid login credentials'
               ? 'Invalid email or password. Please try again.'
+              : error.message === 'Email not confirmed'
+              ? 'Please confirm your email first — check your inbox for the confirmation link.'
               : error.message,
           });
         } else {
